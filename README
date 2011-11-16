@@ -1,0 +1,3 @@
+Various Emacs Lisp scripts.
+
+* macgreek.el:  An Emacs input method mimicking the Mac's one for inputting polytonic Greek.
