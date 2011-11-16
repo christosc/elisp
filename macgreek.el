@@ -447,14 +447,15 @@
 
 	  ;; Capital letters. (non existent)
 
-;; Apostrophe
-      ("~" ?’) ;; Option-N on Mac's Greek Polytonic layout
+;; Punctuation
+      ("q" ?\;)
+      ("Q" ?:) 
 
-;; Upper dot
-      ("`" ?·) ;; Option-Shift-` on Mac's Greek Polytonic layout
+;; Apostrophe
+      ("`" ?’) ;; Option-Shift-` on Mac's Greek Polytonic layout
 	       
 ;; Ellipsis
-      ("å" ?…) ;; Option-a on Mac's Greek Polytonic layout
+;;      ("å" ?…) ;; Option-a on Mac's Greek Polytonic layout
 	  
 
 
