@@ -1,3 +1,9 @@
+;; macgreek.el --- Emacs input method mimicking the Mac's one for inputting
+;;                 (polytonic) Greek.
+
+
+
+
 (require 'quail)
 
 (quail-define-package "mac-greek" "Greek" "MGR" t
