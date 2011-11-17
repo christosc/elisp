@@ -450,12 +450,13 @@
 ;; Punctuation
       ("q" ?\;)
       ("Q" ?:) 
-
+      ("`" ?·) 
 ;; Apostrophe
-      ("`" ?’) ;; Option-Shift-` on Mac's Greek Polytonic layout
+      ("\\" ?’)
+      ("\\\\" [#x5C]) 
 	       
 ;; Ellipsis
-;;      ("å" ?…) ;; Option-a on Mac's Greek Polytonic layout
+      ("..." ?…)
 	  
 
       ("---" ?—) ;; EM DASH
