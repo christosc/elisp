@@ -293,18 +293,18 @@
     ;; Small letters.
 	       ("{a" ?ᾳ)
 	       ("{v" ?ῳ)
-	       ("{η" ?ῃ)
+	       ("{h" ?ῃ)
 
     ;; Capital letters.
 	       ("{A" ?ᾼ)
 	       ("{V" ?ῼ)
-	       ("{Η" ?ῌ)
+	       ("{H" ?ῌ)
 
     ;; With accute.
 	   ;; Small letters.
 	       ("\;{a" ?ᾴ)
 	       ("\;{v" ?ῴ)
-	       ("\;{η" ?ῄ)
+	       ("\;{h" ?ῄ)
 
 	   ;; Capital letters. (non existent.)
 	       ;;("\;{A" ?ᾴ)
@@ -315,7 +315,7 @@
 	   ;; Small letters.
 	       ("]{a" ?ᾲ)
 	       ("]{v" ?ῲ)
-	       ("]{η" ?ῂ)
+	       ("]{h" ?ῂ)
 
 	   ;; Capital letters. (non existent.)
 	       ;;("]{a" ?ᾲ)
@@ -324,9 +324,10 @@
 
     ;; With circumflex.
 	   ;; Small letters.
-	       ("[{a" ?ᾷ)
-	       ("[{v" ?ῷ)
-	       ("[{η" ?ῇ)
+	       ("[{a" ?ᾷ) ("{[a" ?ᾷ)
+	       ("[{v" ?ῷ) ("{[v" ?ῷ)
+	       ("[{h" ?ῇ) ("{[h" ?ῇ)
+	       
 
 	   ;; Capital letters. (non existent.)
 
@@ -456,7 +457,7 @@
       ("\\\\" [#x5C]) 
 	       
 ;; Ellipsis
-      ("..." ?…)
+      ("{...}" ?…)
 	  
 
       ("---" ?—) ;; EM DASH
