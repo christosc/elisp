@@ -43,7 +43,8 @@ There are two things you can do about this warning:
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-(load-theme 'tango-dark)
+;;(load-theme 'tango-dark)
+(load-theme 'wombat)
 (setq-default fill-column 80)
 (menu-bar-mode -1)
 (setq column-number-mode t)
@@ -237,12 +238,23 @@ There are two things you can do about this warning:
 ;;
 ;;(global-set-key (kbd "<f3>")  'xx)
 
-(defun xx ()
+(defun grep-word ()
   "setting up grep-command using current word under cursor as a search string"
   (interactive)
   (let* ((cur-word (thing-at-point 'word))
          (args (concat "grep --color -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude=tags -e '\\<" cur-word "\\>' -r .")))
     (grep args)))
 
-(global-set-key (kbd "C-c k") 'xx)
+(defun grep-cpp-def ()
+  "setting up grep-command using current word under cursor as a search string"
+  (interactive)
+  (let* ((cur-word (thing-at-point 'word))
+         (args (concat "grep --color -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude=tags -e '::" cur-word "\\>' -r .")))
+    (grep args)
+    (call-interactively 'next-error)))
+
+
+(global-set-key (kbd "C-c k") 'grep-word)
+(global-set-key (kbd "C-c t") 'grep-cpp-def)
 (setq vc-follow-symlinks nil)
+(setq scroll-conservatively most-positive-fixnum)
