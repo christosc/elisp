@@ -270,4 +270,5 @@ There are two things you can do about this warning:
    (quote
     (magit yasnippet ws-butler stickyfunc-enhance sr-speedbar smartparens projectile helm-gtags ggtags function-args dtrt-indent company clean-aindent-mode))))
 
+;; For more options M-x customize-group > grep.
 (setq-default grep-highlight-matches nil)
