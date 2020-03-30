@@ -43,15 +43,15 @@ There are two things you can do about this warning:
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-;;(load-theme 'tango-dark)
-(load-theme 'wombat)
+(load-theme 'tango-dark)
+;;(load-theme 'wombat)
 (setq-default fill-column 80)
 (menu-bar-mode -1)
 (setq column-number-mode t)
 (setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
+(setq-default tab-width 2)
 (setq indent-line-function 'insert-tab)
-(setq c-basic-offset 4)
+(setq c-basic-offset 2)
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (let ((default-directory  "~/.emacs.d/lisp/"))
   (normal-top-level-add-subdirs-to-load-path))
@@ -238,6 +238,9 @@ There are two things you can do about this warning:
 ;;
 ;;(global-set-key (kbd "<f3>")  'xx)
 
+;; Treat underscore as part of words.
+(modify-syntax-entry ?_ "w")
+
 (defun grep-word ()
   "setting up grep-command using current word under cursor as a search string"
   (interactive)
@@ -257,4 +260,4 @@ There are two things you can do about this warning:
 (global-set-key (kbd "C-c k") 'grep-word)
 (global-set-key (kbd "C-c t") 'grep-cpp-def)
 (setq vc-follow-symlinks nil)
-(setq scroll-conservatively most-positive-fixnum)
+;;(setq scroll-conservatively most-positive-fixnum)
