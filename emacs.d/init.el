@@ -245,14 +245,14 @@ There are two things you can do about this warning:
   "setting up grep-command using current word under cursor as a search string"
   (interactive)
   (let* ((cur-word (thing-at-point 'word))
-         (args (concat "grep --color -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude=tags -e '\\<" cur-word "\\>' -r .")))
+         (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude='*.sw?' --exclude=tags -e '\\<" cur-word "\\>' -r .")))
     (grep args)))
 
 (defun grep-cpp-def ()
   "setting up grep-command using current word under cursor as a search string"
   (interactive)
   (let* ((cur-word (thing-at-point 'word))
-         (args (concat "grep --color -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude=tags -e '::" cur-word "\\>' -r .")))
+         (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude=tags -e '::" cur-word "\\>' -r .")))
     (grep args)
     (call-interactively 'next-error)))
 
