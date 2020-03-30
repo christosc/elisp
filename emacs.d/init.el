@@ -253,8 +253,7 @@ There are two things you can do about this warning:
   (interactive)
   (let* ((cur-word (thing-at-point 'word))
          (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude=tags -e '::" cur-word "\\>' -r .")))
-    (grep args)
-    (call-interactively 'next-error)))
+    (grep args)))
 
 
 (global-set-key (kbd "C-c k") 'grep-word)
