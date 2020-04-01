@@ -238,8 +238,6 @@ There are two things you can do about this warning:
 ;;
 ;;(global-set-key (kbd "<f3>")  'xx)
 
-;; Treat underscore as part of words.
-(modify-syntax-entry ?_ "w")
 
 (defun grep-word ()
   "setting up grep-command using current word under cursor as a search string"
@@ -272,3 +270,9 @@ There are two things you can do about this warning:
 ;; For more options M-x customize-group > grep.
 (setq-default grep-highlight-matches nil)
 (setq-default grep-save-buffers nil)
+(add-hook 'c-mode-hook 'superword-mode)
+(add-hook 'c++-mode-hook 'superword-mode)
+;; Treat underscore as part of words.
+;;(modify-syntax-entry ?_ "w")
+
+          
