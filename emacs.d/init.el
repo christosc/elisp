@@ -271,3 +271,4 @@ There are two things you can do about this warning:
 
 ;; For more options M-x customize-group > grep.
 (setq-default grep-highlight-matches nil)
+(setq-default grep-save-buffers nil)
