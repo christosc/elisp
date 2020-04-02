@@ -62,14 +62,16 @@ There are two things you can do about this warning:
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 
-(global-set-key (kbd "C-c <left>")  'windmove-left)
-(global-set-key (kbd "C-c <right>") 'windmove-right)
-(global-set-key (kbd "C-c <up>")    'windmove-up)
-(global-set-key (kbd "C-c <down>")  'windmove-down)
-(xterm-mouse-mode t)
-
+;;(global-set-key (kbd "C-c <left>")  'windmove-left)
+;;(global-set-key (kbd "C-c <right>") 'windmove-right)
+;;(global-set-key (kbd "C-c <up>")    'windmove-up)
+;;(global-set-key (kbd "C-c <down>")  'windmove-down)
+(global-set-key (kbd "C-c h")  'windmove-left)
+(global-set-key (kbd "C-c l") 'windmove-right)
+(global-set-key (kbd "C-c k")    'windmove-up)  
+(global-set-key (kbd "C-c j")  'windmove-down)
 (global-set-key (kbd "C-c o") 'ff-find-other-file)
-
+(xterm-mouse-mode t)
 ;;(require 'helm-config)
 ;;;; Enable helm-gtags-mode
 ;;(add-hook 'c-mode-hook 'helm-gtags-mode)
@@ -243,18 +245,18 @@ There are two things you can do about this warning:
   "setting up grep-command using current word under cursor as a search string"
   (interactive)
   (let* ((cur-word (thing-at-point 'word))
-         (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude='*.sw?' --exclude=tags -e '\\<" cur-word "\\>' -r .")))
+         (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude='*.sw?' --exclude='#*#' --exclude=tags -e '\\<" cur-word "\\>' -rI .")))
     (grep args)))
 
 (defun grep-cpp-def ()
   "setting up grep-command using current word under cursor as a search string"
   (interactive)
   (let* ((cur-word (thing-at-point 'word))
-         (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude=tags -e '::" cur-word "\\>' -r .")))
+         (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude='*.sw?' --exclude='#*#' --exclude=tags -e '::" cur-word "\\>' -rI .")))
     (grep args)))
 
 
-(global-set-key (kbd "C-c k") 'grep-word)
+(global-set-key (kbd "C-c g") 'grep-word)
 (global-set-key (kbd "C-c t") 'grep-cpp-def)
 (setq vc-follow-symlinks nil)
 ;;(setq scroll-conservatively most-positive-fixnum)
