@@ -280,3 +280,4 @@ There are two things you can do about this warning:
 ;;(modify-syntax-entry ?_ "w")
 
           
+(setq find-file-visit-truename t)
