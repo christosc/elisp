@@ -57,7 +57,7 @@ There are two things you can do about this warning:
   (normal-top-level-add-subdirs-to-load-path))
 
 (require 'yang-mode)
-(global-visual-line-mode t)
+;;(global-visual-line-mode t)
 
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
@@ -245,14 +245,14 @@ There are two things you can do about this warning:
   "setting up grep-command using current word under cursor as a search string"
   (interactive)
   (let* ((cur-word (thing-at-point 'word))
-         (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude='*.sw?' --exclude='#*#' --exclude='*~' --exclude=tags -e '\\<" cur-word "\\>' -rI .")))
+         (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude='*.sw?' --exclude='#*#' --exclude='*~' --exclude=tags --exclude='*.orig' -e '\\<" cur-word "\\>' -rI .")))
     (grep args)))
 
 (defun grep-cpp-def ()
   "setting up grep-command using current word under cursor as a search string"
   (interactive)
   (let* ((cur-word (thing-at-point 'word))
-         (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude='*.sw?' --exclude='#*#' --exclude='*~' --exclude=tags -e '::" cur-word "\\>' -rI .")))
+         (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude='*.sw?' --exclude='#*#' --exclude='*~' --exclude=tags --exclude='*.orig' -e '::" cur-word "\\>' -rI .")))
     (grep args)))
 
 
@@ -265,6 +265,8 @@ There are two things you can do about this warning:
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(grep-find-template
+   "find <D> <X> -type f <F> -exec grep -nH --null -e <R> \\{\\} +")
  '(package-selected-packages
    (quote
     (magit yasnippet ws-butler stickyfunc-enhance sr-speedbar smartparens projectile helm-gtags ggtags function-args dtrt-indent company clean-aindent-mode))))
