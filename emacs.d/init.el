@@ -265,8 +265,6 @@ There are two things you can do about this warning:
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(grep-find-template
-   "find <D> <X> -type f <F> -exec grep -nH --null -e <R> \\{\\} +")
  '(package-selected-packages
    (quote
     (magit yasnippet ws-butler stickyfunc-enhance sr-speedbar smartparens projectile helm-gtags ggtags function-args dtrt-indent company clean-aindent-mode))))
@@ -281,3 +279,9 @@ There are two things you can do about this warning:
 
           
 (setq find-file-visit-truename t)
+
+(defconst my-cc-style
+  '("cc-mode"
+    (c-offsets-alist . ((innamespace . [0])))))
+
+(c-add-style "my-cc-mode" my-cc-style)
