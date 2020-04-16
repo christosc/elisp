@@ -285,3 +285,4 @@ There are two things you can do about this warning:
     (c-offsets-alist . ((innamespace . [0])))))
 
 (c-add-style "my-cc-mode" my-cc-style)
+(setq-default frame-title-format '("%b"))
