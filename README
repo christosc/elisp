@@ -1,5 +1,7 @@
 Various Emacs Lisp scripts.
 
+* emacs.d/init.el: Emacs initialization settings.
+    
 * macgreek.el:  An Emacs input method mimicking the Mac's one for inputting polytonic Greek.
 
  INSTALLATION:
