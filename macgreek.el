@@ -459,17 +459,22 @@
       ("q" ?\;)
       ("Q" ?:) 
       ("`" ?·)
-      (";." ?·)
+      ("\\," ?·)
 ;; Apostrophe
       ("\\" ?’)
       ("\\\\" [#x5C]) 
 	       
 ;; Ellipsis
       ("\\..." ?…)
-      ("; " [#x2019]) ;; According to Unicode comments this character
+
+;; Other characters
+      ("' " [#x2019]) ;; According to Unicode comments this character
 		      ;; is the preferred one to represent the
 		      ;; apostrophe.
-
+      ("\\#" [#x0374]) ;; numerical sign
+      ("\\##" [#x0375]) ;; lower numerical sign
+      ("\\ST" [#x03DA]) ;; Capital stigma
+      ("\\st" [#x03DB]) ;; Small stigma
       ("---" ?—) ;; EM DASH
       ("--"  ?–) ;; EN DASH  
       ("- "   ?-) ;; minus

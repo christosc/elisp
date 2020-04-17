@@ -1,5 +1,12 @@
 
 ;; .emacs
+
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+;; set a default font
+(when (member "DejaVu Sans Mono" (font-family-list))
+  (set-face-attribute 'default nil :font "DejaVu Sans Mono-10"))
+
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
@@ -228,6 +235,10 @@ There are two things you can do about this warning:
 
 (require 'macgreek)
 (setq default-input-method "mac-greek")
+
+(prefer-coding-system 'utf-8-unix)
+(set-default-coding-systems 'utf-8-unix)
+(set-keyboard-coding-system 'utf-8-unix)
 
 ;;(defun xx ()
 ;;  "setting up grep-command using current word under cursor as a search string"
