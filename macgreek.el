@@ -466,7 +466,9 @@
 	       
 ;; Ellipsis
       ("\\..." ?…)
-	  
+      ("; " [#x2019]) ;; According to Unicode comments this character
+		      ;; is the preferred one to represent the
+		      ;; apostrophe.
 
       ("---" ?—) ;; EM DASH
       ("--"  ?–) ;; EN DASH  
