@@ -298,3 +298,4 @@ There are two things you can do about this warning:
 
 (c-add-style "my-cc-mode" my-cc-style)
 (setq-default frame-title-format '("%b"))
+(delete-selection-mode 1)  ;; paste over selection
