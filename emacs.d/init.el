@@ -51,7 +51,8 @@ There are two things you can do about this warning:
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-(load-theme 'tango-dark)
+(load-theme 'manoj-dark)
+;;(load-theme 'tango-dark)
 ;;(load-theme 'wombat)
 (setq-default fill-column 80)
 (menu-bar-mode -1)
@@ -269,6 +270,7 @@ There are two things you can do about this warning:
 
 
 (global-set-key (kbd "C-c g") 'grep-word)
+(global-set-key (kbd "C-c C-g") 'grep-word)
 (global-set-key (kbd "C-c t") 'grep-cpp-def)
 (setq vc-follow-symlinks nil)
 ;;(setq scroll-conservatively most-positive-fixnum)
@@ -284,8 +286,9 @@ There are two things you can do about this warning:
 ;; For more options M-x customize-group > grep.
 (setq-default grep-highlight-matches nil)
 (setq-default grep-save-buffers nil)
-(add-hook 'c-mode-hook 'superword-mode)
-(add-hook 'c++-mode-hook 'superword-mode)
+(defun make-underscore-word-constituent () (modify-syntax-entry ?_ "w"))
+(add-hook 'c-mode-hook 'make-underscore-word-constituent)
+(add-hook 'c++-mode-hook 'make-underscore-word-constituent)
 ;; Treat underscore as part of words.
 ;;(modify-syntax-entry ?_ "w")
 
@@ -299,3 +302,4 @@ There are two things you can do about this warning:
 (c-add-style "my-cc-mode" my-cc-style)
 (setq-default frame-title-format '("%b"))
 (delete-selection-mode 1)  ;; paste over selection
+(global-set-key (kbd "C-c o") 'occur)
