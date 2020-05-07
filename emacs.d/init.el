@@ -79,7 +79,7 @@ There are two things you can do about this warning:
 (global-set-key (kbd "C-c l") 'windmove-right)
 (global-set-key (kbd "C-c k")    'windmove-up)
 (global-set-key (kbd "C-c j")  'windmove-down)
-(global-set-key (kbd "C-c o") 'ff-find-other-file)
+(global-set-key (kbd "C-c a") 'ff-find-other-file)
 (xterm-mouse-mode t)
 ;;(require 'helm-config)
 ;;;; Enable helm-gtags-mode
