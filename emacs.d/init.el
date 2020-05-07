@@ -270,6 +270,11 @@ There are two things you can do about this warning:
   (interactive)
   (grep-word-under-dir ".."))
 
+(defun occur-curr-word ()
+  "Do an occur for word under the cursor."
+  (interactive)
+  (occur (thing-at-point 'word)))
+
 (defun grep-cpp-def ()
   "setting up grep-command using current word under cursor as a search string"
   (interactive)
@@ -312,4 +317,5 @@ There are two things you can do about this warning:
 (c-add-style "my-cc-mode" my-cc-style)
 (setq-default frame-title-format '("%b"))
 (delete-selection-mode 1)  ;; paste over selection
-(global-set-key (kbd "C-c o") 'occur)
+(global-set-key (kbd "C-c O") 'occur)
+(global-set-key (kbd "C-c o *") 'occur-curr-word)
