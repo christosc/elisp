@@ -284,8 +284,11 @@ There are two things you can do about this warning:
 
 
 
-(global-set-key (kbd "C-c r") 'grep-word-under-curr-dir)
-(global-set-key (kbd "C-c R") 'grep-word-under-parent-dir)
+(global-set-key (kbd "C-c g .") 'grep-word-under-curr-dir)
+(global-set-key (kbd "C-c g p") 'grep-word-under-parent-dir)
+(global-set-key (kbd "C-c o r") 'occur)
+(global-set-key (kbd "C-c o .") 'occur-curr-word)
+
 (global-set-key (kbd "C-c t") 'grep-cpp-def)
 (setq vc-follow-symlinks nil)
 ;;(setq scroll-conservatively most-positive-fixnum)
@@ -317,5 +320,3 @@ There are two things you can do about this warning:
 (c-add-style "my-cc-mode" my-cc-style)
 (setq-default frame-title-format '("%b"))
 (delete-selection-mode 1)  ;; paste over selection
-(global-set-key (kbd "C-c O") 'occur)
-(global-set-key (kbd "C-c o *") 'occur-curr-word)
