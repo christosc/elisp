@@ -278,6 +278,7 @@ There are two things you can do about this warning:
     (grep args)))
 
 
+
 (global-set-key (kbd "C-c r") 'grep-word-under-curr-dir)
 (global-set-key (kbd "C-c R") 'grep-word-under-parent-dir)
 (global-set-key (kbd "C-c t") 'grep-cpp-def)
@@ -295,8 +296,9 @@ There are two things you can do about this warning:
 ;; For more options M-x customize-group > grep.
 (setq-default grep-highlight-matches nil)
 (setq-default grep-save-buffers nil)
-(add-hook 'c-mode-hook 'superword-mode)
-(add-hook 'c++-mode-hook 'superword-mode)
+(defun make-underscore-word-constituent () (modify-syntax-entry ?_ "w"))
+(add-hook 'c-mode-hook 'make-underscore-word-constituent)
+(add-hook 'c++-mode-hook 'make-underscore-word-constituent)
 ;; Treat underscore as part of words.
 ;;(modify-syntax-entry ?_ "w")
 
@@ -309,3 +311,5 @@ There are two things you can do about this warning:
 
 (c-add-style "my-cc-mode" my-cc-style)
 (setq-default frame-title-format '("%b"))
+(delete-selection-mode 1)  ;; paste over selection
+(global-set-key (kbd "C-c o") 'occur)
