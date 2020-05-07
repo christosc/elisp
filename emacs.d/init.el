@@ -51,7 +51,8 @@ There are two things you can do about this warning:
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-(load-theme 'tango-dark)
+(load-theme 'manoj-dark)
+;;(load-theme 'tango-dark)
 ;;(load-theme 'wombat)
 (setq-default fill-column 80)
 (menu-bar-mode -1)
@@ -76,7 +77,7 @@ There are two things you can do about this warning:
 ;;(global-set-key (kbd "C-c <down>")  'windmove-down)
 (global-set-key (kbd "C-c h")  'windmove-left)
 (global-set-key (kbd "C-c l") 'windmove-right)
-(global-set-key (kbd "C-c k")    'windmove-up)  
+(global-set-key (kbd "C-c k")    'windmove-up)
 (global-set-key (kbd "C-c j")  'windmove-down)
 (global-set-key (kbd "C-c o") 'ff-find-other-file)
 (xterm-mouse-mode t)
@@ -253,12 +254,21 @@ There are two things you can do about this warning:
 ;;(global-set-key (kbd "<f3>")  'xx)
 
 
-(defun grep-word ()
-  "setting up grep-command using current word under cursor as a search string"
-  (interactive)
+(defun grep-word-under-dir (dir)
+  "Grep word under cursor under given directory."
   (let* ((cur-word (thing-at-point 'word))
-         (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude='*.sw?' --exclude='#*#' --exclude='*~' --exclude=tags --exclude='*.orig' -e '\\<" cur-word "\\>' -rI .")))
+         (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude='*.sw?' --exclude='#*#' --exclude='*~' --exclude=tags --exclude='*.orig' -e '\\<" cur-word "\\>' -rI " dir)))
     (grep args)))
+
+(defun grep-word-under-curr-dir()
+  "Grep word under cursor under current working directory."
+  (interactive)
+  (grep-word-under-dir "."))
+
+(defun grep-word-under-parent-dir ()
+  "Call word under the parent dir of the current one."
+  (interactive)
+  (grep-word-under-dir ".."))
 
 (defun grep-cpp-def ()
   "setting up grep-command using current word under cursor as a search string"
@@ -268,7 +278,8 @@ There are two things you can do about this warning:
     (grep args)))
 
 
-(global-set-key (kbd "C-c g") 'grep-word)
+(global-set-key (kbd "C-c r") 'grep-word-under-curr-dir)
+(global-set-key (kbd "C-c R") 'grep-word-under-parent-dir)
 (global-set-key (kbd "C-c t") 'grep-cpp-def)
 (setq vc-follow-symlinks nil)
 ;;(setq scroll-conservatively most-positive-fixnum)
@@ -289,7 +300,7 @@ There are two things you can do about this warning:
 ;; Treat underscore as part of words.
 ;;(modify-syntax-entry ?_ "w")
 
-          
+
 (setq find-file-visit-truename t)
 
 (defconst my-cc-style
