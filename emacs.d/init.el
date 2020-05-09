@@ -304,9 +304,9 @@ There are two things you can do about this warning:
 ;; For more options M-x customize-group > grep.
 (setq-default grep-highlight-matches nil)
 (setq-default grep-save-buffers nil)
-(defun make-underscore-word-constituent () (modify-syntax-entry ?_ "w"))
-(add-hook 'c-mode-hook 'make-underscore-word-constituent)
-(add-hook 'c++-mode-hook 'make-underscore-word-constituent)
+;;(defun make-underscore-word-constituent () (modify-syntax-entry ?_ "w"))
+;;(add-hook 'c-mode-hook 'make-underscore-word-constituent)
+;;(add-hook 'c++-mode-hook 'make-underscore-word-constituent)
 ;; Treat underscore as part of words.
 ;;(modify-syntax-entry ?_ "w")
 
