@@ -273,7 +273,7 @@ There are two things you can do about this warning:
 (defun occur-curr-word ()
   "Do an occur for word under the cursor."
   (interactive)
-  (occur (thing-at-point 'word)))
+  (occur (thing-at-point 'symbol)))
 
 (defun grep-cpp-def ()
   "setting up grep-command using current word under cursor as a search string"
