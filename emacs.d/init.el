@@ -336,3 +336,4 @@ There are two things you can do about this warning:
 ;;   (set-face-attribute
 ;;    'diff-changed nil :foreground "purple"))
 ;; (eval-after-load "diff-mode" '(custom-diff-colors))
+(setq recenter-redisplay nil)
