@@ -50,9 +50,11 @@ There are two things you can do about this warning:
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
-(load-theme 'tango-dark)
+ '(match ((t (:background "nil")))))
+(load-theme 'manoj-dark)
+;;(load-theme 'tango-dark)
 ;;(load-theme 'wombat)
+;;(load-theme 'zenburn t)
 (setq-default fill-column 80)
 (menu-bar-mode -1)
 (setq column-number-mode t)
@@ -65,7 +67,7 @@ There are two things you can do about this warning:
   (normal-top-level-add-subdirs-to-load-path))
 
 (require 'yang-mode)
-;;(global-visual-line-mode t)
+(global-visual-line-mode t)
 
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
@@ -76,9 +78,9 @@ There are two things you can do about this warning:
 ;;(global-set-key (kbd "C-c <down>")  'windmove-down)
 (global-set-key (kbd "C-c h")  'windmove-left)
 (global-set-key (kbd "C-c l") 'windmove-right)
-(global-set-key (kbd "C-c k")    'windmove-up)  
+(global-set-key (kbd "C-c k")    'windmove-up)
 (global-set-key (kbd "C-c j")  'windmove-down)
-(global-set-key (kbd "C-c o") 'ff-find-other-file)
+(global-set-key (kbd "C-c a") 'ff-find-other-file)
 (xterm-mouse-mode t)
 ;;(require 'helm-config)
 ;;;; Enable helm-gtags-mode
@@ -253,22 +255,41 @@ There are two things you can do about this warning:
 ;;(global-set-key (kbd "<f3>")  'xx)
 
 
-(defun grep-word ()
-  "setting up grep-command using current word under cursor as a search string"
-  (interactive)
-  (let* ((cur-word (thing-at-point 'word))
-         (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude='*.sw?' --exclude='#*#' --exclude='*~' --exclude=tags --exclude='*.orig' -e '\\<" cur-word "\\>' -rI .")))
+(defun grep-word-under-dir (dir)
+  "Grep word under cursor under given directory."
+  (let* ((cur-word (thing-at-point 'symbol))
+         (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude='*.sw?' --exclude='#*#' --exclude='*~' --exclude=tags --exclude='*.orig' -e '\\<" cur-word "\\>' -rI " dir)))
     (grep args)))
+
+(defun grep-word-under-curr-dir()
+  "Grep word under cursor under current working directory."
+  (interactive)
+  (grep-word-under-dir "."))
+
+(defun grep-word-under-parent-dir ()
+  "Call word under the parent dir of the current one."
+  (interactive)
+  (grep-word-under-dir ".."))
+
+(defun occur-curr-word ()
+  "Do an occur for word under the cursor."
+  (interactive)
+  (occur (thing-at-point 'symbol)))
 
 (defun grep-cpp-def ()
   "setting up grep-command using current word under cursor as a search string"
   (interactive)
-  (let* ((cur-word (thing-at-point 'word))
+  (let* ((cur-word (thing-at-point 'symbol))
          (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude='*.sw?' --exclude='#*#' --exclude='*~' --exclude=tags --exclude='*.orig' -e '::" cur-word "\\>' -rI .")))
     (grep args)))
 
 
-(global-set-key (kbd "C-c g") 'grep-word)
+
+(global-set-key (kbd "C-c g .") 'grep-word-under-curr-dir)
+(global-set-key (kbd "C-c g p") 'grep-word-under-parent-dir)
+(global-set-key (kbd "C-c o r") 'occur)
+(global-set-key (kbd "C-c o .") 'occur-curr-word)
+
 (global-set-key (kbd "C-c t") 'grep-cpp-def)
 (setq vc-follow-symlinks nil)
 ;;(setq scroll-conservatively most-positive-fixnum)
@@ -277,19 +298,23 @@ There are two things you can do about this warning:
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("76c5b2592c62f6b48923c00f97f74bcb7ddb741618283bdb2be35f3c0e1030e3" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(package-selected-packages
    (quote
-    (magit yasnippet ws-butler stickyfunc-enhance sr-speedbar smartparens projectile helm-gtags ggtags function-args dtrt-indent company clean-aindent-mode))))
+    (zenburn-theme gruvbox-theme spacemacs-theme magit yasnippet ws-butler stickyfunc-enhance sr-speedbar smartparens projectile helm-gtags ggtags function-args dtrt-indent company clean-aindent-mode))))
 
 ;; For more options M-x customize-group > grep.
 (setq-default grep-highlight-matches nil)
 (setq-default grep-save-buffers nil)
-(add-hook 'c-mode-hook 'superword-mode)
-(add-hook 'c++-mode-hook 'superword-mode)
+;;(defun make-underscore-word-constituent () (modify-syntax-entry ?_ "w"))
+;;(add-hook 'c-mode-hook 'make-underscore-word-constituent)
+;;(add-hook 'c++-mode-hook 'make-underscore-word-constituent)
 ;; Treat underscore as part of words.
 ;;(modify-syntax-entry ?_ "w")
 
-          
+
 (setq find-file-visit-truename t)
 
 (defconst my-cc-style
@@ -298,3 +323,17 @@ There are two things you can do about this warning:
 
 (c-add-style "my-cc-mode" my-cc-style)
 (setq-default frame-title-format '("%b"))
+(delete-selection-mode 1)  ;; paste over selection
+
+(setq-default ff-search-directories (list "." "../export" "../src"))
+;; Customizing colors used in diff mode
+;; (defun custom-diff-colors ()
+;;   "update the colors for diff faces"
+;;   (set-face-attribute
+;;    'diff-added nil :foreground "green")
+;;   (set-face-attribute
+;;    'diff-removed nil :foreground "red")
+;;   (set-face-attribute
+;;    'diff-changed nil :foreground "purple"))
+;; (eval-after-load "diff-mode" '(custom-diff-colors))
+(setq recenter-redisplay nil)
