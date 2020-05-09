@@ -51,9 +51,9 @@ There are two things you can do about this warning:
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-(load-theme 'manoj-dark)
+;;(load-theme 'manoj-dark)
 ;;(load-theme 'tango-dark)
-;;(load-theme 'wombat)
+(load-theme 'wombat)
 (setq-default fill-column 80)
 (menu-bar-mode -1)
 (setq column-number-mode t)
@@ -322,3 +322,13 @@ There are two things you can do about this warning:
 (delete-selection-mode 1)  ;; paste over selection
 
 (setq-default ff-search-directories (list "." "../export" "../src"))
+;; Customizing colors used in diff mode
+;; (defun custom-diff-colors ()
+;;   "update the colors for diff faces"
+;;   (set-face-attribute
+;;    'diff-added nil :foreground "green")
+;;   (set-face-attribute
+;;    'diff-removed nil :foreground "red")
+;;   (set-face-attribute
+;;    'diff-changed nil :foreground "purple"))
+;; (eval-after-load "diff-mode" '(custom-diff-colors))
