@@ -51,9 +51,10 @@ There are two things you can do about this warning:
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(match ((t nil))))
-;;(load-theme 'manoj-dark)
+(load-theme 'manoj-dark)
 ;;(load-theme 'tango-dark)
-(load-theme 'wombat)
+;;(load-theme 'wombat)
+;;(load-theme 'zenburn t)
 (setq-default fill-column 80)
 (menu-bar-mode -1)
 (setq column-number-mode t)
@@ -297,9 +298,12 @@ There are two things you can do about this warning:
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("76c5b2592c62f6b48923c00f97f74bcb7ddb741618283bdb2be35f3c0e1030e3" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(package-selected-packages
    (quote
-    (magit yasnippet ws-butler stickyfunc-enhance sr-speedbar smartparens projectile helm-gtags ggtags function-args dtrt-indent company clean-aindent-mode))))
+    (zenburn-theme gruvbox-theme spacemacs-theme magit yasnippet ws-butler stickyfunc-enhance sr-speedbar smartparens projectile helm-gtags ggtags function-args dtrt-indent company clean-aindent-mode))))
 
 ;; For more options M-x customize-group > grep.
 (setq-default grep-highlight-matches nil)
