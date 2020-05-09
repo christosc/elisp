@@ -66,7 +66,7 @@ There are two things you can do about this warning:
   (normal-top-level-add-subdirs-to-load-path))
 
 (require 'yang-mode)
-;;(global-visual-line-mode t)
+(global-visual-line-mode t)
 
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
@@ -256,7 +256,7 @@ There are two things you can do about this warning:
 
 (defun grep-word-under-dir (dir)
   "Grep word under cursor under given directory."
-  (let* ((cur-word (thing-at-point 'word))
+  (let* ((cur-word (thing-at-point 'symbol))
          (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude='*.sw?' --exclude='#*#' --exclude='*~' --exclude=tags --exclude='*.orig' -e '\\<" cur-word "\\>' -rI " dir)))
     (grep args)))
 
@@ -278,7 +278,7 @@ There are two things you can do about this warning:
 (defun grep-cpp-def ()
   "setting up grep-command using current word under cursor as a search string"
   (interactive)
-  (let* ((cur-word (thing-at-point 'word))
+  (let* ((cur-word (thing-at-point 'symbol))
          (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude='*.sw?' --exclude='#*#' --exclude='*~' --exclude=tags --exclude='*.orig' -e '::" cur-word "\\>' -rI .")))
     (grep args)))
 
