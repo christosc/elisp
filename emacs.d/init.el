@@ -337,3 +337,14 @@ There are two things you can do about this warning:
 ;;    'diff-changed nil :foreground "purple"))
 ;; (eval-after-load "diff-mode" '(custom-diff-colors))
 (setq recenter-redisplay nil)
+
+;; better occur mode
+ (add-hook 'occur-mode-hook
+           (lambda()
+             (toggle-truncate-lines t)
+             (setq-local cursor-type 'box)
+             (setq-local blink-cursor-blinks 1)
+             (company-mode -1)
+             (hl-line-mode t)
+             (next-error-follow-minor-mode t)))
+;;(setq list-matching-lines-jump-to-current-line t)
