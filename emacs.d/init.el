@@ -361,3 +361,5 @@ There are two things you can do about this warning:
 
 (add-hook 'diff-mode-hook
           (lambda () (diff-auto-refine-mode -1)))
+
+(setq vc-handled-backends '(Hg Git))
