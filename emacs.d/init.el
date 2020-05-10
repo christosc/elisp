@@ -51,10 +51,16 @@ There are two things you can do about this warning:
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(match ((t (:background "nil")))))
-(load-theme 'manoj-dark)
-;;(load-theme 'tango-dark)
-;;(load-theme 'wombat)
+
 ;;(load-theme 'zenburn t)
+;;(load-theme 'manoj-dark)
+;;(load-theme 'wombat)
+(load-theme 'tango-dark)
+;;(load-theme 'sanityinc-tomorrow-eighties t)
+(load-theme 'tramp t)
+
+
+
 (setq-default fill-column 80)
 (menu-bar-mode -1)
 (setq column-number-mode t)
@@ -300,10 +306,12 @@ There are two things you can do about this warning:
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("76c5b2592c62f6b48923c00f97f74bcb7ddb741618283bdb2be35f3c0e1030e3" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
+    ("f9aede508e587fe21bcfc0a85e1ec7d27312d9587e686a6f5afdbb0d220eab50" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "6ebdb33507c7db94b28d7787f802f38ac8d2b8cd08506797b3af6cdfd80632e0" "76c5b2592c62f6b48923c00f97f74bcb7ddb741618283bdb2be35f3c0e1030e3" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(package-selected-packages
    (quote
-    (zenburn-theme gruvbox-theme spacemacs-theme magit yasnippet ws-butler stickyfunc-enhance sr-speedbar smartparens projectile helm-gtags ggtags function-args dtrt-indent company clean-aindent-mode))))
+    (monokai-theme color-theme-sanityinc-tomorrow tramp-theme zenburn-theme gruvbox-theme spacemacs-theme magit yasnippet ws-butler stickyfunc-enhance sr-speedbar smartparens projectile helm-gtags ggtags function-args dtrt-indent company clean-aindent-mode)))
+ '(tramp-default-method "plink")
+ '(tramp-default-user "chryssoc"))
 
 ;; For more options M-x customize-group > grep.
 (setq-default grep-highlight-matches nil)
@@ -322,7 +330,7 @@ There are two things you can do about this warning:
     (c-offsets-alist . ((innamespace . [0])))))
 
 (c-add-style "my-cc-mode" my-cc-style)
-(setq-default frame-title-format '("%b"))
+;;(setq-default frame-title-format '("%b"))
 (delete-selection-mode 1)  ;; paste over selection
 
 (setq-default ff-search-directories (list "." "../export" "../src"))
@@ -338,6 +346,7 @@ There are two things you can do about this warning:
 ;; (eval-after-load "diff-mode" '(custom-diff-colors))
 (setq recenter-redisplay nil)
 
+
 ;; better occur mode
  (add-hook 'occur-mode-hook
            (lambda()
@@ -348,3 +357,20 @@ There are two things you can do about this warning:
              (hl-line-mode t)
              (next-error-follow-minor-mode t)))
 ;;(setq list-matching-lines-jump-to-current-line t)
+
+(if (eq system-type 'windows-nt)
+    (load-file "~/.emacs.d/private.el"))
+
+(setq grep-use-null-device nil)
+
+(setq-default
+ frame-title-format
+ '(:eval
+   (format "%s@%s:%s"
+           (or (file-remote-p default-directory 'user) user-login-name)
+           (or (file-remote-p default-directory 'host) system-name)
+           (file-name-nondirectory (or (buffer-file-name) default-directory)))))
+
+(add-hook 'diff-mode-hook
+          (lambda () (diff-auto-refine-mode -1)))
+

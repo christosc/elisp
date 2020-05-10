@@ -14,8 +14,8 @@
 (require 'quail)
 
 (quail-define-package "mac-greek" "Greek" "MGR" t
-		      "A input method for Greek simulating the Mac keybidings."
-		      nil t t nil nil nil nil nil nil nil t)
+              "A input method for Greek simulating the Mac keybidings."
+              nil t t nil nil nil nil nil nil nil t)
 
 (quail-define-rules
  (";" "´+(B)")
@@ -86,7 +86,7 @@
 
 ;; ACCUTE ACCENT
    ;; small letters
-      (";a" ?ά) 
+      (";a" ?ά)
       (";e" ?έ)
       (";o" ?ό)
       (";v" ?ώ)
@@ -95,7 +95,7 @@
       (";i" ?ί)
 
    ;; capital letters
-      (";A" ?Ά) 
+      (";A" ?Ά)
       (";E" ?Έ)
       (";O" ?Ό)
       (";V" ?Ώ)
@@ -142,344 +142,343 @@
  ;;     SMOOTH
  ;;          SMALL LETTERS.
                ("'a" ?ἀ)
-	       ("'e" ?ἐ)
-	       ("'o" ?ὀ)
-	       ("'v" ?ὠ)
-	       ("'h" ?ἠ)
-	       ("'y" ?ὐ)
-	       ("'i" ?ἰ)
-	       ("'r" ?ῤ)
-	    ;; CAPITAL LETTERS
+           ("'e" ?ἐ)
+           ("'o" ?ὀ)
+           ("'v" ?ὠ)
+           ("'h" ?ἠ)
+           ("'y" ?ὐ)
+           ("'i" ?ἰ)
+           ("'r" ?ῤ)
+        ;; CAPITAL LETTERS
                ("'A" ?Ἀ)
-	       ("'E" ?Ἐ)
-	       ("'O" ?Ὀ)
-	       ("'V" ?Ὠ)
-	       ("'H" ?Ἠ)
-	       ("'Y" ?ὐ)
-	       ("'I" ?Ἰ)
-	       ;;("'R" ?᾽Ρ)
+           ("'E" ?Ἐ)
+           ("'O" ?Ὀ)
+           ("'V" ?Ὠ)
+           ("'H" ?Ἠ)
+           ("'Y" ?ὐ)
+           ("'I" ?Ἰ)
+           ;;("'R" ?᾽Ρ)
 
        ;; ROUGH
-	       ;;small letters
-	       ("\"a" ?ἁ)
-	       ("\"e" ?ἑ)
-	       ("\"o" ?ὁ)
-	       ("\"v" ?ὡ)
-	       ("\"h" ?ἡ)
-	       ("\"y" ?ὑ)
-	       ("\"i" ?ἱ)
-	       ("\"r" ?ῥ)
+           ;;small letters
+           ("\"a" ?ἁ)
+           ("\"e" ?ἑ)
+           ("\"o" ?ὁ)
+           ("\"v" ?ὡ)
+           ("\"h" ?ἡ)
+           ("\"y" ?ὑ)
+           ("\"i" ?ἱ)
+           ("\"r" ?ῥ)
 
-	       ;;capital letters
-	       ("\"A" ?Ἁ)
-	       ("\"E" ?Ἑ)
-	       ("\"O" ?Ὁ)
-	       ("\"V" ?Ὡ)
-	       ("\"H" ?Ἡ)
-	       ("\"Y" ?Ὑ)
-	       ("\"I" ?Ἱ)
-	       ("\"R" ?Ῥ)
+           ;;capital letters
+           ("\"A" ?Ἁ)
+           ("\"E" ?Ἑ)
+           ("\"O" ?Ὁ)
+           ("\"V" ?Ὡ)
+           ("\"H" ?Ἡ)
+           ("\"Y" ?Ὑ)
+           ("\"I" ?Ἱ)
+           ("\"R" ?Ῥ)
 
 ;; ACCENTS WITH BREATHINGS
    ;; Accute with smooth.
       ;; Small letters.
- 
+
            ("/a" ?ἄ)
-	       ("/e" ?ἔ)
-	       ("/o" ?ὄ)
-	       ("/v" ?ὤ)
-	       ("/h" ?ἤ)
-	       ("/y" ?ὔ)
-	       ("/i" ?ἴ)
+           ("/e" ?ἔ)
+           ("/o" ?ὄ)
+           ("/v" ?ὤ)
+           ("/h" ?ἤ)
+           ("/y" ?ὔ)
+           ("/i" ?ἴ)
 
       ;; Capital letters.
-	       ("/A" ?Ἄ)
-	       ("/E" ?Ἔ)
-	       ("/O" ?Ὄ)
-	       ("/V" ?Ὤ)
-	       ("/H" ?Ἤ)
-	       ;;("/Y" ?ὔ)
-	       ("/I" ?Ἴ)
+           ("/A" ?Ἄ)
+           ("/E" ?Ἔ)
+           ("/O" ?Ὄ)
+           ("/V" ?Ὤ)
+           ("/H" ?Ἤ)
+           ;;("/Y" ?ὔ)
+           ("/I" ?Ἴ)
 
   ;; Accute with rough.
       ;; Small letters.
 
            ("\?a" ?ἅ)
-	       ("\?e" ?ἕ)
-	       ("\?o" ?ὅ)
-	       ("\?v" ?ὥ)
-	       ("\?h" ?ἥ)
-	       ("\?y" ?ὕ)
-	       ("\?i" ?ἵ)
+           ("\?e" ?ἕ)
+           ("\?o" ?ὅ)
+           ("\?v" ?ὥ)
+           ("\?h" ?ἥ)
+           ("\?y" ?ὕ)
+           ("\?i" ?ἵ)
 
       ;; Capital letters.
 
            ("\?A" ?Ἅ)
-	       ("\?E" ?Ἕ)
-	       ("\?O" ?Ὅ)
-	       ("\?V" ?Ὥ)
-	       ("\?H" ?Ἥ)
-	       ("\?Y" ?Ὕ)
-	       ("\?I" ?Ἵ)
+           ("\?E" ?Ἕ)
+           ("\?O" ?Ὅ)
+           ("\?V" ?Ὥ)
+           ("\?H" ?Ἥ)
+           ("\?Y" ?Ὕ)
+           ("\?I" ?Ἵ)
 
   ;; Grave with smooth.
      ;; Small letters.
            ("=a" ?ἂ)
-	       ("=e" ?ἒ)
-	       ("=o" ?ὂ)
-	       ("=v" ?ὢ)
-	       ("=h" ?ἢ)
-	       ("=y" ?ὒ)
-	       ("=i" ?ἲ)
+           ("=e" ?ἒ)
+           ("=o" ?ὂ)
+           ("=v" ?ὢ)
+           ("=h" ?ἢ)
+           ("=y" ?ὒ)
+           ("=i" ?ἲ)
 
     ;; Capital letters.
-      
+
            ("=A" ?Ἂ)
-	       ("=E" ?Ἒ)
-	       ("=O" ?Ὂ)
-	       ("=V" ?Ὢ)
-	       ("=H" ?Ἢ)
-	       ("=Y" ?ὒ)
-	       ("=I" ?Ἲ)
+           ("=E" ?Ἒ)
+           ("=O" ?Ὂ)
+           ("=V" ?Ὢ)
+           ("=H" ?Ἢ)
+           ("=Y" ?ὒ)
+           ("=I" ?Ἲ)
 
   ;;Grave with rough.
      ;; Small letters.
-	       ("+a" ?ἃ)
-	       ("+e" ?ἓ)
-	       ("+o" ?ὃ)
-	       ("+v" ?ὣ)
-	       ("+h" ?ἣ)
-	       ("+y" ?ὓ)
-	       ("+i" ?ἳ)
+           ("+a" ?ἃ)
+           ("+e" ?ἓ)
+           ("+o" ?ὃ)
+           ("+v" ?ὣ)
+           ("+h" ?ἣ)
+           ("+y" ?ὓ)
+           ("+i" ?ἳ)
 
      ;; Capital letters.
-	       ("+A" ?Ἃ)
-	       ("+E" ?Ἓ)
-	       ("+O" ?Ὃ)
-	       ("+V" ?Ὣ)
-	       ("+H" ?Ἣ)
-	       ("+Y" ?Ὓ)
-	       ("+I" ?Ἳ)
+           ("+A" ?Ἃ)
+           ("+E" ?Ἓ)
+           ("+O" ?Ὃ)
+           ("+V" ?Ὣ)
+           ("+H" ?Ἣ)
+           ("+Y" ?Ὓ)
+           ("+I" ?Ἳ)
 
   ;; Circumflex with smooth.
      ;; Small letters.
-	       
-	       ("-a" ?ἆ)
-	       ("-v" ?ὦ)
-	       ("-h" ?ἦ)
-	       ("-y" ?ὖ)
-	       ("-i" ?ἶ)
+
+           ("-a" ?ἆ)
+           ("-v" ?ὦ)
+           ("-h" ?ἦ)
+           ("-y" ?ὖ)
+           ("-i" ?ἶ)
 
      ;; Capital letters.
-	       
-	       ("-A" ?Ἆ)
-	       ("-V" ?Ὦ)
-	       ("-H" ?Ἦ)
-	       ("-Y" ?ὖ)
-	       ("-I" ?Ἶ)
+
+           ("-A" ?Ἆ)
+           ("-V" ?Ὦ)
+           ("-H" ?Ἦ)
+           ("-Y" ?ὖ)
+           ("-I" ?Ἶ)
 
  ;; Circumflex with rough.
     ;; Small letters.
-	       
-	       ("_a" ?ἇ)
-	       ("_v" ?ὧ)
-	       ("_h" ?ἧ)
-	       ("_y" ?ὗ)
-	       ("_i" ?ἷ)
+
+           ("_a" ?ἇ)
+           ("_v" ?ὧ)
+           ("_h" ?ἧ)
+           ("_y" ?ὗ)
+           ("_i" ?ἷ)
 
     ;; Capital letters.
-	       
-	       ("_A" ?Ἇ)
-	       ("_V" ?Ὧ)
-	       ("_H" ?Ἧ)
-	       ("_Y" ?ὗ)
-	       ("_I" ?Ἷ)
+
+           ("_A" ?Ἇ)
+           ("_V" ?Ὧ)
+           ("_H" ?Ἧ)
+           ("_Y" ?ὗ)
+           ("_I" ?Ἷ)
 
 
  ;; SUBSCRIPT IOTA
     ;; Small letters.
-	       ("{a" ?ᾳ)
-	       ("{v" ?ῳ)
-	       ("{h" ?ῃ)
+           ("{a" ?ᾳ)
+           ("{v" ?ῳ)
+           ("{h" ?ῃ)
 
     ;; Capital letters.
-	       ("{A" ?ᾼ)
-	       ("{V" ?ῼ)
-	       ("{H" ?ῌ)
+           ("{A" ?ᾼ)
+           ("{V" ?ῼ)
+           ("{H" ?ῌ)
 
     ;; With accute.
-	   ;; Small letters.
-	       ("\;{a" ?ᾴ)
-	       ("\;{v" ?ῴ)
-	       ("\;{h" ?ῄ)
-	       ("{\;a" ?ᾴ)
-	       ("{\;v" ?ῴ)
-	       ("{\;h" ?ῄ)
+       ;; Small letters.
+           ("\;{a" ?ᾴ)
+           ("\;{v" ?ῴ)
+           ("\;{h" ?ῄ)
+           ("{\;a" ?ᾴ)
+           ("{\;v" ?ῴ)
+           ("{\;h" ?ῄ)
 
-	   ;; Capital letters. (non existent.)
-	       ;;("\;{A" ?ᾴ)
-	       ;;("\;{V" ?ῴ)
-	       ;;("\;{Η" ?ῄ)
+       ;; Capital letters. (non existent.)
+           ;;("\;{A" ?ᾴ)
+           ;;("\;{V" ?ῴ)
+           ;;("\;{Η" ?ῄ)
 
     ;; With grave.
-	   ;; Small letters.
-	       ("]{a" ?ᾲ)
-	       ("]{v" ?ῲ)
-	       ("]{h" ?ῂ)
+       ;; Small letters.
+           ("]{a" ?ᾲ)
+           ("]{v" ?ῲ)
+           ("]{h" ?ῂ)
 
-	   ;; Capital letters. (non existent.)
-	       ;;("]{a" ?ᾲ)
-	       ;;("]{v" ?ῲ)
-	       ;;("]{η" ?ῂ)
+       ;; Capital letters. (non existent.)
+           ;;("]{a" ?ᾲ)
+           ;;("]{v" ?ῲ)
+           ;;("]{η" ?ῂ)
 
     ;; With circumflex.
-	   ;; Small letters.
-	       ("[{a" ?ᾷ) ("{[a" ?ᾷ)
-	       ("[{v" ?ῷ) ("{[v" ?ῷ)
-	       ("[{h" ?ῇ) ("{[h" ?ῇ)
-	       
+       ;; Small letters.
+           ("[{a" ?ᾷ) ("{[a" ?ᾷ)
+           ("[{v" ?ῷ) ("{[v" ?ῷ)
+           ("[{h" ?ῇ) ("{[h" ?ῇ)
 
-	   ;; Capital letters. (non existent.)
 
-	       
+       ;; Capital letters. (non existent.)
+
+
 
     ;; With smooth.
-	 ;; Small letters.
-	       ("\'{a" ?ᾀ)
-	       ("\'{v" ?ᾠ)
-	       ("\'{h" ?ᾐ)
+     ;; Small letters.
+           ("\'{a" ?ᾀ)
+           ("\'{v" ?ᾠ)
+           ("\'{h" ?ᾐ)
 
-	 ;; Capital letters.
-	       ("\'{A" ?ᾈ)
-	       ("\'{V" ?ᾨ)
-	       ("\'{H" ?ᾘ)
+     ;; Capital letters.
+           ("\'{A" ?ᾈ)
+           ("\'{V" ?ᾨ)
+           ("\'{H" ?ᾘ)
 
     ;; With rough.
-	 ;; Small letters.
-	       ("\"{a" ?ᾁ)
-	       ("\"{v" ?ᾡ)
-	       ("\"{h" ?ᾑ)
-		  
-	 ;; Capital letters.
-	       ("\"{A" ?ᾉ)
-	       ("\"{V" ?ᾩ)
-	       ("\"{H" ?ᾙ)
+     ;; Small letters.
+           ("\"{a" ?ᾁ)
+           ("\"{v" ?ᾡ)
+           ("\"{h" ?ᾑ)
+
+     ;; Capital letters.
+           ("\"{A" ?ᾉ)
+           ("\"{V" ?ᾩ)
+           ("\"{H" ?ᾙ)
 
     ;; Accute - smooth
-	 ;; Small letters.
-	       ("/{a" ?ᾄ)
-	       ("/{v" ?ᾤ)
-	       ("/{h" ?ᾔ)
+     ;; Small letters.
+           ("/{a" ?ᾄ)
+           ("/{v" ?ᾤ)
+           ("/{h" ?ᾔ)
 
-	 ;; Small letters.
-	       ("/{A" ?ᾌ)
-	       ("/{V" ?ᾬ)
-	       ("/{H" ?ᾜ)
-	       
+     ;; Small letters.
+           ("/{A" ?ᾌ)
+           ("/{V" ?ᾬ)
+           ("/{H" ?ᾜ)
+
     ;; Accute - rough
-	 ;; Small letters.
-	       ("\?{a" ?ᾅ)
-	       ("\?{v" ?ᾥ)
-	       ("\?{h" ?ᾕ)
+     ;; Small letters.
+           ("\?{a" ?ᾅ)
+           ("\?{v" ?ᾥ)
+           ("\?{h" ?ᾕ)
 
-	 ;; Capital letters.
-	       ("\?{A" ?ᾍ)
-	       ("\?{V" ?ᾭ)
-	       ("\?{H" ?ᾝ)
+     ;; Capital letters.
+           ("\?{A" ?ᾍ)
+           ("\?{V" ?ᾭ)
+           ("\?{H" ?ᾝ)
 
 
      ;; Grave - smooth
-	 ;; Small letters.
-	       ("={a" ?ᾂ)
-	       ("={v" ?ᾢ)
-	       ("={h" ?ᾒ)
+     ;; Small letters.
+           ("={a" ?ᾂ)
+           ("={v" ?ᾢ)
+           ("={h" ?ᾒ)
 
-	 ;; Capital letters.
-	       ("={A" ?ᾊ)
-	       ("={V" ?ᾪ)
-	       ("={H" ?ᾚ)
-	       
+     ;; Capital letters.
+           ("={A" ?ᾊ)
+           ("={V" ?ᾪ)
+           ("={H" ?ᾚ)
+
     ;; Grave - rough
-	 ;; Small letters.
-	       ("+{a" ?ᾃ)
-	       ("+{v" ?ᾣ)
-	       ("+{h" ?ᾓ)
+     ;; Small letters.
+           ("+{a" ?ᾃ)
+           ("+{v" ?ᾣ)
+           ("+{h" ?ᾓ)
 
-	 ;; Capital letters.
-	       ("+{A" ?ᾋ)
-	       ("+{V" ?ᾫ)
-	       ("+{H" ?ᾛ)
+     ;; Capital letters.
+           ("+{A" ?ᾋ)
+           ("+{V" ?ᾫ)
+           ("+{H" ?ᾛ)
 
     ;; Circumflex - smooth
-	 ;; Small letters.
-	       ("-{a" ?ᾆ)
-	       ("-{v" ?ᾦ)
-	       ("-{h" ?ᾖ)
+     ;; Small letters.
+           ("-{a" ?ᾆ)
+           ("-{v" ?ᾦ)
+           ("-{h" ?ᾖ)
 
-	 ;; Capital letters.
-	       ("-{A" ?ᾎ)
-	       ("-{V" ?ᾮ)
-	       ("-{H" ?ᾞ)
-	       
+     ;; Capital letters.
+           ("-{A" ?ᾎ)
+           ("-{V" ?ᾮ)
+           ("-{H" ?ᾞ)
+
     ;; Circumflex - rough
-	 ;; Small letters.
-	       ("_{a" ?ᾇ)
-	       ("_{v" ?ᾧ)
-	       ("_{h" ?ᾗ)
+     ;; Small letters.
+           ("_{a" ?ᾇ)
+           ("_{v" ?ᾧ)
+           ("_{h" ?ᾗ)
 
-	 ;; Capital letters.
-	       ("_{A" ?ᾏ)
-	       ("_{V" ?ᾯ)
-	       ("_{H" ?ᾟ)
-	       
-	       
+     ;; Capital letters.
+           ("_{A" ?ᾏ)
+           ("_{V" ?ᾯ)
+           ("_{H" ?ᾟ)
+
+
 ;; Diairesis
       ;; Plain.
-	  ;; Small letters.
-	       ("\:i" ?ϊ)
-	       ("\:y" ?ϋ)
+      ;; Small letters.
+           ("\:i" ?ϊ)
+           ("\:y" ?ϋ)
 
-	  ;; Capital letters.
-	       ("\:I" ?Ϊ)
-	       ("\:Y" ?Ϋ)
+      ;; Capital letters.
+           ("\:I" ?Ϊ)
+           ("\:Y" ?Ϋ)
 
       ;; With accute.
-	  ;; Small letters.
-	       ("\:\;i" ?ΐ)
-	       ("\:\;y" ?ΰ)
+      ;; Small letters.
+           ("\:\;i" ?ΐ)
+           ("\:\;y" ?ΰ)
 
-	  ;; Capital letters. (non existent)
+      ;; Capital letters. (non existent)
 
 
       ;; With grave.
-	  ;; Small letters.
-	       ("\:]i" ?ῒ)
-	       ("\:]y" ?ῢ)
+      ;; Small letters.
+           ("\:]i" ?ῒ)
+           ("\:]y" ?ῢ)
 
-	  ;; Capital letters. (non existent)
+      ;; Capital letters. (non existent)
 
 ;; Punctuation
       ("q" ?\;)
-      ("Q" ?:) 
+      ("Q" ?:)
       ("`" ?·)
       ("\\." ?·)
 ;; Apostrophe
       ("\\" ?’)
-      ("\\\\" [#x5C]) 
-	       
+      ("\\\\" [#x5C])
+
 ;; Ellipsis
       ("\\..." ?…)
 
 ;; Other characters
-      ("' " [#x2019]) ;; According to Unicode comments this character
-		      ;; is the preferred one to represent the
-		      ;; apostrophe.
+      ("' " [#x2019]) ;; According to Unicode comments this character is the
+                      ;; preferred one to represent the apostrophe.
       ("\\#" [#x0374]) ;; numerical sign
       ("\\##" [#x0375]) ;; lower numerical sign
       ("\\ST" [#x03DA]) ;; Capital stigma
       ("\\st" [#x03DB]) ;; Small stigma
       ("---" ?—) ;; EM DASH
-      ("--"  ?–) ;; EN DASH  
+      ("--"  ?–) ;; EN DASH
       ("- "   ?-) ;; minus
       ("+ "   ?+) ;; plus
       ("= "   ?=) ;; equal
@@ -492,10 +491,6 @@
       ("\? "  ?\?)
       ("//"   ?/)
       ("/ "   ?/)
-
- 
- 
- 
 )
 
 (provide 'macgreek)
