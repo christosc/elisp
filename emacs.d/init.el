@@ -375,3 +375,8 @@ There are two things you can do about this warning:
           (lambda () (diff-auto-refine-mode -1)))
 
 (setq vc-handled-backends '(Hg Git))
+
+;; Remove comma from electric indent characters for CC mode
+(add-hook 'c-mode-common-hook
+	  (lambda ()
+	    (setq-local electric-indent-chars (remq ?, electric-indent-chars))))
