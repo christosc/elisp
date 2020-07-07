@@ -380,3 +380,5 @@ There are two things you can do about this warning:
 (add-hook 'c-mode-common-hook
 	  (lambda ()
 	    (setq-local electric-indent-chars (remq ?, electric-indent-chars))))
+
+(setq visible-cursor nil)
