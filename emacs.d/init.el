@@ -289,14 +289,21 @@ There are two things you can do about this warning:
          (args (concat "grep -nH --null --exclude-dir={[uU]nittests,[tT]est,build,.hg,.git} --exclude='*.sw?' --exclude='#*#' --exclude='*~' --exclude=tags --exclude='*.orig' -e '::" cur-word "\\>' -rI .")))
     (grep args)))
 
+(defun goto-definition ()
+  "Go to C/C++ function definition."
+  (interactive)
+  (let* ((cur-word (thing-at-point 'symbol t))
+         (regexp (concat  "\\w\\s-+\\(\\w+::\\)?" cur-word "(\\|\\(\\*\\|>\\|&\\)\\(\\s-*\\|\\(\\s-*\\w+::\\)\\)" cur-word "(")))
+         (unless (re-search-forward regexp nil t) (re-search-backward regexp))))
 
-
+(global-set-key (kbd "C-c d") 'goto-definition)
 (global-set-key (kbd "C-c g .") 'grep-word-under-curr-dir)
 (global-set-key (kbd "C-c g p") 'grep-word-under-parent-dir)
 (global-set-key (kbd "C-c o r") 'occur)
 (global-set-key (kbd "C-c o .") 'occur-curr-word)
 
 (global-set-key (kbd "C-c t") 'grep-cpp-def)
+(global-set-key (kbd "C-c r") 'revert-buffer)
 (setq vc-follow-symlinks nil)
 ;;(setq scroll-conservatively most-positive-fixnum)
 (custom-set-variables
