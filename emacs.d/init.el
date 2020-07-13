@@ -294,7 +294,11 @@ There are two things you can do about this warning:
   (interactive)
   (let* ((cur-word (thing-at-point 'symbol t))
          (regexp (concat  "\\w\\s-+\\(\\w+::\\)?" cur-word "(\\|\\(\\*\\|>\\|&\\)\\(\\s-*\\|\\(\\s-*\\w+::\\)\\)" cur-word "(")))
-         (unless (re-search-forward regexp nil t) (re-search-backward regexp))))
+    (unless (re-search-forward regexp nil t) (re-search-backward regexp))))
+
+;; For tips on how to achieve jump to other buffer through grep, maybe this links will be useful:
+;; https://stackoverflow.com/a/21161239/375842.
+;; Also: https://emacs.stackexchange.com/a/12346/2362
 
 (global-set-key (kbd "C-c d") 'goto-definition)
 (global-set-key (kbd "C-c g .") 'grep-word-under-curr-dir)
