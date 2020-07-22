@@ -398,4 +398,8 @@ There are two things you can do about this warning:
 (eval-after-load 'cc-mode
   '(progn
      (define-key c-mode-base-map "/" 'self-insert-command)
-     (define-key c-mode-base-map "*" 'self-insert-command)))
+     (define-key c-mode-base-map "*" 'self-insert-command)
+     (define-key c-mode-base-map ";" 'self-insert-command)
+     (define-key c-mode-base-map "," 'self-insert-command))
+  )
+  
