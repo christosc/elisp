@@ -393,3 +393,9 @@ There are two things you can do about this warning:
 	    (setq-local electric-indent-chars (remq ?, electric-indent-chars))))
 
 (setq visible-cursor nil)
+
+;; Disable electric slash and star for CC mode.
+(eval-after-load 'cc-mode
+  '(progn
+     (define-key c-mode-base-map "/" 'self-insert-command)
+     (define-key c-mode-base-map "*" 'self-insert-command)))
