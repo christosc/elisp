@@ -55,7 +55,7 @@ There are two things you can do about this warning:
 ;;(load-theme 'zenburn t)
 ;;(load-theme 'manoj-dark)
 ;;(load-theme 'wombat)
-(load-theme 'tango-dark)
+;;(load-theme 'tango-dark)
 ;;(load-theme 'sanityinc-tomorrow-eighties t)
 (load-theme 'tramp t)
 
