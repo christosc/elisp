@@ -169,20 +169,6 @@ There are two things you can do about this warning:
 ;;(setq-local eldoc-documentation-function #'ggtags-eldoc-function)
 ;;(add-hook 'c-mode-common-hook   'hs-minor-mode)
 
-;; Available C style:
-;; “gnu”: The default style for GNU projects
-;; “k&r”: What Kernighan and Ritchie, the authors of C used in their book
-;; “bsd”: What BSD developers use, aka “Allman style” after Eric Allman.
-;; “whitesmith”: Popularized by the examples that came with Whitesmiths C, an early commercial C compiler.
-;; “stroustrup”: What Stroustrup, the author of C++ used in his book
-;; “ellemtel”: Popular C++ coding standards as defined by “Programming in C++, Rules and Recommendations,” Erik Nyquist and Mats Henricson, Ellemtel
-;; “linux”: What the Linux developers use for kernel development
-;; “python”: What Python developers use for extension modules
-;; “java”: The default style for java-mode (see below)
-;; “user”: When you want to define your own style
-(setq
- c-default-style "linux" ;; set style to "linux"
- )
 
 ;;(global-set-key (kbd "RET") 'newline-and-indent)  ; automatically indent when press RET
 ;;
@@ -337,10 +323,26 @@ There are two things you can do about this warning:
 (setq find-file-visit-truename t)
 
 (defconst my-cc-style
-  '("cc-mode"
+  '("linux"
     (c-offsets-alist . ((innamespace . [0])))))
 
-(c-add-style "my-cc-mode" my-cc-style)
+(c-add-style "my-cc-style" my-cc-style)
+
+;; Available C style:
+;; “gnu”: The default style for GNU projects
+;; “k&r”: What Kernighan and Ritchie, the authors of C used in their book
+;; “bsd”: What BSD developers use, aka “Allman style” after Eric Allman.
+;; “whitesmith”: Popularized by the examples that came with Whitesmiths C, an early commercial C compiler.
+;; “stroustrup”: What Stroustrup, the author of C++ used in his book
+;; “ellemtel”: Popular C++ coding standards as defined by “Programming in C++, Rules and Recommendations,” Erik Nyquist and Mats Henricson, Ellemtel
+;; “linux”: What the Linux developers use for kernel development
+;; “python”: What Python developers use for extension modules
+;; “java”: The default style for java-mode (see below)
+;; “user”: When you want to define your own style
+(setq
+ c-default-style "my-cc-style" ;; set style to "my-cc-style"
+ )
+
 ;;(setq-default frame-title-format '("%b"))
 (delete-selection-mode 1)  ;; paste over selection
 
