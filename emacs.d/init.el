@@ -53,9 +53,9 @@ There are two things you can do about this warning:
  '(match ((t (:background "nil")))))
 
 ;;(load-theme 'zenburn t)
-;;(load-theme 'manoj-dark)
+(load-theme 'manoj-dark)
 ;;(load-theme 'wombat)
-(load-theme 'tango-dark)
+;;(load-theme 'tango-dark)
 ;;(load-theme 'sanityinc-tomorrow-eighties t)
 (load-theme 'tramp t)
 
@@ -393,3 +393,4 @@ There are two things you can do about this warning:
 	    (setq-local electric-indent-chars (remq ?, electric-indent-chars))))
 
 (setq visible-cursor nil)
+(c-set-offset 'innamespace 0)
