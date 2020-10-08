@@ -58,7 +58,8 @@ There are two things you can do about this warning:
 ;;(load-theme 'tango-dark)
 ;;(load-theme 'sanityinc-tomorrow-eighties t)
 (load-theme 'tramp t)
-(invert-face 'default)  ;; turn to dark background color
+(if window-system
+    (invert-face 'default))  ;; turn to dark background color
 
 
 
