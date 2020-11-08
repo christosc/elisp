@@ -413,3 +413,7 @@ There are two things you can do about this warning:
   
 ;; (require 'tramp)
 ;; (setq tramp-shell-prompt-pattern "^[^>$:]*[>$:] *" )
+
+(setq completion-ignore-case  t)
+(setq read-file-name-completion-ignore-case t)
+(setq read-buffer-completion-ignore-case t)
