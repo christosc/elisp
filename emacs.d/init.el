@@ -53,12 +53,14 @@ There are two things you can do about this warning:
  '(match ((t (:background "nil")))))
 
 ;;(load-theme 'zenburn t)
-;;(load-theme 'manoj-dark)
+
 ;;(load-theme 'wombat)
-(load-theme 'tango-dark)
+;;(load-theme 'tango-dark)
 ;;(load-theme 'sanityinc-tomorrow-eighties t)
 (load-theme 'tramp t)
-
+(if window-system
+    (invert-face 'default))  ;; turn to dark background color
+(load-theme 'manoj-dark)
 
 
 (setq-default fill-column 80)
@@ -307,7 +309,6 @@ There are two things you can do about this warning:
  '(package-selected-packages
    (quote
     (monokai-theme color-theme-sanityinc-tomorrow tramp-theme zenburn-theme gruvbox-theme spacemacs-theme magit yasnippet ws-butler stickyfunc-enhance sr-speedbar smartparens projectile helm-gtags ggtags function-args dtrt-indent company clean-aindent-mode)))
- '(tramp-default-method "plink")
  '(tramp-default-user "chryssoc"))
 
 ;; For more options M-x customize-group > grep.
@@ -371,8 +372,10 @@ There are two things you can do about this warning:
              (next-error-follow-minor-mode t)))
 ;;(setq list-matching-lines-jump-to-current-line t)
 
-(if (eq system-type 'windows-nt)
-    (load-file "~/.emacs.d/private.el"))
+(defconst private-defs-file "~/.emacs.d/private.el" "Filepath for private definitions")
+
+(if (file-exists-p private-defs-file)
+    (load-file private-defs-file))
 
 (setq grep-use-null-device nil)
 
@@ -408,4 +411,9 @@ There are two things you can do about this warning:
 ;;      (define-key c-mode-base-map "," 'self-insert-command))
 ;;   )
   
+;; (require 'tramp)
+;; (setq tramp-shell-prompt-pattern "^[^>$:]*[>$:] *" )
 
+(setq completion-ignore-case  t)
+(setq read-file-name-completion-ignore-case t)
+(setq read-buffer-completion-ignore-case t)
