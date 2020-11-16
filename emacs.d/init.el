@@ -90,6 +90,7 @@ There are two things you can do about this warning:
 (global-set-key (kbd "C-c j")  'windmove-down)
 (global-set-key (kbd "C-c a") 'ff-find-other-file)
 (xterm-mouse-mode t)
+(global-set-key (kbd "C-c SPC") 'toggle-input-method)
 ;;(require 'helm-config)
 ;;;; Enable helm-gtags-mode
 ;;(add-hook 'c-mode-hook 'helm-gtags-mode)
