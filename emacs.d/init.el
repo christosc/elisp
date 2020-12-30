@@ -45,12 +45,12 @@ There are two things you can do about this warning:
 ;;
 ;;; uncomment for CJK utf-8 support for non-Asian users
 ;; (require 'un-define)
-(custom-set-faces
+;;(custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(match ((t (:background "nil")))))
+;; '(match ((t (:background "nil")))))
 
 ;;(load-theme 'zenburn t)
 
@@ -60,7 +60,7 @@ There are two things you can do about this warning:
 (load-theme 'tramp t)
 (if window-system
     (invert-face 'default))  ;; turn to dark background color
-(load-theme 'manoj-dark)
+;;(load-theme 'manoj-dark)
 
 
 (setq-default fill-column 80)
@@ -422,4 +422,6 @@ There are two things you can do about this warning:
 (let ((my-tags-file (locate-dominating-file default-directory "TAGS")))
   (when my-tags-file
     (message "Loading tags file: %s" my-tags-file)
-        (visit-tags-table my-tags-file)))
+    (visit-tags-table my-tags-file)))
+
+(setq frame-background-mode 'dark)
