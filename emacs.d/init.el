@@ -425,3 +425,8 @@ There are two things you can do about this warning:
     (visit-tags-table my-tags-file)))
 
 (setq frame-background-mode 'dark)
+
+(if (not (display-graphic-p))
+    ;; In WSL terminal there is no bold face, and the buffer name appears
+    ;; too light.
+    (set-face-attribute 'mode-line-buffer-id nil :weight 'normal))
