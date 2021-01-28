@@ -291,8 +291,8 @@ There are two things you can do about this warning:
 (global-set-key (kbd "C-c d") 'goto-definition)
 (global-set-key (kbd "C-c g .") 'grep-word-under-curr-dir)
 (global-set-key (kbd "C-c g p") 'grep-word-under-parent-dir)
-(global-set-key (kbd "C-c o r") 'occur)
-(global-set-key (kbd "C-c o .") 'occur-curr-word)
+;;(global-set-key (kbd "C-c o r") 'occur)
+(global-set-key (kbd "C-c o") 'occur-curr-word)
 
 (global-set-key (kbd "C-c t") 'grep-cpp-def)
 (global-set-key (kbd "C-c r") 'revert-buffer)
@@ -433,3 +433,7 @@ There are two things you can do about this warning:
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;; Windows Terminal doesn't pass C-SPC or C-@ to emacs, therefore
+;; I define an alternative shortcut.
+(global-set-key (kbd "C-c SPC") 'set-mark-command)
