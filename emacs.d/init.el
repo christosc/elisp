@@ -367,7 +367,8 @@ There are two things you can do about this warning:
              (setq-local blink-cursor-blinks 1)
              (company-mode -1)
              (hl-line-mode t)
-             (next-error-follow-minor-mode t)))
+             ;;(next-error-follow-minor-mode t)
+             ))
 ;;(setq list-matching-lines-jump-to-current-line t)
 
 (defconst private-defs-file "~/.emacs.d/private.el" "Filepath for private definitions")
