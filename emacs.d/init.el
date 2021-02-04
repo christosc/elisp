@@ -421,6 +421,7 @@ There are two things you can do about this warning:
     (message "Loading tags file: %s" my-tags-file)
     (visit-tags-table my-tags-file)))
 
+(setq tags-revert-without-query t)
 (setq frame-background-mode 'dark)
 
 (if (not (display-graphic-p))
