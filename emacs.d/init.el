@@ -417,10 +417,10 @@ There are two things you can do about this warning:
 (setq read-file-name-completion-ignore-case t)
 (setq read-buffer-completion-ignore-case t)
 
-(let ((my-tags-file (locate-dominating-file default-directory "TAGS")))
-  (when my-tags-file
-    (message "Loading tags file: %s" my-tags-file)
-    (visit-tags-table my-tags-file)))
+;; (let ((my-tags-file (locate-dominating-file default-directory "TAGS")))
+;;   (when my-tags-file
+;;     (message "Loading tags file: %s" my-tags-file)
+;;     (visit-tags-table my-tags-file)))
 
 (setq tags-revert-without-query t)
 (setq frame-background-mode 'dark)
@@ -439,3 +439,5 @@ There are two things you can do about this warning:
 ;; Windows Terminal doesn't pass C-SPC or C-@ to emacs, therefore
 ;; I define an alternative shortcut.
 (global-set-key (kbd "C-c SPC") 'set-mark-command)
+(global-set-key (kbd "C-c \\") 'toggle-input-method)
+
