@@ -74,7 +74,7 @@ There are two things you can do about this warning:
 (let ((default-directory  "~/.emacs.d/lisp/"))
   (normal-top-level-add-subdirs-to-load-path))
 
-;;(global-visual-line-mode t)
+(global-visual-line-mode t)
 
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
