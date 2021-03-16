@@ -173,6 +173,7 @@ There are two things you can do about this warning:
 
 
 (global-set-key (kbd "RET") 'newline-and-indent)  ; automatically indent when press RET
+(global-set-key (kbd "C-j") 'newline-and-indent)  ; automatically indent when press Control-j
 ;;
 ;;;; activate whitespace-mode to view all whitespace characters
 ;;(global-set-key (kbd "C-c w") 'whitespace-mode)
@@ -236,6 +237,11 @@ There are two things you can do about this warning:
 (prefer-coding-system 'utf-8-unix)
 (set-default-coding-systems 'utf-8-unix)
 (set-keyboard-coding-system 'utf-8-unix)
+
+
+
+;; Exclude tags files from grep command.
+(setq grep-command "grep -nH --null --exclude='TAGS' --exclude='tags' -e ")
 
 ;;(defun xx ()
 ;;  "setting up grep-command using current word under cursor as a search string"
