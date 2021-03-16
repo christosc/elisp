@@ -172,7 +172,7 @@ There are two things you can do about this warning:
 ;;(add-hook 'c-mode-common-hook   'hs-minor-mode)
 
 
-;;(global-set-key (kbd "RET") 'newline-and-indent)  ; automatically indent when press RET
+(global-set-key (kbd "RET") 'newline-and-indent)  ; automatically indent when press RET
 ;;
 ;;;; activate whitespace-mode to view all whitespace characters
 ;;(global-set-key (kbd "C-c w") 'whitespace-mode)
