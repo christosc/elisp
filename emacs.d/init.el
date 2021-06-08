@@ -446,3 +446,4 @@ There are two things you can do about this warning:
 ;; I define an alternative shortcut.
 (global-set-key (kbd "C-c SPC") 'set-mark-command)
 
+(transient-mark-mode 0)
