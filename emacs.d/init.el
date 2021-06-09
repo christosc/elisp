@@ -57,10 +57,10 @@ There are two things you can do about this warning:
 ;;(load-theme 'wombat)
 ;;(load-theme 'tango-dark)
 ;;(load-theme 'sanityinc-tomorrow-eighties t)
-(load-theme 'tramp t)
-(if window-system
-    (invert-face 'default))  ;; turn to dark background color
-;;(load-theme 'manoj-dark)
+;;(load-theme 'tramp t)
+;; (if window-system
+;;     (invert-face 'default))  ;; turn to dark background color
+(load-theme 'manoj-dark)
 
 
 (setq-default fill-column 80)
@@ -173,7 +173,9 @@ There are two things you can do about this warning:
 
 
 (global-set-key (kbd "RET") 'newline-and-indent)  ; automatically indent when press RET
-(global-set-key (kbd "C-j") 'newline-and-indent)  ; automatically indent when press Control-j
+;; I leave control-J as electric-newline-and-maybe-indent, in case it's useful
+;; to insert newline without any auto indentation.
+
 ;;
 ;;;; activate whitespace-mode to view all whitespace characters
 ;;(global-set-key (kbd "C-c w") 'whitespace-mode)
@@ -431,19 +433,19 @@ There are two things you can do about this warning:
 (setq tags-revert-without-query t)
 (setq frame-background-mode 'dark)
 
-(if (not (display-graphic-p))
-    ;; In WSL terminal there is no bold face, and the buffer name appears
-    ;; too light.
-    (set-face-attribute 'mode-line-buffer-id nil :weight 'normal))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; (if (not (display-graphic-p))
+;;     ;; In WSL terminal there is no bold face, and the buffer name appears
+;;     ;; too light.
+;;     (set-face-attribute 'mode-line-buffer-id nil :weight 'normal))
 
 ;; Windows Terminal doesn't pass C-SPC or C-@ to emacs, therefore
 ;; I define an alternative shortcut.
-(global-set-key (kbd "C-c SPC") 'set-mark-command)
+;;(global-set-key (kbd "C-c SPC") 'set-mark-command)
 
 (transient-mark-mode 0)
+(setq ediff-split-window-function 'split-window-horizontally)
+
+
+;; Customizations for manoj-dark color theme.
+;;(set-face-attribute 'mode-line-buffer-id nil :foreground "Blue" :background "grey75" :bold nil :weight 'normal)
+(set-face-attribute 'mode-line-buffer-id nil :foreground 'unspecified :background 'unspecified :bold 'unspecified :weight 'unspecified)
