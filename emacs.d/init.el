@@ -60,7 +60,7 @@ There are two things you can do about this warning:
 ;;(load-theme 'tramp t)
 ;; (if window-system
 ;;     (invert-face 'default))  ;; turn to dark background color
-(load-theme 'manoj-dark)
+;;(load-theme 'manoj-dark)
 
 
 (setq-default fill-column 80)
@@ -425,10 +425,11 @@ There are two things you can do about this warning:
 (setq read-file-name-completion-ignore-case t)
 (setq read-buffer-completion-ignore-case t)
 
-;; (let ((my-tags-file (locate-dominating-file default-directory "TAGS")))
-;;   (when my-tags-file
-;;     (message "Loading tags file: %s" my-tags-file)
-;;     (visit-tags-table my-tags-file)))
+;; Search recursively up for the TAGS file.
+(let ((my-tags-file (locate-dominating-file default-directory "TAGS")))
+  (when my-tags-file
+    (message "Loading tags file: %s" my-tags-file)
+    (visit-tags-table my-tags-file)))
 
 (setq tags-revert-without-query t)
 (setq frame-background-mode 'dark)
@@ -448,4 +449,7 @@ There are two things you can do about this warning:
 
 ;; Customizations for manoj-dark color theme.
 ;;(set-face-attribute 'mode-line-buffer-id nil :foreground "Blue" :background "grey75" :bold nil :weight 'normal)
-(set-face-attribute 'mode-line-buffer-id nil :foreground 'unspecified :background 'unspecified :bold 'unspecified :weight 'unspecified)
+;;(set-face-attribute 'mode-line-buffer-id nil :foreground 'unspecified :background 'unspecified :bold 'unspecified :weight 'unspecified)
+
+;; Remove bold attribute from modeline buffer id, because it renders as fade-out in terminal...
+(set-face-attribute 'mode-line-buffer-id nil :bold 'unspecified :weight 'unspecified)
