@@ -172,7 +172,7 @@ There are two things you can do about this warning:
 ;;(add-hook 'c-mode-common-hook   'hs-minor-mode)
 
 
-(global-set-key (kbd "RET") 'newline-and-indent)  ; automatically indent when press RET
+;;(global-set-key (kbd "RET") 'electric-indent-just-newline)  ; automatically indent when press RET
 ;; I leave control-J as electric-newline-and-maybe-indent, in case it's useful
 ;; to insert newline without any auto indentation.
 
