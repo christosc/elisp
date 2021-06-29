@@ -312,9 +312,9 @@ There are two things you can do about this warning:
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("f9aede508e587fe21bcfc0a85e1ec7d27312d9587e686a6f5afdbb0d220eab50" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "6ebdb33507c7db94b28d7787f802f38ac8d2b8cd08506797b3af6cdfd80632e0" "76c5b2592c62f6b48923c00f97f74bcb7ddb741618283bdb2be35f3c0e1030e3" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
+   '("51ec7bfa54adf5fff5d466248ea6431097f5a18224788d0bd7eb1257a4f7b773" "c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" "0fffa9669425ff140ff2ae8568c7719705ef33b7a927a0ba7c5e2ffcfac09b75" "f9aede508e587fe21bcfc0a85e1ec7d27312d9587e686a6f5afdbb0d220eab50" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "6ebdb33507c7db94b28d7787f802f38ac8d2b8cd08506797b3af6cdfd80632e0" "76c5b2592c62f6b48923c00f97f74bcb7ddb741618283bdb2be35f3c0e1030e3" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(package-selected-packages
-   '(yang-mode monokai-theme color-theme-sanityinc-tomorrow tramp-theme zenburn-theme gruvbox-theme spacemacs-theme magit yasnippet ws-butler stickyfunc-enhance sr-speedbar smartparens projectile helm-gtags ggtags function-args dtrt-indent company clean-aindent-mode))
+   '(solarized-theme yang-mode monokai-theme color-theme-sanityinc-tomorrow tramp-theme zenburn-theme gruvbox-theme spacemacs-theme magit yasnippet ws-butler stickyfunc-enhance sr-speedbar smartparens projectile helm-gtags ggtags function-args dtrt-indent company clean-aindent-mode))
  '(tramp-default-user "chryssoc"))
 
 ;; For more options M-x customize-group > grep.
@@ -432,7 +432,7 @@ There are two things you can do about this warning:
     (visit-tags-table my-tags-file)))
 
 (setq tags-revert-without-query t)
-(setq frame-background-mode 'dark)
+;;(setq frame-background-mode 'dark)
 
 ;; (if (not (display-graphic-p))
 ;;     ;; In WSL terminal there is no bold face, and the buffer name appears
@@ -473,6 +473,10 @@ There are two things you can do about this warning:
 ;; (set-face-attribute 'ediff-odd-diff-face-C nil :foreground "White" :background "Grey")
 
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(ediff-even-diff-A ((t (:extend t :background "light grey" :foreground "black"))))
  '(ediff-even-diff-Ancestor ((t (:extend t :background "Grey" :foreground "Black"))))
  '(ediff-even-diff-B ((t (:extend t :background "Grey" :foreground "Black"))))
@@ -484,8 +488,7 @@ There are two things you can do about this warning:
  '(ediff-odd-diff-B ((t (:extend t :background "light grey" :foreground "black"))))
  '(ediff-odd-diff-C ((t (:extend t :background "Grey" :foreground "Black"))))
  '(ediff-odd-diff-face-Ancestor ((t (:foreground "Black" :background "light grey"))))
- '(ediff-odd-diff-face-B ((t (:foreground "Black" :background "light grey"))))
- )
+ '(ediff-odd-diff-face-B ((t (:foreground "Black" :background "light grey")))))
 
 ;;(custom-set-faces
 ;; ;; custom-set-faces was added by Custom.
@@ -525,3 +528,15 @@ There are two things you can do about this warning:
 ;; '(ediff-odd-diff-face-B ((t (:foreground "Black" :background "light grey"))))
 ;; '(ediff-odd-diff-face-C ((t (:foreground "White" :background "Grey")))))
 ;;
+
+;; Inhibit current line re-indentation.
+;;(setq-default electric-indent-inhibit t)
+
+;; Remove RET, ',' and ';' from electric chars so that they don't indent the current line...
+;;(setq electric-indent-chars (remq ?\n electric-indent-chars)) ;; RET
+(setq electric-indent-chars (remq ?\, electric-indent-chars))
+(setq electric-indent-chars (remq ?\; electric-indent-chars))
+
+(setq js-indent-level 2) ;; We use this indentation for json files at work.
+(set-face-foreground 'font-lock-string-face "red")
+(set-face-foreground 'font-lock-comment-face "magenta")
