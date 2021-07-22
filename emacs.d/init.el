@@ -540,3 +540,7 @@ There are two things you can do about this warning:
 (setq js-indent-level 2) ;; We use this indentation for json files at work.
 (set-face-foreground 'font-lock-string-face "red")
 (set-face-foreground 'font-lock-comment-face "magenta")
+
+;; https://emacs.stackexchange.com/a/42439/2362
+(setq default-frame-alist
+      (append default-frame-alist '((inhibit-double-buffering . t))))
