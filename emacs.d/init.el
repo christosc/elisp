@@ -329,11 +329,12 @@ There are two things you can do about this warning:
 
 (setq find-file-visit-truename t)
 
-(defconst my-cc-style
-  '("linux"
-    (c-offsets-alist . ((innamespace . [0])))))
+;; Make definition within a namespace start with zero indentation.
+(defun my-c++-mode-hook ()
+  (c-set-offset 'innamespace 0)
+  (c-set-offset 'topmost-intro 0))
 
-(c-add-style "my-cc-style" my-cc-style)
+(add-hook 'c++-mode-hook 'my-c++-mode-hook)
 
 ;; Available C style:
 ;; “gnu”: The default style for GNU projects
