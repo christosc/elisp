@@ -66,8 +66,6 @@ There are two things you can do about this warning:
 (setq-default fill-column 80)
 (menu-bar-mode -1)
 (setq column-number-mode t)
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 2)
 (setq indent-line-function 'insert-tab)
 (setq c-basic-offset 4)
 (add-to-list 'load-path "~/.emacs.d/lisp/")
@@ -335,6 +333,7 @@ There are two things you can do about this warning:
   (c-set-offset 'topmost-intro 0))
 
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
+(setq-default indent-tabs-mode nil)  ;; No tabs!
 
 ;; Available C style:
 ;; “gnu”: The default style for GNU projects
