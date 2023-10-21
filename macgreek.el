@@ -1,11 +1,11 @@
-;; macgreek.el --- Emacs input method mimicking the Mac's one for inputting
-;;                 (polytonic) Greek.
+;; macgreek.el --- Emacs input method that imitates the Mac's respective keyboard layout
+;;                 for writing (polytonic) Greek.
 ;;
 ;; Add to your .emacs.d/init.el file the following:
 ;; 1. Clone within e.g. ~/.emacs.d/elisp.
 ;; 2. Add to ~/.emacs.d/init.el the following:
 ;;    (add-to-list 'load-path "~/.emacs.d/elisp")
-;;    (require 'mac-greek)
+;;    (require 'macgreek)
 ;;    (setq default-input-method "mac-greek")
 ;; Then you can switch between the input methods with C-\ .
 
