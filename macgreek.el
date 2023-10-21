@@ -3,7 +3,7 @@
 ;;
 ;; Add to your .emacs.d/init.el file the following:
 ;; 1. Clone within e.g. ~/.emacs.d/elisp.
-;; 2. Add to init.el the following:
+;; 2. Add to ~/.emacs.d/init.el the following:
 ;;    (add-to-list 'load-path "~/.emacs.d/elisp")
 ;;    (require 'mac-greek)
 ;;    (setq default-input-method "mac-greek")
