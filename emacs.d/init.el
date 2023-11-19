@@ -35,7 +35,9 @@
 
 ;; (package-initialize)
 (add-to-list 'load-path "/data/chryssoc/work/elisp")
+(add-to-list 'load-path "~/.emacs.d/elisp")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(load-file "../private.el")
 (require 'yang-mode)
 (require 'protobuf-mode) ;; mode installed manually
 ;;(require 'highlight-doxygen)
@@ -129,8 +131,6 @@
 ;; Ignore case when completing buffer names in minibuffer
 ;; (setq read-buffer-completion-ignore-case t)
 
-(setq url-proxy-services
-      '(("http"     . "defra1c-proxy.emea.nsn-net.net:8080")))
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
@@ -196,7 +196,6 @@
 ;;(setq-default show-trailing-whitespace t)
 
 ;; Load mac-greek input method and set it as the default alternative.
-(add-to-list 'load-path "~/.emacs.d/elisp")
 (require 'macgreek)
 (setq default-input-method "mac-greek")
 
