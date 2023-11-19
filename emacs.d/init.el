@@ -177,7 +177,7 @@
 ;;(load-theme 'wombat t)
 ;;(load-theme 'modus-vivendi t)
 ;;(load-theme 'tsdh-dark t)
-(load-theme 'desert t)
+;;(load-theme 'desert t)
 ;; Whiteboard seems a nice theme for light background terminal, but it
 ;; doesn't color comments in any way, which is not helpful.
 ;;(load-theme 'whiteboard t)
@@ -216,3 +216,6 @@
 
 ;; Most often Javascript config files are indented by 2 spaces.
 (setq js-indent-level 2)
+
+;; Don't ask confirmation when visiting a versioned file through a symlink.
+(setq vc-follow-symlinks t)
