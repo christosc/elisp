@@ -37,7 +37,7 @@
 (add-to-list 'load-path "/data/chryssoc/work/elisp")
 (add-to-list 'load-path "~/.emacs.d/elisp")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-file "../private.el")
+(load "private.el")
 (require 'yang-mode)
 (require 'protobuf-mode) ;; mode installed manually
 ;;(require 'highlight-doxygen)
