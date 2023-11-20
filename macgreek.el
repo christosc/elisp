@@ -504,6 +504,7 @@
       ("\? "  ?\?)
       ("//"   ?/)
       ("/ "   ?/)
+      ("\\e" [#x20AC]) ;; Euro sign
 )
 
 (provide 'macgreek)
