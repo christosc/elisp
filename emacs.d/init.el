@@ -7,20 +7,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7" default))
  '(diff-switches "-u")
- '(package-selected-packages '(markdown-mode yaml-mode))
+ '(package-selected-packages '(zenburn-theme markdown-mode yaml-mode))
  '(safe-local-variable-values '((ymodule . "dhcpclient"))))
 
 ;;; uncomment for CJK utf-8 support for non-Asian users
 ;;(require 'un-define)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(font-lock-function-name-face ((t (:foreground "brightblue"))))
- '(highlight-doxygen-comment ((t (:inherit font-lock-doc-face))))
- '(minibuffer-prompt ((t (:foreground "cyan")))))
 
 ;; Don't hide the menu so that we can learn some useful keyboard shortcuts.
 ;;(menu-bar-mode -1)
@@ -178,6 +172,9 @@
 ;;(load-theme 'modus-vivendi t)
 ;;(load-theme 'tsdh-dark t)
 ;;(load-theme 'desert t)
+;;(load-theme 'wheatgrass t)
+(load-theme 'zenburn t)
+(set-face-attribute 'region nil :background "grey40") ;; Zenburn needs improvement in region highlight
 ;; Whiteboard seems a nice theme for light background terminal, but it
 ;; doesn't color comments in any way, which is not helpful.
 ;;(load-theme 'whiteboard t)
@@ -219,3 +216,9 @@
 
 ;; Don't ask confirmation when visiting a versioned file through a symlink.
 (setq vc-follow-symlinks t)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
