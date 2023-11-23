@@ -155,7 +155,9 @@
 (add-hook 'c-mode-common-hook
           (lambda ()
             (setq indent-tabs-mode nil)
-            (visit-tags-table (locate-dominating-file (file-name-directory (buffer-file-name)) "TAGS"))
+            (let ((tags_path (locate-dominating-file (file-name-directory (buffer-file-name)) "TAGS")))
+                 (if tags_path
+                     (visit-tags-table tags_path)))
             ))
 ;;(add-hook 'c++-mode-hook 'cac-c++-mode-hook)
 ;; (add-hook 'c++-mode-hook
