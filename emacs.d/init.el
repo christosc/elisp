@@ -17,7 +17,7 @@
 ;;(require 'un-define)
 
 ;; Don't hide the menu so that we can learn some useful keyboard shortcuts.
-;;(menu-bar-mode -1)
+(menu-bar-mode -1)
 
 ;;(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 ;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.2")
@@ -153,7 +153,10 @@
 ;; For some reason setting indent-tabs-mode to nil in the style above, doesn't seem to suffice.
 ;; I needed to add this hook instead.
 (add-hook 'c-mode-common-hook
-          (lambda () (setq indent-tabs-mode nil)))
+          (lambda ()
+            (setq indent-tabs-mode nil)
+            (visit-tags-table (locate-dominating-file (file-name-directory (buffer-file-name)) "TAGS"))
+            ))
 ;;(add-hook 'c++-mode-hook 'cac-c++-mode-hook)
 ;; (add-hook 'c++-mode-hook
 ;;           (lambda ()
