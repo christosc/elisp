@@ -33,7 +33,6 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load "private.el")
 (require 'yang-mode)
-(require 'protobuf-mode) ;; mode installed manually
 ;;(require 'highlight-doxygen)
 ;;(highlight-doxygen-global-mode 1)
 
