@@ -8,10 +8,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7" default))
+   '("57d7e8b7b7e0a22dc07357f0c30d18b33ffcbb7bcd9013ab2c9f70748cfa4838" "f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7" default))
  '(diff-switches "-u")
- '(package-selected-packages '(zenburn-theme markdown-mode yaml-mode))
- '(safe-local-variable-values '((ymodule . "dhcpclient"))))
+ '(package-selected-packages '(caps-lock zenburn-theme markdown-mode yaml-mode))
+)
 
 ;;; uncomment for CJK utf-8 support for non-Asian users
 ;;(require 'un-define)
@@ -175,9 +175,9 @@
 ;;(load-theme 'wombat t)
 ;;(load-theme 'modus-vivendi t)
 ;;(load-theme 'tsdh-dark t)
-;;(load-theme 'desert t)
+(load-theme 'desert t)
 ;;(load-theme 'wheatgrass t)
-(load-theme 'zenburn t)
+;;(load-theme 'zenburn t)
 (set-face-attribute 'region nil :background "grey40") ;; Zenburn needs improvement in region highlight
 ;; Whiteboard seems a nice theme for light background terminal, but it
 ;; doesn't color comments in any way, which is not helpful.
@@ -226,3 +226,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(setq confirm-kill-emacs 'y-or-n-p)
+;; (add-to-list 'completion-styles 'flex)
+;; (setq icomplete-mode t)
+(setq backup-directory-alist '(("~/.saves")))
+(setq ido-mode t)
