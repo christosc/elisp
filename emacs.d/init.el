@@ -187,6 +187,7 @@
 (set-face-attribute 'font-lock-type-face nil :foreground "color-100")
 (set-face-attribute 'font-lock-constant-face nil :foreground "white")
 (set-face-attribute 'lazy-highlight nil :inherit 'next-error)
+(set-face-attribute 'match nil :background "color-100")
 (setq diff-font-lock-syntax nil)
 (defun my-diff-fonts ()
   "Adjust the font attributes used in this mode."
