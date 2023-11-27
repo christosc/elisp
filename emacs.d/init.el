@@ -175,14 +175,30 @@
 ;;(load-theme 'wombat t)
 ;;(load-theme 'modus-vivendi t)
 ;;(load-theme 'tsdh-dark t)
-(load-theme 'desert t)
+;;(load-theme 'desert t)
 ;;(load-theme 'wheatgrass t)
 ;;(load-theme 'zenburn t)
 (set-face-attribute 'region nil :background "grey40") ;; Zenburn needs improvement in region highlight
+(set-face-attribute 'minibuffer-prompt nil :foreground "gray")
+(set-face-attribute 'font-lock-function-name-face nil :foreground "white")
+(set-face-attribute 'font-lock-string-face nil :foreground "color-166")
+(set-face-attribute 'font-lock-comment-face nil :foreground "cyan")
+(set-face-attribute 'font-lock-variable-name-face nil :foreground "white")
+(set-face-attribute 'font-lock-type-face nil :foreground "color-100")
+(set-face-attribute 'font-lock-constant-face nil :foreground "white")
+(set-face-attribute 'lazy-highlight nil :inherit 'next-error)
+(setq diff-font-lock-syntax nil)
+(defun my-diff-fonts ()
+  "Adjust the font attributes used in this mode."
+  (set-face-attribute 'diff-removed nil :foreground "Black")
+  (set-face-attribute 'diff-added nil :foreground "Black")
+  (set-face-attribute 'diff-header nil :foreground "Black")
+)
+(add-hook 'diff-mode-hook 'my-diff-fonts)
 ;; Whiteboard seems a nice theme for light background terminal, but it
 ;; doesn't color comments in any way, which is not helpful.
-;;(load-theme 'whiteboard t)
-;;(set-face-foreground 'font-lock-comment-face "dark blue")
+;; (load-theme 'whiteboard t)
+
 
 ;; Make comment characters not be "electric". It's very annoying...
 (eval-after-load 'cc-mode
@@ -231,4 +247,3 @@
 ;; (add-to-list 'completion-styles 'flex)
 ;; (setq icomplete-mode t)
 (setq backup-directory-alist '(("~/.saves")))
-(setq ido-mode t)
