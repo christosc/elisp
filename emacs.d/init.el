@@ -79,7 +79,7 @@
 (global-set-key (kbd "C-c g .") 'grep-word-under-curr-dir)
 (global-set-key (kbd "C-c g p") 'grep-word-under-parent-dir)
 ;;(global-set-key (kbd "C-c o r") 'occur)
-(global-set-key (kbd "C-c o") 'occur-curr-word)
+(global-set-key (kbd "C-c c o") 'occur-curr-word)
 
 (global-set-key (kbd "C-c t") 'grep-cpp-def)
 (global-set-key (kbd "C-c r") 'revert-buffer)
@@ -132,7 +132,7 @@
 (add-to-list 'auto-mode-alist '("\\.proto\\'" . protobuf-mode))
 
 ;; Switch between header-implementation files.
-(global-set-key (kbd "C-c a") 'ff-find-other-file)
+(global-set-key (kbd "C-c o") 'ff-find-other-file)
 
 (defun cac-c++-mode-hook()
   (c-set-offset 'innamespace 0)
@@ -188,6 +188,10 @@
 (set-face-attribute 'font-lock-constant-face nil :foreground "white")
 (set-face-attribute 'lazy-highlight nil :inherit 'next-error)
 (set-face-attribute 'match nil :background "color-100")
+(set-face-attribute 'font-lock-preprocessor-face nil :foreground "color-245")
+(set-face-attribute 'completions-common-part nil :foreground "cyan")
+
+(set-face-attribute 'isearch-fail nil :foreground "red")
 (setq diff-font-lock-syntax nil)
 (defun my-diff-fonts ()
   "Adjust the font attributes used in this mode."
@@ -196,6 +200,9 @@
   (set-face-attribute 'diff-header nil :foreground "Black")
 )
 (add-hook 'diff-mode-hook 'my-diff-fonts)
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (set-face-attribute 'dired-directory nil :foreground "brightblue")))
 ;; Whiteboard seems a nice theme for light background terminal, but it
 ;; doesn't color comments in any way, which is not helpful.
 ;; (load-theme 'whiteboard t)
@@ -245,6 +252,6 @@
  )
 
 (setq confirm-kill-emacs 'y-or-n-p)
-;; (add-to-list 'completion-styles 'flex)
+(add-to-list 'completion-styles 'flex)
 ;; (setq icomplete-mode t)
 (setq backup-directory-alist '(("~/.saves")))
