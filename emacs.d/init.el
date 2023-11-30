@@ -266,11 +266,15 @@
 
 ;; By adding the following emacs doesn't change directory each time we open a
 ;; file.
-(add-hook 'find-file-hook
-          (lambda ()
-            (setq default-directory command-line-default-directory)))
+;; NOTE: Unfortunately this seems to somehow interfere with Emacs' tag search,
+;; causing it to not be able to find them. I had to comment it out.
+;; (add-hook 'find-file-hook
+;;           (lambda ()
+;;             (setq default-directory command-line-default-directory)))
 
 ;; Don't use helm completion for switching buffers
 (add-to-list 'helm-completing-read-handlers-alist '(switch-to-buffer . nil))
 ;; Don't use helm completion for C-h v
 (add-to-list 'helm-completing-read-handlers-alist '(describe-variable . nil))
+(add-to-list 'helm-completing-read-handlers-alist '(xref-find-definitions . nil))
+(add-to-list 'helm-completing-read-handlers-alist '(kill-buffer . nil))
