@@ -276,5 +276,6 @@
 (add-to-list 'helm-completing-read-handlers-alist '(switch-to-buffer . nil))
 ;; Don't use helm completion for C-h v
 (add-to-list 'helm-completing-read-handlers-alist '(describe-variable . nil))
+(add-to-list 'helm-completing-read-handlers-alist '(describe-function . nil))
 (add-to-list 'helm-completing-read-handlers-alist '(xref-find-definitions . nil))
 (add-to-list 'helm-completing-read-handlers-alist '(kill-buffer . nil))
