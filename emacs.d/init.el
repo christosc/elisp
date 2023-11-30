@@ -258,9 +258,9 @@
 ;; By activating helm-mode we can search a project as usual with C-x p f, but
 ;; this time it gets narrowed down depending on what you type in the search
 ;; field.
-(helm-mode 1)
+;;(helm-mode 1)
 ;; Helm documentation asks to have 'flex in the completion styles variable.
-(add-to-list 'completion-styles 'flex)
+;;(add-to-list 'completion-styles 'flex)
 ;;(setq completion-styles '(flex))
 
 
@@ -269,3 +269,5 @@
 (add-hook 'find-file-hook
           (lambda ()
             (setq default-directory command-line-default-directory)))
+
+;;(add-to-list 'helm-completing-read-handlers-alist '(switch-to-buffer . (default . default)))
