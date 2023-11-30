@@ -10,8 +10,7 @@
  '(custom-safe-themes
    '("57d7e8b7b7e0a22dc07357f0c30d18b33ffcbb7bcd9013ab2c9f70748cfa4838" "f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7" default))
  '(diff-switches "-u")
- '(package-selected-packages '(caps-lock zenburn-theme markdown-mode yaml-mode))
-)
+ '(package-selected-packages '(helm zenburn-theme markdown-mode yaml-mode)))
 
 ;;; uncomment for CJK utf-8 support for non-Asian users
 ;;(require 'un-define)
@@ -184,7 +183,7 @@
 (set-face-attribute 'font-lock-string-face nil :foreground "color-166")
 (set-face-attribute 'font-lock-comment-face nil :foreground "cyan")
 (set-face-attribute 'font-lock-variable-name-face nil :foreground "white")
-(set-face-attribute 'font-lock-type-face nil :foreground "color-100")
+(set-face-attribute 'font-lock-type-face nil :foreground "yellow")
 (set-face-attribute 'font-lock-constant-face nil :foreground "white")
 (set-face-attribute 'lazy-highlight nil :inherit 'next-error)
 (set-face-attribute 'match nil :background "color-100")
@@ -252,6 +251,21 @@
  )
 
 (setq confirm-kill-emacs 'y-or-n-p)
-(add-to-list 'completion-styles 'flex)
+
 ;; (setq icomplete-mode t)
 (setq backup-directory-alist '(("~/.saves")))
+
+;; By activating helm-mode we can search a project as usual with C-x p f, but
+;; this time it gets narrowed down depending on what you type in the search
+;; field.
+(helm-mode 1)
+;; Helm documentation asks to have 'flex in the completion styles variable.
+(add-to-list 'completion-styles 'flex)
+;;(setq completion-styles '(flex))
+
+
+;; By adding the following emacs doesn't change directory each time we open a
+;; file.
+(add-hook 'find-file-hook
+          (lambda ()
+            (setq default-directory command-line-default-directory)))
