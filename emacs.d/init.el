@@ -82,7 +82,7 @@
 
 (global-set-key (kbd "C-c t") 'grep-cpp-def)
 (global-set-key (kbd "C-c r") 'revert-buffer)
-(global-set-key (kbd "C-c C-f") 'find-name-dired)
+(global-set-key (kbd "C-c f") 'find-name-dired)
 ;; By default the indentation is weird in C++
 ;; (setq ;;c-default-style "linux"
 ;;       c-basic-offset 4)
@@ -178,32 +178,33 @@
 ;;(load-theme 'wheatgrass t)
 ;;(load-theme 'zenburn t)
 ;;(load-theme 'manoj-dark t)
-(load-theme 'gruvbox t)
-;; (set-face-attribute 'region nil :background "grey40") ;; Zenburn needs improvement in region highlight
-;; (set-face-attribute 'minibuffer-prompt nil :foreground "gray")
-;; (set-face-attribute 'font-lock-function-name-face nil :foreground "white")
-;; (set-face-attribute 'font-lock-string-face nil :foreground "color-166")
-;; (set-face-attribute 'font-lock-comment-face nil :foreground "cyan")
-;; (set-face-attribute 'font-lock-variable-name-face nil :foreground "white")
-;; (set-face-attribute 'font-lock-type-face nil :foreground "yellow")
-;; (set-face-attribute 'font-lock-constant-face nil :foreground "white")
-;; (set-face-attribute 'lazy-highlight nil :inherit 'next-error)
-;; (set-face-attribute 'match nil :background "color-100")
-;; (set-face-attribute 'font-lock-preprocessor-face nil :foreground "color-245")
-;; (set-face-attribute 'completions-common-part nil :foreground "cyan")
+;;(load-theme 'gruvbox t)
+(set-face-attribute 'region nil :background "grey40") ;; Zenburn needs improvement in region highlight
+(set-face-attribute 'minibuffer-prompt nil :foreground "gray")
+(set-face-attribute 'font-lock-function-name-face nil :foreground "white")
+(set-face-attribute 'font-lock-builtin-face nil :foreground "lightsteelblue")
+(set-face-attribute 'font-lock-string-face nil :foreground "color-166")
+(set-face-attribute 'font-lock-comment-face nil :foreground "cyan")
+(set-face-attribute 'font-lock-variable-name-face nil :foreground "white")
+(set-face-attribute 'font-lock-type-face nil :foreground "yellow")
+(set-face-attribute 'font-lock-constant-face nil :foreground "white")
+(set-face-attribute 'lazy-highlight nil :inherit 'next-error)
+(set-face-attribute 'match nil :background "color-100")
+(set-face-attribute 'font-lock-preprocessor-face nil :foreground "color-245")
+(set-face-attribute 'completions-common-part nil :foreground "cyan")
 
-;; (set-face-attribute 'isearch-fail nil :foreground "red")
-;; (setq diff-font-lock-syntax nil)
-;; (defun my-diff-fonts ()
-;;   "Adjust the font attributes used in this mode."
-;;   (set-face-attribute 'diff-removed nil :foreground "Black")
-;;   (set-face-attribute 'diff-added nil :foreground "Black")
-;;   (set-face-attribute 'diff-header nil :foreground "Black")
-;; )
-;; (add-hook 'diff-mode-hook 'my-diff-fonts)
-;; (add-hook 'dired-mode-hook
-;;           (lambda ()
-;;             (set-face-attribute 'dired-directory nil :foreground "brightblue")))
+(set-face-attribute 'isearch-fail nil :foreground "red")
+(setq diff-font-lock-syntax nil)
+(defun my-diff-fonts ()
+  "Adjust the font attributes used in this mode."
+  (set-face-attribute 'diff-removed nil :foreground "Black")
+  (set-face-attribute 'diff-added nil :foreground "Black")
+  (set-face-attribute 'diff-header nil :foreground "Black")
+)
+(add-hook 'diff-mode-hook 'my-diff-fonts)
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (set-face-attribute 'dired-directory nil :foreground "brightblue")))
 ;; Whiteboard seems a nice theme for light background terminal, but it
 ;; doesn't color comments in any way, which is not helpful.
 ;; (load-theme 'whiteboard t)
