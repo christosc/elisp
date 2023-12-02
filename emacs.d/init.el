@@ -8,9 +8,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("57d7e8b7b7e0a22dc07357f0c30d18b33ffcbb7bcd9013ab2c9f70748cfa4838" "f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7" default))
+   '("d80952c58cf1b06d936b1392c38230b74ae1a2a6729594770762dc0779ac66b7" "b1a691bb67bd8bd85b76998caf2386c9a7b2ac98a116534071364ed6489b695d" "57d7e8b7b7e0a22dc07357f0c30d18b33ffcbb7bcd9013ab2c9f70748cfa4838" "f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7" default))
  '(diff-switches "-u")
- '(package-selected-packages '(helm zenburn-theme markdown-mode yaml-mode)))
+ '(package-selected-packages '(gruvbox-theme helm zenburn-theme markdown-mode yaml-mode)))
 
 ;;; uncomment for CJK utf-8 support for non-Asian users
 ;;(require 'un-define)
@@ -82,7 +82,7 @@
 
 (global-set-key (kbd "C-c t") 'grep-cpp-def)
 (global-set-key (kbd "C-c r") 'revert-buffer)
-
+(global-set-key (kbd "C-c C-f") 'find-name-dired)
 ;; By default the indentation is weird in C++
 ;; (setq ;;c-default-style "linux"
 ;;       c-basic-offset 4)
@@ -177,31 +177,33 @@
 ;;(load-theme 'desert t)
 ;;(load-theme 'wheatgrass t)
 ;;(load-theme 'zenburn t)
-(set-face-attribute 'region nil :background "grey40") ;; Zenburn needs improvement in region highlight
-(set-face-attribute 'minibuffer-prompt nil :foreground "gray")
-(set-face-attribute 'font-lock-function-name-face nil :foreground "white")
-(set-face-attribute 'font-lock-string-face nil :foreground "color-166")
-(set-face-attribute 'font-lock-comment-face nil :foreground "cyan")
-(set-face-attribute 'font-lock-variable-name-face nil :foreground "white")
-(set-face-attribute 'font-lock-type-face nil :foreground "yellow")
-(set-face-attribute 'font-lock-constant-face nil :foreground "white")
-(set-face-attribute 'lazy-highlight nil :inherit 'next-error)
-(set-face-attribute 'match nil :background "color-100")
-(set-face-attribute 'font-lock-preprocessor-face nil :foreground "color-245")
-(set-face-attribute 'completions-common-part nil :foreground "cyan")
+;;(load-theme 'manoj-dark t)
+(load-theme 'gruvbox t)
+;; (set-face-attribute 'region nil :background "grey40") ;; Zenburn needs improvement in region highlight
+;; (set-face-attribute 'minibuffer-prompt nil :foreground "gray")
+;; (set-face-attribute 'font-lock-function-name-face nil :foreground "white")
+;; (set-face-attribute 'font-lock-string-face nil :foreground "color-166")
+;; (set-face-attribute 'font-lock-comment-face nil :foreground "cyan")
+;; (set-face-attribute 'font-lock-variable-name-face nil :foreground "white")
+;; (set-face-attribute 'font-lock-type-face nil :foreground "yellow")
+;; (set-face-attribute 'font-lock-constant-face nil :foreground "white")
+;; (set-face-attribute 'lazy-highlight nil :inherit 'next-error)
+;; (set-face-attribute 'match nil :background "color-100")
+;; (set-face-attribute 'font-lock-preprocessor-face nil :foreground "color-245")
+;; (set-face-attribute 'completions-common-part nil :foreground "cyan")
 
-(set-face-attribute 'isearch-fail nil :foreground "red")
-(setq diff-font-lock-syntax nil)
-(defun my-diff-fonts ()
-  "Adjust the font attributes used in this mode."
-  (set-face-attribute 'diff-removed nil :foreground "Black")
-  (set-face-attribute 'diff-added nil :foreground "Black")
-  (set-face-attribute 'diff-header nil :foreground "Black")
-)
-(add-hook 'diff-mode-hook 'my-diff-fonts)
-(add-hook 'dired-mode-hook
-          (lambda ()
-            (set-face-attribute 'dired-directory nil :foreground "brightblue")))
+;; (set-face-attribute 'isearch-fail nil :foreground "red")
+;; (setq diff-font-lock-syntax nil)
+;; (defun my-diff-fonts ()
+;;   "Adjust the font attributes used in this mode."
+;;   (set-face-attribute 'diff-removed nil :foreground "Black")
+;;   (set-face-attribute 'diff-added nil :foreground "Black")
+;;   (set-face-attribute 'diff-header nil :foreground "Black")
+;; )
+;; (add-hook 'diff-mode-hook 'my-diff-fonts)
+;; (add-hook 'dired-mode-hook
+;;           (lambda ()
+;;             (set-face-attribute 'dired-directory nil :foreground "brightblue")))
 ;; Whiteboard seems a nice theme for light background terminal, but it
 ;; doesn't color comments in any way, which is not helpful.
 ;; (load-theme 'whiteboard t)
@@ -250,15 +252,15 @@
  ;; If there is more than one, they won't work right.
  )
 
-(setq confirm-kill-emacs 'y-or-n-p)
+;;(setq confirm-kill-emacs 'y-or-n-p)
 
 ;; (setq icomplete-mode t)
-(setq backup-directory-alist '(("~/.saves")))
-
+;(setq backup-directory-alist '(("~/.saves")))
+(setq backup-directory-alist `(("." . "~/.saves")))
 ;; By activating helm-mode we can search a project as usual with C-x p f, but
 ;; this time it gets narrowed down depending on what you type in the search
 ;; field.
-(helm-mode 1)
+;;(helm-mode 1)
 ;; Helm documentation asks to have 'flex in the completion styles variable.
 ;;(add-to-list 'completion-styles 'flex)
 ;;(setq completion-styles '(flex))
@@ -272,10 +274,35 @@
 ;;           (lambda ()
 ;;             (setq default-directory command-line-default-directory)))
 
+;; (helm-mode 1)
+;; (setq helm-autoresize-max-height 0)
+;; (setq helm-autoresize-min-height 20)
+;; (helm-autoresize-mode 1)
+
+
 ;; Don't use helm completion for switching buffers
-(add-to-list 'helm-completing-read-handlers-alist '(switch-to-buffer . nil))
-;; Don't use helm completion for C-h v
-(add-to-list 'helm-completing-read-handlers-alist '(describe-variable . nil))
-(add-to-list 'helm-completing-read-handlers-alist '(describe-function . nil))
-(add-to-list 'helm-completing-read-handlers-alist '(xref-find-definitions . nil))
-(add-to-list 'helm-completing-read-handlers-alist '(kill-buffer . nil))
+;; (add-to-list 'helm-completing-read-handlers-alist '(switch-to-buffer . nil))
+;; ;; Don't use helm completion for C-h v
+;; (add-to-list 'helm-completing-read-handlers-alist '(describe-variable . nil))
+;; (add-to-list 'helm-completing-read-handlers-alist '(describe-function . nil))
+;; (add-to-list 'helm-completing-read-handlers-alist '(xref-find-definitions . nil))
+;; (add-to-list 'helm-completing-read-handlers-alist '(kill-buffer . nil))
+;; (add-to-list 'helm-completing-read-handlers-alist '(find-alternate-file . nil))
+;; (add-to-list 'helm-completing-read-handlers-alist '(completion-at-point . nil))
+
+;; (defun my-helm-fonts ()
+;;   "Adjust the font attributes used in this mode."
+;;   (set-face-attribute 'helm-selection nil :inverse-video t)
+;;   (set-face-attribute 'helm-selection-line nil :inverse-video t)
+;; )
+;; (add-hook 'helm-mode-hook 'my-helm-fonts)
+;; (set-face-attribute 'header-line-highlight nil :inverse-video t)
+
+;; (setq url-proxy-services
+;;       '(("http"     . "http://87.254.212.120:8080")
+;;         ("https"     . "http://87.254.212.120:8080")))
+
+;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
+;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
+;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
+;;(global-set-key (kbd "C-c h") 'helm-command-prefix)
