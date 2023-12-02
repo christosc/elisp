@@ -179,6 +179,15 @@
 ;;(load-theme 'zenburn t)
 ;;(load-theme 'manoj-dark t)
 ;;(load-theme 'gruvbox t)
+
+; In order to have all those special color names, like 'gainsboro' etc., one
+; needs to enable 24-bit colors in the terminal.  This can done by putting the
+; setting
+;
+; export COLORTERM=truecolor
+;
+; in .bashrc.  Also one needs to configure tmux appropriately (see
+; christosc/dotfiles/tmux.conf).
 (set-face-attribute 'region nil :background "grey40") ;; Zenburn needs improvement in region highlight
 (set-face-attribute 'minibuffer-prompt nil :foreground "gray")
 (set-face-attribute 'font-lock-function-name-face nil :foreground "white")
