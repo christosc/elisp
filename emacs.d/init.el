@@ -30,9 +30,15 @@
 (add-to-list 'load-path "/data/chryssoc/work/elisp")
 (add-to-list 'load-path "~/.emacs.d/elisp")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+
+;; Private definitions
 (defconst private-file "private.el" "File with private definitions.")
-(if (locate-file private-file 'load-path)
-    (load "private.el"))
+(if (locate-file private-file load-path)
+    (progn
+      (message "Loading private.el")
+      (load "private.el"))
+  (message "No file private.el found"))
+
 ;;(require 'yang-mode)
 ;;(require 'highlight-doxygen)
 ;;(highlight-doxygen-global-mode 1)
@@ -312,10 +318,6 @@
 ;; )
 ;; (add-hook 'helm-mode-hook 'my-helm-fonts)
 ;; (set-face-attribute 'header-line-highlight nil :inverse-video t)
-
-;; (setq url-proxy-services
-;;       '(("http"     . "http://87.254.212.120:8080")
-;;         ("https"     . "http://87.254.212.120:8080")))
 
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
