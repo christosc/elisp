@@ -192,7 +192,7 @@
 (set-face-attribute 'minibuffer-prompt nil :foreground "gray")
 (set-face-attribute 'font-lock-function-name-face nil :foreground "white")
 (set-face-attribute 'font-lock-builtin-face nil :foreground "lightsteelblue")
-(set-face-attribute 'font-lock-string-face nil :foreground "violetred")
+(set-face-attribute 'font-lock-string-face nil :foreground "limegreen")
 (set-face-attribute 'font-lock-comment-face nil :foreground "cyan")
 (set-face-attribute 'font-lock-variable-name-face nil :foreground "white")
 (set-face-attribute 'font-lock-type-face nil :foreground "yellow")
