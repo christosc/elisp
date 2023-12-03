@@ -105,11 +105,14 @@
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 
+; Don't redraw the screen when recentering with C-l.
+(setq recenter-redisplay nil)
+
 ;; I'll try to get used to the default windmove keybindings...
-(global-set-key (kbd "C-c h") 'windmove-left)
-(global-set-key (kbd "C-c l") 'windmove-right)
-(global-set-key (kbd "C-c k") 'windmove-up)
-(global-set-key (kbd "C-c j") 'windmove-down)
+;; (global-set-key (kbd "C-c h") 'windmove-left)
+;; (global-set-key (kbd "C-c l") 'windmove-right)
+;; (global-set-key (kbd "C-c k") 'windmove-up)
+;; (global-set-key (kbd "C-c j") 'windmove-down)
 ;; (global-set-key (kbd "C-c <left>")  'windmove-left)
 ;; (global-set-key (kbd "C-c <right>") 'windmove-right)
 ;; (global-set-key (kbd "C-c <up>")    'windmove-up)
@@ -202,14 +205,14 @@
 (set-face-attribute 'font-lock-function-name-face nil :foreground "white")
 (set-face-attribute 'font-lock-builtin-face nil :foreground "lightsteelblue")
 (set-face-attribute 'font-lock-string-face nil :foreground "mediumseagreen")
-(set-face-attribute 'font-lock-comment-face nil :foreground "slategrey")
+(set-face-attribute 'font-lock-comment-face nil :foreground "cornflowerblue")
 (set-face-attribute 'font-lock-variable-name-face nil :foreground "white")
-(set-face-attribute 'font-lock-keyword-face nil :foreground "royalblue1")
-(set-face-attribute 'font-lock-type-face nil  :foreground "white")
+(set-face-attribute 'font-lock-keyword-face nil :foreground "darkorange")
+(set-face-attribute 'font-lock-type-face nil  :foreground "darkkhaki")
 (set-face-attribute 'font-lock-constant-face nil :foreground "white")
 (set-face-attribute 'lazy-highlight nil :background "darkgoldenrod")
 (set-face-attribute 'match nil :background "beige")
-(set-face-attribute 'font-lock-preprocessor-face nil :foreground "firebrick")
+(set-face-attribute 'font-lock-preprocessor-face nil :foreground "lightsteelblue")
 (set-face-attribute 'completions-common-part nil :foreground "cyan")
 
 
