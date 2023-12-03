@@ -168,7 +168,8 @@
 
 (setq cc-search-directories '("." "../include/*" "../export/*" "../src/*" "../source/*" ".." "/usr/include" "/usr/local/include/*"))
 (setq-default indent-tabs-mode nil) ;; DO NOT USE TABS! Linux-style uses tabs... So this won't work...
-
+(set-background-color "black")
+(set-foreground-color "white")
 ;; Theming
 ;;(load-theme 'tango-dark t)
 ;;(load-theme 'wombat t)
