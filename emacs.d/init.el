@@ -30,8 +30,10 @@
 (add-to-list 'load-path "/data/chryssoc/work/elisp")
 (add-to-list 'load-path "~/.emacs.d/elisp")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load "private.el")
-(require 'yang-mode)
+(defconst private-file "private.el" "File with private definitions.")
+(if (locate-file private-file 'load-path)
+    (load "private.el"))
+;;(require 'yang-mode)
 ;;(require 'highlight-doxygen)
 ;;(highlight-doxygen-global-mode 1)
 
