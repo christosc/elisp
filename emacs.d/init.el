@@ -180,7 +180,7 @@
 (setq cc-search-directories '("." "../include/*" "../export/*" "../src/*" "../source/*" ".." "/usr/include" "/usr/local/include/*"))
 (setq-default indent-tabs-mode nil) ;; DO NOT USE TABS! Linux-style uses tabs... So this won't work...
 (set-background-color "black")
-(set-foreground-color "grey")
+(set-foreground-color "lavender")
 ;; Theming
 ;;(load-theme 'tango-dark t)
 ;;(load-theme 'wombat t)
@@ -202,18 +202,20 @@
 ; christosc/dotfiles/tmux.conf).
 (set-face-attribute 'region nil :background "grey40") ;; Zenburn needs improvement in region highlight
 (set-face-attribute 'minibuffer-prompt nil :foreground "gray")
-(set-face-attribute 'font-lock-function-name-face nil :foreground "grey")
+(set-face-attribute 'font-lock-function-name-face nil :foreground "lavender")
 (set-face-attribute 'font-lock-builtin-face nil :foreground "lightsteelblue")
 (set-face-attribute 'font-lock-string-face nil :foreground "mediumseagreen")
-(set-face-attribute 'font-lock-comment-face nil :foreground "cornflowerblue")
-(set-face-attribute 'font-lock-variable-name-face nil :foreground "grey")
+(set-face-attribute 'font-lock-comment-face nil :foreground "lightseagreen")
+(set-face-attribute 'font-lock-variable-name-face nil :foreground "lavender")
 (set-face-attribute 'font-lock-keyword-face nil :foreground "darkorange")
 (set-face-attribute 'font-lock-type-face nil  :foreground "darkkhaki")
-(set-face-attribute 'font-lock-constant-face nil :foreground "grey")
+(set-face-attribute 'font-lock-constant-face nil :foreground "lavender")
 (set-face-attribute 'lazy-highlight nil :background "darkgoldenrod")
 (set-face-attribute 'match nil :background "beige")
 (set-face-attribute 'font-lock-preprocessor-face nil :foreground "lightsteelblue")
 (set-face-attribute 'completions-common-part nil :foreground "cyan")
+(set-face-attribute 'show-paren-match nil :foreground "black" :background "cyan" :inverse-video t)
+(set-face-attribute 'completions-highlight nil :foreground "lavender" :background "black" :inverse-video t)
 
 
 (set-face-attribute 'isearch-fail nil :foreground "red")
