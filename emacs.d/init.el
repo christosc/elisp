@@ -186,7 +186,7 @@
 ;;(load-theme 'tsdh-dark t)
 ;;(load-theme 'desert t)
 ;;(load-theme 'wheatgrass t)
-;;(load-theme 'zenburn t)
+(load-theme 'zenburn t)
 ;;(load-theme 'manoj-dark t)
 ;;(load-theme 'gruvbox t)
 
@@ -198,40 +198,45 @@
 ;
 ; in .bashrc.  Also one needs to configure tmux appropriately (see
 ; christosc/dotfiles/tmux.conf).
-(set-background-color "black")
-(set-foreground-color "white")
+(setq-local custom-theme-enabled nil)
+(if custom-theme-enabled
+    (progn
+      (set-background-color "black")
+      (set-foreground-color "white")
+      (set-face-attribute 'region nil :background "mediumblue") ;; Zenburn needs improvement in region highlight
+      (set-face-attribute 'minibuffer-prompt nil :foreground "gray")
+      (set-face-attribute 'font-lock-function-name-face nil :foreground "lavender")
+      (set-face-attribute 'font-lock-builtin-face nil :foreground "lightsteelblue")
+      (set-face-attribute 'font-lock-string-face nil :foreground "mediumseagreen")
+      (set-face-attribute 'font-lock-comment-face nil :foreground "lightseagreen")
+      (set-face-attribute 'font-lock-variable-name-face nil :foreground "lavender")
+      (set-face-attribute 'font-lock-keyword-face nil :foreground "darkorange")
+      (set-face-attribute 'font-lock-type-face nil  :foreground "darkkhaki")
+      (set-face-attribute 'font-lock-constant-face nil :foreground "lavender")
+      (set-face-attribute 'lazy-highlight nil :background "darkgoldenrod")
+      (set-face-attribute 'match nil :background "mediumblue")
+      (set-face-attribute 'font-lock-preprocessor-face nil :foreground "lightsteelblue")
+      (set-face-attribute 'completions-common-part nil :foreground "cyan")
+      (set-face-attribute 'show-paren-match nil :foreground "black" :background "cyan" :inverse-video t)
+      (set-face-attribute 'completions-highlight nil :foreground "lavender" :background "black" :inverse-video t)
+      (require 'xref) ; load xref package to be able to set its color next...
+      (set-face-attribute 'xref-match nil :background "mediumblue")
 
-(set-face-attribute 'region nil :background "mediumblue") ;; Zenburn needs improvement in region highlight
-(set-face-attribute 'minibuffer-prompt nil :foreground "gray")
-(set-face-attribute 'font-lock-function-name-face nil :foreground "lavender")
-(set-face-attribute 'font-lock-builtin-face nil :foreground "lightsteelblue")
-(set-face-attribute 'font-lock-string-face nil :foreground "mediumseagreen")
-(set-face-attribute 'font-lock-comment-face nil :foreground "lightseagreen")
-(set-face-attribute 'font-lock-variable-name-face nil :foreground "lavender")
-(set-face-attribute 'font-lock-keyword-face nil :foreground "darkorange")
-(set-face-attribute 'font-lock-type-face nil  :foreground "darkkhaki")
-(set-face-attribute 'font-lock-constant-face nil :foreground "lavender")
-(set-face-attribute 'lazy-highlight nil :background "darkgoldenrod")
-(set-face-attribute 'match nil :background "mediumblue")
-(set-face-attribute 'font-lock-preprocessor-face nil :foreground "lightsteelblue")
-(set-face-attribute 'completions-common-part nil :foreground "cyan")
-(set-face-attribute 'show-paren-match nil :foreground "black" :background "cyan" :inverse-video t)
-(set-face-attribute 'completions-highlight nil :foreground "lavender" :background "black" :inverse-video t)
-(require 'xref) ; load xref package to be able to set its color next...
-(set-face-attribute 'xref-match nil :background "mediumblue")
+      (set-face-attribute 'isearch-fail nil :foreground "red")
+      (setq diff-font-lock-syntax nil)
+      (defun my-diff-fonts ()
+        "Adjust the font attributes used in this mode."
+        (set-face-attribute 'diff-removed nil :foreground "Black")
+        (set-face-attribute 'diff-added nil :foreground "Black")
+        (set-face-attribute 'diff-header nil :foreground "Black")
+        )
+      (add-hook 'diff-mode-hook 'my-diff-fonts)
+      (add-hook 'dired-mode-hook
+                (lambda ()
+                  (set-face-attribute 'dired-directory nil :foreground "brightblue")))
+      ) ; progn
+  ) ; (if custom-theme-enabled)
 
-(set-face-attribute 'isearch-fail nil :foreground "red")
-(setq diff-font-lock-syntax nil)
-(defun my-diff-fonts ()
-  "Adjust the font attributes used in this mode."
-  (set-face-attribute 'diff-removed nil :foreground "Black")
-  (set-face-attribute 'diff-added nil :foreground "Black")
-  (set-face-attribute 'diff-header nil :foreground "Black")
-)
-(add-hook 'diff-mode-hook 'my-diff-fonts)
-(add-hook 'dired-mode-hook
-          (lambda ()
-            (set-face-attribute 'dired-directory nil :foreground "brightblue")))
 ;; Whiteboard seems a nice theme for light background terminal, but it
 ;; doesn't color comments in any way, which is not helpful.
 ;; (load-theme 'whiteboard t)
@@ -333,15 +338,35 @@
 ;;(global-set-key (kbd "C-c h") 'helm-command-prefix)
 
 ;; Steve Yegge's suggested keybindings
+; Some of these keybindings were taken from his "Effective Emacs" post, while
+; others from the "Emergency Emacs" video of his.
+; Beside the following keybindings he also mentions that he binds "M-j" to
+; replay macros, but it seems that the default keybinding for M-j is very
+; useful.
 (global-set-key "\C-x\C-m" 'execute-extended-command)
 (global-set-key "\C-c\C-m" 'execute-extended-command)
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
 (global-set-key "\C-c\C-k" 'kill-region)
+(global-set-key "\C-xe" 'end-of-buffer)
+(global-set-key "\C-xt" 'beginning-of-buffer)
+(global-set-key "\C-xi" 'info)
+(global-set-key "\C-h" 'backward-delete-char) ; normally 'help'.S.Y. puts this in an "(unless window-system ...)" statement
+(global-set-key "\C-x\C-h" 'help) ; was undefined
+(define-key help-map "i" 'find-function) ; was `info'
+(define-key help-map "l" 'find-library) ; was `view-lossage'
+(define-key help-map "r" 'find-variable) ; was `info-emacs-manual'
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (defalias 'qrr 'query-replace-regexp)
-(global-set-key [f5] 'call-last-kbd-macro)
+(global-set-key [f5] 'call-last-kbd-macro) ; S.Y. uses `M-j'
 (global-set-key "\M-s" 'isearch-forward-regexp)
 (global-set-key "\M-r" 'isearch-backward-regexp)
+; The following bindings were alluded to by S.Y. in "Emergency Emacs".
+(global-set-key "\M-p" 'previous-line) ; was undefined
+(global-set-key "\M-n" 'next-line) ; was undefined
+; About the following I'm not sure whether S.Y. alluded to them in his video,
+; but I'm adding them myself for symmetry.
+(global-set-key "\M-a" 'move-beginning-of-line) ; was `backward-sentence'
+(global-set-key "\M-e" 'move-end-of-line) ; was `forward-sentence'
