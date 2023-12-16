@@ -372,3 +372,6 @@
 (global-set-key "\M-e" 'move-end-of-line) ; was `forward-sentence'
 (global-set-key "\M-l" 'recenter-top-bottom) ; was `downcase-word'
 (global-set-key "\C-\M-l" 'downcase-word)    ; was `reposition-window'
+
+(unless window-system
+  (setq visible-cursor nil))
