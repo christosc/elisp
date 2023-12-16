@@ -370,3 +370,5 @@
 ; but I'm adding them myself for symmetry.
 (global-set-key "\M-a" 'move-beginning-of-line) ; was `backward-sentence'
 (global-set-key "\M-e" 'move-end-of-line) ; was `forward-sentence'
+(global-set-key "\M-l" 'recenter-top-bottom) ; was `downcase-word'
+(global-set-key "\C-\M-l" 'downcase-word)    ; was `reposition-window'
