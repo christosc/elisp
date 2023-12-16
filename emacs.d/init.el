@@ -179,8 +179,6 @@
 
 (setq cc-search-directories '("." "../include/*" "../export/*" "../src/*" "../source/*" ".." "/usr/include" "/usr/local/include/*"))
 (setq-default indent-tabs-mode nil) ;; DO NOT USE TABS! Linux-style uses tabs... So this won't work...
-(set-background-color "black")
-(set-foreground-color "lavender")
 ;; Theming
 ;;(load-theme 'tango-dark t)
 ;;(load-theme 'wombat t)
@@ -200,7 +198,10 @@
 ;
 ; in .bashrc.  Also one needs to configure tmux appropriately (see
 ; christosc/dotfiles/tmux.conf).
-(set-face-attribute 'region nil :background "grey40") ;; Zenburn needs improvement in region highlight
+(set-background-color "black")
+(set-foreground-color "white")
+
+(set-face-attribute 'region nil :background "mediumblue") ;; Zenburn needs improvement in region highlight
 (set-face-attribute 'minibuffer-prompt nil :foreground "gray")
 (set-face-attribute 'font-lock-function-name-face nil :foreground "lavender")
 (set-face-attribute 'font-lock-builtin-face nil :foreground "lightsteelblue")
@@ -211,12 +212,13 @@
 (set-face-attribute 'font-lock-type-face nil  :foreground "darkkhaki")
 (set-face-attribute 'font-lock-constant-face nil :foreground "lavender")
 (set-face-attribute 'lazy-highlight nil :background "darkgoldenrod")
-(set-face-attribute 'match nil :background "beige")
+(set-face-attribute 'match nil :background "mediumblue")
 (set-face-attribute 'font-lock-preprocessor-face nil :foreground "lightsteelblue")
 (set-face-attribute 'completions-common-part nil :foreground "cyan")
 (set-face-attribute 'show-paren-match nil :foreground "black" :background "cyan" :inverse-video t)
 (set-face-attribute 'completions-highlight nil :foreground "lavender" :background "black" :inverse-video t)
-
+(require 'xref) ; load xref package to be able to set its color next...
+(set-face-attribute 'xref-match nil :background "mediumblue")
 
 (set-face-attribute 'isearch-fail nil :foreground "red")
 (setq diff-font-lock-syntax nil)
@@ -241,8 +243,9 @@
      (define-key c-mode-base-map "/" 'self-insert-command)
      (define-key c-mode-base-map "*" 'self-insert-command)))
 
-;; Define alternative keybinding for terminal Emacs
-(global-set-key (kbd "<f5>") 'query-replace-regexp)
+;; Define alternative keybinding for terminal Emacs (upd: I'll try Steve Yegge's
+;; alternative; see below)
+;; (global-set-key (kbd "<f5>") 'query-replace-regexp)
 
 ;;It's very annoying to detect whitespace right before committing.
 ;;(setq-default show-trailing-whitespace t)
@@ -328,3 +331,17 @@
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
 ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
 ;;(global-set-key (kbd "C-c h") 'helm-command-prefix)
+
+;; Steve Yegge's suggested keybindings
+(global-set-key "\C-x\C-m" 'execute-extended-command)
+(global-set-key "\C-c\C-m" 'execute-extended-command)
+(global-set-key "\C-w" 'backward-kill-word)
+(global-set-key "\C-x\C-k" 'kill-region)
+(global-set-key "\C-c\C-k" 'kill-region)
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(defalias 'qrr 'query-replace-regexp)
+(global-set-key [f5] 'call-last-kbd-macro)
+(global-set-key "\M-s" 'isearch-forward-regexp)
+(global-set-key "\M-r" 'isearch-backward-regexp)
