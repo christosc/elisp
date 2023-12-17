@@ -186,9 +186,9 @@
 ;;(load-theme 'tsdh-dark t)
 ;;(load-theme 'desert t)
 ;;(load-theme 'wheatgrass t)
-(load-theme 'zenburn t)
+;;(load-theme 'zenburn t)
 ;;(load-theme 'manoj-dark t)
-;;(load-theme 'gruvbox t)
+
 
 ; In order to have all those special color names, like 'gainsboro' etc., one
 ; needs to enable 24-bit colors in the terminal.  This can done by putting the
@@ -208,7 +208,7 @@
       (set-face-attribute 'font-lock-function-name-face nil :foreground "lavender")
       (set-face-attribute 'font-lock-builtin-face nil :foreground "lightsteelblue")
       (set-face-attribute 'font-lock-string-face nil :foreground "mediumseagreen")
-      (set-face-attribute 'font-lock-comment-face nil :foreground "lightseagreen")
+      (set-face-attribute 'font-lock-comment-face nil :foreground "deepskyblue1")
       (set-face-attribute 'font-lock-variable-name-face nil :foreground "lavender")
       (set-face-attribute 'font-lock-keyword-face nil :foreground "darkorange")
       (set-face-attribute 'font-lock-type-face nil  :foreground "darkkhaki")
@@ -235,6 +235,7 @@
                 (lambda ()
                   (set-face-attribute 'dired-directory nil :foreground "brightblue")))
       ) ; progn
+  (load-theme 'gruvbox t)
   ) ; (if custom-theme-enabled)
 
 ;; Whiteboard seems a nice theme for light background terminal, but it
@@ -375,3 +376,11 @@
 
 (unless window-system
   (setq visible-cursor nil))
+
+; Reduce the number of beeps Emacs is making. This is from Emacs Wiki (Alarm
+; Bell)
+(setq ring-bell-function
+      (lambda ()
+	(unless (memq this-command
+		      '(isearch-abort abort-recursive-edit exit-minibuffer keyboard-quit))
+	  (ding))))
