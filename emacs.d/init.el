@@ -212,7 +212,7 @@
     (set-face-attribute 'font-lock-function-name-face nil :foreground "lavender")
     (set-face-attribute 'font-lock-builtin-face nil :foreground "lightsteelblue")
     (set-face-attribute 'font-lock-string-face nil :foreground "mediumseagreen")
-    (set-face-attribute 'font-lock-comment-face nil :foreground "deepskyblue1")
+    (set-face-attribute 'font-lock-comment-face nil :foreground "skyblue")
     (set-face-attribute 'font-lock-variable-name-face nil :foreground "lavender")
     (set-face-attribute 'font-lock-keyword-face nil :foreground "darkorange")
     (set-face-attribute 'font-lock-type-face nil  :foreground "darkkhaki")
@@ -238,6 +238,7 @@
     (add-hook 'dired-mode-hook
               (lambda ()
                 (set-face-attribute 'dired-directory nil :foreground "brightblue")))
+    (set-face-attribute 'help-key-binding nil :background "darkblue" :foreground "white")
     ) ; progn
   ) ; (if custom-theme-enabled)
 
@@ -365,8 +366,8 @@
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (defalias 'qrr 'query-replace-regexp)
 (global-set-key [f5] 'call-last-kbd-macro) ; S.Y. uses `M-j'
-(global-set-key "\M-s" 'isearch-forward-regexp)
-(global-set-key "\M-r" 'isearch-backward-regexp)
+;(global-set-key "\M-s" 'isearch-forward-regexp) ; conflicts with M-s . (isearch-forward-symbol-at-point)
+;(global-set-key "\M-r" 'isearch-backward-regexp)
 ; The following bindings were alluded to by S.Y. in "Emergency Emacs".
 (global-set-key "\M-p" 'previous-line) ; was undefined
 (global-set-key "\M-n" 'next-line) ; was undefined
