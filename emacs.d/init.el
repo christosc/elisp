@@ -213,7 +213,7 @@
 (set-foreground-color "white")
 (set-face-attribute 'region nil :background "mediumblue") ;; Zenburn needs improvement in region highlight
 (set-face-attribute 'minibuffer-prompt nil :foreground "gray")
-(set-face-attribute 'font-lock-function-name-face nil :foreground "lavender")
+(set-face-attribute 'font-lock-function-name-face nil :foreground "darkorange")
 (set-face-attribute 'font-lock-builtin-face nil :foreground "lightsteelblue")
 (set-face-attribute 'font-lock-string-face nil :foreground "mediumseagreen")
 (set-face-attribute 'font-lock-comment-face nil :foreground "skyblue")
