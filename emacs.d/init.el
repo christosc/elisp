@@ -177,7 +177,8 @@
 
 
 
-(setq cc-search-directories '("." "../include/*" "../export/*" "../src/*" "../source/*" ".." "/usr/include" "/usr/local/include/*"))
+(setq cc-search-directories '("." "$PWD/include/*" "$PWD/export/*" "$PWD/src/*" "$PWD/source/*"
+                              "../include/*" "../export/*" "../src/*" "../source/*" ".."))
 (setq-default indent-tabs-mode nil) ;; DO NOT USE TABS! Linux-style uses tabs... So this won't work...
 ;; Theming
 ;;(load-theme 'tango-dark t)
@@ -201,50 +202,50 @@
 
 ; If you can find the specific color theme, use that, otherwise make a custom
 ; theme.
-;; (if (locate-file (concat (symbol-name 'gruvbox) "-theme.el")
-;;                  custom-theme-load-path '("" "c"))
-;;     (load-theme 'gruvbox t)
-  ;; (progn
+(if (locate-file (concat (symbol-name 'gruvbox) "-theme.el")
+                 custom-theme-load-path '("" "c"))
+    (load-theme 'gruvbox t)
+  (progn
 
-; You can't set the background color with something like (set-background-color
-; "grey"), because it will get overriden later in the start-up process of
-; Emacs. Instead you have to set it in the `default-frame-alist'.
-(add-to-list 'default-frame-alist '(background-color  . "gray10"))
-(set-foreground-color "white")
-(set-face-attribute 'region nil :background "mediumblue") ;; Zenburn needs improvement in region highlight
-(set-face-attribute 'minibuffer-prompt nil :foreground "gray")
-(set-face-attribute 'font-lock-function-name-face nil :foreground "darkorange")
-(set-face-attribute 'font-lock-builtin-face nil :foreground "lightsteelblue")
-(set-face-attribute 'font-lock-string-face nil :foreground "mediumseagreen")
-(set-face-attribute 'font-lock-comment-face nil :foreground "skyblue")
-(set-face-attribute 'font-lock-variable-name-face nil :foreground "lavender")
-(set-face-attribute 'font-lock-keyword-face nil :foreground "darkorange")
-(set-face-attribute 'font-lock-type-face nil  :foreground "darkkhaki")
-(set-face-attribute 'font-lock-constant-face nil :foreground "lavender")
-(set-face-attribute 'lazy-highlight nil :background "darkgoldenrod")
-(set-face-attribute 'match nil :background "mediumblue")
-(set-face-attribute 'font-lock-preprocessor-face nil :foreground "lightsteelblue")
-(set-face-attribute 'completions-common-part nil :foreground "cyan")
-(set-face-attribute 'show-paren-match nil :foreground "black" :background "cyan" :inverse-video t)
-(set-face-attribute 'completions-highlight nil :foreground "lavender" :background "black" :inverse-video t)
-(require 'xref) ; load xref package to be able to set its color next...
-(set-face-attribute 'xref-match nil :background "mediumblue")
+                                        ; You can't set the background color with something like (set-background-color
+                                        ; "grey"), because it will get overriden later in the start-up process of
+                                        ; Emacs. Instead you have to set it in the `default-frame-alist'.
+    (add-to-list 'default-frame-alist '(background-color  . "gray10"))
+    (set-foreground-color "white")
+    (set-face-attribute 'region nil :background "mediumblue") ;; Zenburn needs improvement in region highlight
+    (set-face-attribute 'minibuffer-prompt nil :foreground "gray")
+    (set-face-attribute 'font-lock-function-name-face nil :foreground "darkorange")
+    (set-face-attribute 'font-lock-builtin-face nil :foreground "lightsteelblue")
+    (set-face-attribute 'font-lock-string-face nil :foreground "mediumseagreen")
+    (set-face-attribute 'font-lock-comment-face nil :foreground "grey55")
+    (set-face-attribute 'font-lock-variable-name-face nil :foreground "lavender")
+    (set-face-attribute 'font-lock-keyword-face nil :foreground "lightsteelblue")
+    (set-face-attribute 'font-lock-type-face nil  :foreground "darkolivegreen3")
+    (set-face-attribute 'font-lock-constant-face nil :foreground "lavender")
+    (set-face-attribute 'lazy-highlight nil :background "darkgoldenrod")
+    (set-face-attribute 'match nil :background "mediumblue")
+    (set-face-attribute 'font-lock-preprocessor-face nil :foreground "lightsteelblue")
+    (set-face-attribute 'completions-common-part nil :foreground "cyan")
+    (set-face-attribute 'show-paren-match nil :foreground "black" :background "cyan" :inverse-video t)
+    (set-face-attribute 'completions-highlight nil :foreground "lavender" :background "black" :inverse-video t)
+    (require 'xref) ; load xref package to be able to set its color next...
+    (set-face-attribute 'xref-match nil :background "mediumblue")
 
-(set-face-attribute 'isearch-fail nil :foreground "red")
-(setq diff-font-lock-syntax nil)
-(defun my-diff-fonts ()
-  "Adjust the font attributes used in this mode."
-  (set-face-attribute 'diff-removed nil :foreground "Black")
-  (set-face-attribute 'diff-added nil :foreground "Black")
-  (set-face-attribute 'diff-header nil :foreground "Black")
-  )
-(add-hook 'diff-mode-hook 'my-diff-fonts)
-(add-hook 'dired-mode-hook
-          (lambda ()
-            (set-face-attribute 'dired-directory nil :foreground "brightblue")))
-(set-face-attribute 'help-key-binding nil :background "darkblue" :foreground "white")
-;    ) ; progn
-  ;; ) ; (if custom-theme-enabled)
+    (set-face-attribute 'isearch-fail nil :foreground "red")
+    (setq diff-font-lock-syntax nil)
+    (defun my-diff-fonts ()
+      "Adjust the font attributes used in this mode."
+      (set-face-attribute 'diff-removed nil :foreground "Black")
+      (set-face-attribute 'diff-added nil :foreground "Black")
+      (set-face-attribute 'diff-header nil :foreground "Black")
+      )
+    (add-hook 'diff-mode-hook 'my-diff-fonts)
+    (add-hook 'dired-mode-hook
+              (lambda ()
+                (set-face-attribute 'dired-directory nil :foreground "brightblue")))
+    (set-face-attribute 'help-key-binding nil :background "darkblue" :foreground "white")
+    ) ; progn
+  ) ; (if custom-theme-enabled)
 
 ;; Whiteboard seems a nice theme for light background terminal, but it
 ;; doesn't color comments in any way, which is not helpful.
