@@ -147,7 +147,10 @@
 (defun cac-c++-mode-hook()
   (c-set-offset 'innamespace 0)
   (c-set-offset 'topmost-intro 0)
+  (c-set-offset 'inline-open 0)
   (setq-default indent-tabs-mode nil)
+  (c-set-offset 'brace-list-intro 0)
+  (c-set-offset 'brace-list-close -)
   )
 
 (c-add-style "cac"
@@ -204,12 +207,13 @@
 ; theme.
 (if (locate-file (concat (symbol-name 'gruvbox) "-theme.el")
                  custom-theme-load-path '("" "c"))
-    (load-theme 'gruvbox t)
+    (progn
+      (load-theme 'zenburn t)
+      (add-to-list 'default-frame-alist '(background-color  . "black")))
   (progn
-
-                                        ; You can't set the background color with something like (set-background-color
-                                        ; "grey"), because it will get overriden later in the start-up process of
-                                        ; Emacs. Instead you have to set it in the `default-frame-alist'.
+    ; You can't just set the background color with something like (set-background-color
+    ; "grey"), because it will get overriden later in the start-up process of
+    ; Emacs. Instead you have to set it in the `default-frame-alist'.
     (add-to-list 'default-frame-alist '(background-color  . "gray10"))
     (set-foreground-color "white")
     (set-face-attribute 'region nil :background "mediumblue") ;; Zenburn needs improvement in region highlight
@@ -371,8 +375,9 @@
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (defalias 'qrr 'query-replace-regexp)
 (global-set-key [f5] 'call-last-kbd-macro) ; S.Y. uses `M-j'
-;(global-set-key "\M-s" 'isearch-forward-regexp) ; conflicts with M-s . (isearch-forward-symbol-at-point)
-;(global-set-key "\M-r" 'isearch-backward-regexp)
+(global-set-key "\M-s" 'isearch-forward-regexp) ; was `isearch-forward-symbol-at-point'
+(global-set-key "\M-r" 'isearch-backward-regexp) ; was `move-to-window-line-top-bottom'
+(global-set-key "\C-\M-s" 'isearch-forward-symbol-at-point)
 ; The following bindings were alluded to by S.Y. in "Emergency Emacs".
 (global-set-key "\M-p" 'previous-line) ; was undefined
 (global-set-key "\M-n" 'next-line) ; was undefined
@@ -382,6 +387,7 @@
 (global-set-key "\M-e" 'move-end-of-line) ; was `forward-sentence'
 ;(global-set-key "\M-l" 'recenter-top-bottom) ; was `downcase-word'
 ;(global-set-key "\C-\M-l" 'downcase-word)    ; was `reposition-window'
+(global-set-key "\M-j" 'call-last-kbd-macro) ; was `default-indent-new-line'
 
 (unless window-system
   (setq visible-cursor nil))
@@ -393,3 +399,11 @@
 	(unless (memq this-command
 		      '(isearch-abort abort-recursive-edit exit-minibuffer keyboard-quit))
 	  (ding))))
+
+
+(defalias 'fr 'fill-region)
+(defalias 'dtw 'delete-trailing-whitespace)
+
+(add-hook 'server-after-make-frame-hook
+          (lambda ()
+            (desktop-read)))
