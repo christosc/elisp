@@ -404,6 +404,6 @@
 (defalias 'fr 'fill-region)
 (defalias 'dtw 'delete-trailing-whitespace)
 
-(add-hook 'server-after-make-frame-hook
-          (lambda ()
-            (desktop-read)))
+;; (add-hook 'server-after-make-frame-hook
+;;           (lambda ()
+;;             (desktop-read)))
