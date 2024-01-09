@@ -205,11 +205,12 @@
 
 ; If you can find the specific color theme, use that, otherwise make a custom
 ; theme.
-(if (locate-file (concat (symbol-name 'gruvbox) "-theme.el")
-                 custom-theme-load-path '("" "c"))
+(if  nil
     (progn
-      (load-theme 'zenburn t)
-      (add-to-list 'default-frame-alist '(background-color  . "black")))
+      ;(load-theme 'zenburn t)
+      (load-theme 'gruvbox t)
+      )
+      ;(add-to-list 'default-frame-alist '(background-color  . "black")))
   (progn
     ; You can't just set the background color with something like (set-background-color
     ; "grey"), because it will get overriden later in the start-up process of
@@ -365,32 +366,31 @@
 (global-set-key "\C-xe" 'end-of-buffer)
 (global-set-key "\C-xt" 'beginning-of-buffer)
 (global-set-key "\C-xi" 'info)
-(global-set-key "\C-h" 'backward-delete-char) ; normally 'help'.S.Y. puts this in an "(unless window-system ...)" statement
-(global-set-key "\C-x\C-h" 'help) ; was undefined
-(define-key help-map "i" 'find-function) ; was `info'
-(define-key help-map "l" 'find-library) ; was `view-lossage'
-(define-key help-map "r" 'find-variable) ; was `info-emacs-manual'
+;(global-set-key "\C-h" 'backward-delete-char) ; normally 'help'.S.Y. puts this in an "(unless window-system ...)" statement
+;(global-set-key "\C-x\C-h" 'help) ; was undefined
+;(define-key help-map "i" 'find-function) ; was `info'
+;(define-key help-map "l" 'find-library) ; was `view-lossage'
+;(define-key help-map "r" 'find-variable) ; was `info-emacs-manual'
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (defalias 'qrr 'query-replace-regexp)
 (global-set-key [f5] 'call-last-kbd-macro) ; S.Y. uses `M-j'
-(global-set-key "\M-s" 'isearch-forward-regexp) ; was `isearch-forward-symbol-at-point'
-(global-set-key "\M-r" 'isearch-backward-regexp) ; was `move-to-window-line-top-bottom'
-(global-set-key "\C-\M-s" 'isearch-forward-symbol-at-point)
+;; (global-set-key "\M-s" 'isearch-forward-regexp) ; was `isearch-forward-symbol-at-point'
+;; (global-set-key "\M-r" 'isearch-backward-regexp) ; was `move-to-window-line-top-bottom'
+;; (global-set-key "\C-\M-s" 'isearch-forward-symbol-at-point)
 ; The following bindings were alluded to by S.Y. in "Emergency Emacs".
 (global-set-key "\M-p" 'previous-line) ; was undefined
 (global-set-key "\M-n" 'next-line) ; was undefined
 ; About the following I'm not sure whether S.Y. alluded to them in his video,
 ; but I'm adding them myself for symmetry.
 (global-set-key "\M-a" 'move-beginning-of-line) ; was `backward-sentence'
-(global-set-key "\M-e" 'move-end-of-line) ; was `forward-sentence'
-;(global-set-key "\M-l" 'recenter-top-bottom) ; was `downcase-word'
+(global-set-key "\M-e" 'move-end-of-line) ; was `forward-;(global-set-key "\M-l" 'recenter-top-bottom) ; was `downcase-word'
 ;(global-set-key "\C-\M-l" 'downcase-word)    ; was `reposition-window'
-(global-set-key "\M-j" 'call-last-kbd-macro) ; was `default-indent-new-line'
+(global-set-key "\C-\M-j" 'call-last-kbd-macro) ; was `default-indent-new-line'
 
-(unless window-system
-  (setq visible-cursor nil))
+;; (unless window-system
+;;   (setq visible-cursor nil))
 
 ; Reduce the number of beeps Emacs is making. This is from Emacs Wiki (Alarm
 ; Bell)
@@ -403,7 +403,11 @@
 
 (defalias 'fr 'fill-region)
 (defalias 'dtw 'delete-trailing-whitespace)
-
+(defalias 'fnd 'find-name-dired)
 ;; (add-hook 'server-after-make-frame-hook
 ;;           (lambda ()
 ;;             (desktop-read)))
+
+
+
+(setq sentence-end-double-space nil)
