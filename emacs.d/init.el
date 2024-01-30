@@ -366,6 +366,8 @@
 (global-set-key "\C-xe" 'end-of-buffer)
 (global-set-key "\C-xt" 'beginning-of-buffer)
 (global-set-key "\C-xi" 'info)
+(global-set-key [?\C-h] 'delete-backward-char)
+(global-set-key [?\C-x ?h] 'help-command) ;; overrides mark-whole-buffer
 ;(global-set-key "\C-h" 'backward-delete-char) ; normally 'help'.S.Y. puts this in an "(unless window-system ...)" statement
 ;(global-set-key "\C-x\C-h" 'help) ; was undefined
 ;(define-key help-map "i" 'find-function) ; was `info'
