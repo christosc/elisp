@@ -413,3 +413,6 @@
 
 
 (setq sentence-end-double-space nil)
+
+;; Wrap on whole words
+(global-visual-line-mode t)
