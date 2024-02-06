@@ -416,3 +416,8 @@
 
 ;; Wrap on whole words
 (setq-default word-wrap t)
+
+(when (require 'plantuml-mode nil 'noerror)
+  (setq plantuml-jar-path "C:/Users/chryssoc/Applications/plantuml-1.2023.12.jar")
+  (setq plantuml-default-exec-mode 'jar)
+  )
