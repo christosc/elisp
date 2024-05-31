@@ -453,8 +453,20 @@
 ;; Wrap on whole words
 (setq-default word-wrap t)
 
+
 ;; Associate .h files with C++ mode
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 ;; Reverse direction movement in other-window
 (global-set-key (kbd "C-x O") '(lambda () (interactive) (other-window -1)))
+
+(when (and (eq system-type 'windows-nt) (require 'plantuml-mode nil 'noerror))
+  (setq plantuml-jar-path "C:/Users/chryssoc/Applications/plantuml-1.2023.12.jar")
+  (setq plantuml-default-exec-mode 'jar)
+  )
+
+
+
+
+
+
