@@ -31,6 +31,10 @@
 (add-to-list 'load-path "~/.emacs.d/elisp")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
+(require 'fic-mode)
+(add-hook 'c++-mode-hook 'turn-on-fic-mode)
+(add-hook 'emacs-lisp-mode-hook 'turn-on-fic-mode)
+
 ;; Private definitions
 (defconst private-file "private.el" "File with private definitions.")
 (if (locate-file private-file load-path)
@@ -167,6 +171,37 @@
 (add-hook 'c-mode-common-hook
           (lambda ()
             (setq indent-tabs-mode nil)
+            (setq (cc-other-file-alist
+   '(("\\.cc\\'"
+      (".hh" ".h"))
+     ("\\.hh\\'"
+      (".cc" ".C" ".CC" ".cxx" ".cpp" ".c++"))
+     ("\\.c\\'"
+      (".h"))
+     ("\\.m\\'"
+      (".h"))
+     ("\\.h\\'"
+      (".cpp" ".c" ".cc" ".C" ".CC" ".cxx" ".c++" ".m"))
+     ("\\.C\\'"
+      (".H" ".hh" ".h"))
+     ("\\.H\\'"
+      (".C" ".CC"))
+     ("\\.CC\\'"
+      (".HH" ".H" ".hh" ".h"))
+     ("\\.HH\\'"
+      (".CC"))
+     ("\\.c\\+\\+\\'"
+      (".h++" ".hh" ".h"))
+     ("\\.h\\+\\+\\'"
+      (".c++"))
+     ("\\.cpp\\'"
+      (".hpp" ".hh" ".h"))
+     ("\\.hpp\\'"
+      (".cpp"))
+     ("\\.cxx\\'"
+      (".hxx" ".hh" ".h"))
+     ("\\.hxx\\'"
+      (".cxx")))))
             (let ((tags_path (locate-dominating-file (file-name-directory (buffer-file-name)) "TAGS")))
                  (if tags_path
                      (visit-tags-table tags_path)))
@@ -215,13 +250,14 @@
     ; You can't just set the background color with something like (set-background-color
     ; "grey"), because it will get overriden later in the start-up process of
     ; Emacs. Instead you have to set it in the `default-frame-alist'.
-    (add-to-list 'default-frame-alist '(background-color  . "gray10"))
-    (set-foreground-color "white")
+    ;(add-to-list 'default-frame-alist '(background-color  . "gray10"))
+    (add-to-list 'default-frame-alist '(background-color  . "black"))
+    (add-to-list 'default-frame-alist '(foreground-color . "white"))
     (set-face-attribute 'region nil :background "mediumblue") ;; Zenburn needs improvement in region highlight
     (set-face-attribute 'minibuffer-prompt nil :foreground "gray")
     (set-face-attribute 'font-lock-function-name-face nil :foreground "darkorange")
     (set-face-attribute 'font-lock-builtin-face nil :foreground "lightsteelblue")
-    (set-face-attribute 'font-lock-string-face nil :foreground "mediumseagreen")
+    (set-face-attribute 'font-lock-string-face nil :foreground "lemonchiffon3")
     (set-face-attribute 'font-lock-comment-face nil :foreground "grey55")
     (set-face-attribute 'font-lock-variable-name-face nil :foreground "lavender")
     (set-face-attribute 'font-lock-keyword-face nil :foreground "lightsteelblue")
@@ -366,10 +402,10 @@
 (global-set-key "\C-xe" 'end-of-buffer)
 (global-set-key "\C-xt" 'beginning-of-buffer)
 (global-set-key "\C-xi" 'info)
-(global-set-key [?\C-h] 'delete-backward-char)
-(global-set-key [?\C-x ?h] 'help-command) ;; overrides mark-whole-buffer
-;(global-set-key "\C-h" 'backward-delete-char) ; normally 'help'.S.Y. puts this in an "(unless window-system ...)" statement
-;(global-set-key "\C-x\C-h" 'help) ; was undefined
+;;(global-set-key [?\C-h] 'delete-backward-char)
+;;(global-set-key [?\C-x ?h] 'help-command) ;; overrides mark-whole-buffer
+(global-set-key "\C-h" 'backward-delete-char) ; normally 'help'.S.Y. puts this in an "(unless window-system ...)" statement
+(global-set-key "\C-x\C-h" 'help) ; was undefined
 ;(define-key help-map "i" 'find-function) ; was `info'
 ;(define-key help-map "l" 'find-library) ; was `view-lossage'
 ;(define-key help-map "r" 'find-variable) ; was `info-emacs-manual'
@@ -391,8 +427,8 @@
 ;(global-set-key "\C-\M-l" 'downcase-word)    ; was `reposition-window'
 (global-set-key "\C-\M-j" 'call-last-kbd-macro) ; was `default-indent-new-line'
 
-;; (unless window-system
-;;   (setq visible-cursor nil))
+(unless window-system
+  (setq visible-cursor nil))
 
 ; Reduce the number of beeps Emacs is making. This is from Emacs Wiki (Alarm
 ; Bell)
@@ -416,3 +452,9 @@
 
 ;; Wrap on whole words
 (setq-default word-wrap t)
+
+;; Associate .h files with C++ mode
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
+;; Reverse direction movement in other-window
+(global-set-key (kbd "C-x O") '(lambda () (interactive) (other-window -1)))
