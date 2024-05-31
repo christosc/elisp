@@ -466,7 +466,5 @@
   )
 
 
-
-
-
-
+;; Move betweeen windows with M-left, M-right etc.
+(windmove-default-keybindings 'meta)
