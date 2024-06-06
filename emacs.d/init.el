@@ -428,8 +428,8 @@
 ;(global-set-key "\C-\M-l" 'downcase-word)    ; was `reposition-window'
 ;;(global-set-key "\C-\M-j" 'call-last-kbd-macro) ; was `default-indent-new-line'
 
-(unless window-system
-  (setq visible-cursor nil))
+;; (unless window-system
+;;   (setq visible-cursor nil))
 
 ; Reduce the number of beeps Emacs is making. This is from Emacs Wiki (Alarm
 ; Bell)
