@@ -278,9 +278,10 @@
       "Adjust the font attributes used in this mode."
       (set-face-attribute 'diff-removed nil :foreground "Black")
       (set-face-attribute 'diff-added nil :foreground "Black")
-      (set-face-attribute 'diff-header nil :foreground "Black")
+      (set-face-attribute 'diff-file-header nil :foreground "black" :background "brightblue")
+      (set-face-attribute 'diff-header nil :foreground "Black" :background "brightblue")
       )
-    (add-hook 'diff-mode-hook 'my-diff-fonts)
+    ;; (add-hook 'diff-mode-hook 'my-diff-fonts)
     (add-hook 'dired-mode-hook
               (lambda ()
                 (set-face-attribute 'dired-directory nil :foreground "brightblue")))
@@ -394,18 +395,18 @@
 ; Beside the following keybindings he also mentions that he binds "M-j" to
 ; replay macros, but it seems that the default keybinding for M-j is very
 ; useful.
-(global-set-key "\C-x\C-m" 'execute-extended-command)
-(global-set-key "\C-c\C-m" 'execute-extended-command)
-(global-set-key "\C-w" 'backward-kill-word)
-(global-set-key "\C-x\C-k" 'kill-region)
-(global-set-key "\C-c\C-k" 'kill-region)
-(global-set-key "\C-xe" 'end-of-buffer)
-(global-set-key "\C-xt" 'beginning-of-buffer)
-(global-set-key "\C-xi" 'info)
+;;(global-set-key "\C-x\C-m" 'execute-extended-command)
+;;(global-set-key "\C-c\C-m" 'execute-extended-command)
+;;(global-set-key "\C-w" 'backward-kill-word)
+;;(global-set-key "\C-x\C-k" 'kill-region)
+;;(global-set-key "\C-c\C-k" 'kill-region)
+;;(global-set-key "\C-xe" 'end-of-buffer)
+;;(global-set-key "\C-xt" 'beginning-of-buffer)
+;;(global-set-key "\C-xi" 'info)
 ;;(global-set-key [?\C-h] 'delete-backward-char)
 ;;(global-set-key [?\C-x ?h] 'help-command) ;; overrides mark-whole-buffer
-(global-set-key "\C-h" 'backward-delete-char) ; normally 'help'.S.Y. puts this in an "(unless window-system ...)" statement
-(global-set-key "\C-x\C-h" 'help) ; was undefined
+;;(global-set-key "\C-h" 'backward-delete-char) ; normally 'help'.S.Y. puts this in an "(unless window-system ...)" statement
+;;(global-set-key "\C-x\C-h" 'help) ; was undefined
 ;(define-key help-map "i" 'find-function) ; was `info'
 ;(define-key help-map "l" 'find-library) ; was `view-lossage'
 ;(define-key help-map "r" 'find-variable) ; was `info-emacs-manual'
@@ -418,14 +419,14 @@
 ;; (global-set-key "\M-r" 'isearch-backward-regexp) ; was `move-to-window-line-top-bottom'
 ;; (global-set-key "\C-\M-s" 'isearch-forward-symbol-at-point)
 ; The following bindings were alluded to by S.Y. in "Emergency Emacs".
-(global-set-key "\M-p" 'previous-line) ; was undefined
-(global-set-key "\M-n" 'next-line) ; was undefined
+;;(global-set-key "\M-p" 'previous-line) ; was undefined
+;;(global-set-key "\M-n" 'next-line) ; was undefined
 ; About the following I'm not sure whether S.Y. alluded to them in his video,
 ; but I'm adding them myself for symmetry.
-(global-set-key "\M-a" 'move-beginning-of-line) ; was `backward-sentence'
-(global-set-key "\M-e" 'move-end-of-line) ; was `forward-;(global-set-key "\M-l" 'recenter-top-bottom) ; was `downcase-word'
+;;(global-set-key "\M-a" 'move-beginning-of-line) ; was `backward-sentence'
+;;(global-set-key "\M-e" 'move-end-of-line) ; was `forward-;(global-set-key "\M-l" 'recenter-top-bottom) ; was `downcase-word'
 ;(global-set-key "\C-\M-l" 'downcase-word)    ; was `reposition-window'
-(global-set-key "\C-\M-j" 'call-last-kbd-macro) ; was `default-indent-new-line'
+;;(global-set-key "\C-\M-j" 'call-last-kbd-macro) ; was `default-indent-new-line'
 
 (unless window-system
   (setq visible-cursor nil))
@@ -468,3 +469,6 @@
 
 ;; Move betweeen windows with M-left, M-right etc.
 (windmove-default-keybindings 'meta)
+
+(setq org-todo-keywords
+      '((sequence "TODO(t!)" "VERIFY(v!)" "INPROGRESS(i!)" "WAIT(w!)" "|" "DONE(d!)" "BLOCKED(b!)")))
