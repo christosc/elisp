@@ -110,7 +110,7 @@
   (windmove-default-keybindings))
 
 ; Don't redraw the screen when recentering with C-l.
-(setq recenter-redisplay nil)
+;(setq recenter-redisplay nil)
 
 ;; I'll try to get used to the default windmove keybindings...
 ;; (global-set-key (kbd "C-c h") 'windmove-left)
@@ -171,37 +171,37 @@
 (add-hook 'c-mode-common-hook
           (lambda ()
             (setq indent-tabs-mode nil)
-            (setq (cc-other-file-alist
-   '(("\\.cc\\'"
-      (".hh" ".h"))
-     ("\\.hh\\'"
-      (".cc" ".C" ".CC" ".cxx" ".cpp" ".c++"))
-     ("\\.c\\'"
-      (".h"))
-     ("\\.m\\'"
-      (".h"))
-     ("\\.h\\'"
-      (".cpp" ".c" ".cc" ".C" ".CC" ".cxx" ".c++" ".m"))
-     ("\\.C\\'"
-      (".H" ".hh" ".h"))
-     ("\\.H\\'"
-      (".C" ".CC"))
-     ("\\.CC\\'"
-      (".HH" ".H" ".hh" ".h"))
-     ("\\.HH\\'"
-      (".CC"))
-     ("\\.c\\+\\+\\'"
-      (".h++" ".hh" ".h"))
-     ("\\.h\\+\\+\\'"
-      (".c++"))
-     ("\\.cpp\\'"
-      (".hpp" ".hh" ".h"))
-     ("\\.hpp\\'"
-      (".cpp"))
-     ("\\.cxx\\'"
-      (".hxx" ".hh" ".h"))
-     ("\\.hxx\\'"
-      (".cxx")))))
+   ;;          (setq (cc-other-file-alist
+   ;; '(("\\.cc\\'"
+   ;;    (".hh" ".h"))
+   ;;   ("\\.hh\\'"
+   ;;    (".cc" ".C" ".CC" ".cxx" ".cpp" ".c++"))
+   ;;   ("\\.c\\'"
+   ;;    (".h"))
+   ;;   ("\\.m\\'"
+   ;;    (".h"))
+   ;;   ("\\.h\\'"
+   ;;    (".cpp" ".c" ".cc" ".C" ".CC" ".cxx" ".c++" ".m"))
+   ;;   ("\\.C\\'"
+   ;;    (".H" ".hh" ".h"))
+   ;;   ("\\.H\\'"
+   ;;    (".C" ".CC"))
+   ;;   ("\\.CC\\'"
+   ;;    (".HH" ".H" ".hh" ".h"))
+   ;;   ("\\.HH\\'"
+   ;;    (".CC"))
+   ;;   ("\\.c\\+\\+\\'"
+   ;;    (".h++" ".hh" ".h"))
+   ;;   ("\\.h\\+\\+\\'"
+   ;;    (".c++"))
+   ;;   ("\\.cpp\\'"
+   ;;    (".hpp" ".hh" ".h"))
+   ;;   ("\\.hpp\\'"
+   ;;    (".cpp"))
+   ;;   ("\\.cxx\\'"
+   ;;    (".hxx" ".hh" ".h"))
+   ;;   ("\\.hxx\\'"
+   ;;    (".cxx")))))
             (let ((tags_path (locate-dominating-file (file-name-directory (buffer-file-name)) "TAGS")))
                  (if tags_path
                      (visit-tags-table tags_path)))
@@ -240,10 +240,10 @@
 
 ; If you can find the specific color theme, use that, otherwise make a custom
 ; theme.
-(if  nil
+(if  t
     (progn
-      ;(load-theme 'zenburn t)
-      (load-theme 'gruvbox t)
+      (load-theme 'zenburn t)
+      ;(load-theme 'gruvbox t)
       )
       ;(add-to-list 'default-frame-alist '(background-color  . "black")))
   (progn
