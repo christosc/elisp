@@ -109,8 +109,10 @@
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 
-; Don't redraw the screen when recentering with C-l.
-;(setq recenter-redisplay nil)
+;; Don't redraw the screen when recentering with C-l.
+;; This is useful for terminal emacs, so that it doesn't "flash" the screen when pressing C-l
+;; to recenter the screen.
+(setq recenter-redisplay nil)
 
 ;; I'll try to get used to the default windmove keybindings...
 ;; (global-set-key (kbd "C-c h") 'windmove-left)
@@ -472,3 +474,5 @@
 
 (setq org-todo-keywords
       '((sequence "TODO(t!)" "VERIFY(v!)" "INPROGRESS(i!)" "WAIT(w!)" "|" "DONE(d!)" "BLOCKED(b!)")))
+
+(setq confirm-kill-emacs 'yes-or-no-p)
