@@ -27,7 +27,7 @@
 ;;       "https://melpa.org/packages/"))
 
 ;; (package-initialize)
-(add-to-list 'load-path "/data/chryssoc/work/elisp")
+(add-to-list 'load-path "C:/Users/chryssoc/AppData/Roaming/.emacs.d/elisp")
 (add-to-list 'load-path "~/.emacs.d/elisp")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
@@ -103,7 +103,7 @@
 (setq js-indent-level 2)
 
 ;; So that yank overwrites selected region
-(delete-selection-mode 1)
+;;(delete-selection-mode 1)
 
 ;; Activate easy movement between windows
 (when (fboundp 'windmove-default-keybindings)
@@ -473,6 +473,6 @@
 (windmove-default-keybindings 'meta)
 
 (setq org-todo-keywords
-      '((sequence "TODO(t!)" "VERIFY(v!)" "INPROGRESS(i!)" "WAIT(w!)" "|" "DONE(d!)" "BLOCKED(b!)")))
+      '((sequence "TODO(t!)" "VERIFY(v!)" "INPROGRESS(i!)" "WAIT(w@/!)" "|" "DONE(d!)" "BLOCKED(b!)")))
 
 (setq confirm-kill-emacs 'yes-or-no-p)
