@@ -244,8 +244,10 @@
 ; theme.
 (if  t
     (progn
-      (load-theme 'zenburn t)
-      ;(load-theme 'gruvbox t)
+      ;;(load-theme 'zenburn t)
+      ;;(load-theme 'gruvbox t)
+      ;;(load-theme 'gruvbox-dark-hard t)
+      (load-theme 'desert t)
       )
       ;(add-to-list 'default-frame-alist '(background-color  . "black")))
   (progn
@@ -399,16 +401,16 @@
 ; useful.
 ;;(global-set-key "\C-x\C-m" 'execute-extended-command)
 ;;(global-set-key "\C-c\C-m" 'execute-extended-command)
-;;(global-set-key "\C-w" 'backward-kill-word)
-;;(global-set-key "\C-x\C-k" 'kill-region)
+(global-set-key "\C-w" 'backward-kill-word)
+(global-set-key "\C-x\C-k" 'kill-region)  ;; C-x k is kill-buffer
 ;;(global-set-key "\C-c\C-k" 'kill-region)
 ;;(global-set-key "\C-xe" 'end-of-buffer)
 ;;(global-set-key "\C-xt" 'beginning-of-buffer)
 ;;(global-set-key "\C-xi" 'info)
 ;;(global-set-key [?\C-h] 'delete-backward-char)
-;;(global-set-key [?\C-x ?h] 'help-command) ;; overrides mark-whole-buffer
-;;(global-set-key "\C-h" 'backward-delete-char) ; normally 'help'.S.Y. puts this in an "(unless window-system ...)" statement
-;;(global-set-key "\C-x\C-h" 'help) ; was undefined
+(global-set-key [?\C-x ?h] 'help-command) ;; overrides mark-whole-buffer
+(global-set-key "\C-h" 'backward-delete-char) ; normally 'help'.S.Y. puts this in an "(unless window-system ...)" statement
+(global-set-key "\C-x\C-h" 'help) ; was undefined
 ;(define-key help-map "i" 'find-function) ; was `info'
 ;(define-key help-map "l" 'find-library) ; was `view-lossage'
 ;(define-key help-map "r" 'find-variable) ; was `info-emacs-manual'
