@@ -244,10 +244,10 @@
 ; theme.
 (if  t
     (progn
-      ;;(load-theme 'zenburn t)
+      (load-theme 'zenburn t)
       ;;(load-theme 'gruvbox t)
       ;;(load-theme 'gruvbox-dark-hard t)
-      (load-theme 'desert t)
+      ;;(load-theme 'tsdh-dark t)
       )
       ;(add-to-list 'default-frame-alist '(background-color  . "black")))
   (progn
@@ -478,3 +478,6 @@
       '((sequence "TODO(t!)" "VERIFY(v!)" "INPROGRESS(i!)" "WAIT(w!)" "|" "DONE(d!)" "BLOCKED(b!)")))
 
 (setq confirm-kill-emacs 'yes-or-no-p)
+
+;; When I navigate tags I want the precise case of the word under the cursor.
+(set-default 'tags-case-fold-search nil)
