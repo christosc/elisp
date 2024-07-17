@@ -481,3 +481,6 @@
 
 ;; When I navigate tags I want the precise case of the word under the cursor.
 (set-default 'tags-case-fold-search nil)
+
+;; 1/10-style count in seach results
+(setq isearch-lazy-count t)
