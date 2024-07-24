@@ -165,6 +165,7 @@
                (c-offsets-alist
                (innamespace . 0)
                (topmost-intro . 0)
+               (topmost-intro-cont . 4)
                (statement-cont . 8)
                (arglist-cont . 8)
                (arglist-cont-nonempty . 8)
