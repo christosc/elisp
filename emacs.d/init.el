@@ -164,7 +164,11 @@
                (c-basic-offset . 4)
                (c-offsets-alist
                (innamespace . 0)
-               (topmost-intro . 0))
+               (topmost-intro . 0)
+               (statement-cont . 8)
+               (arglist-cont . 8)
+               (arglist-cont-nonempty . 8)
+               (arglist-intro . 8))
                (indent-tabs-mode . nil)))
 
 (setq c-default-style "cac")
