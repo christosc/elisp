@@ -222,19 +222,19 @@
 
 
 
-(setq cc-search-directories '("." "$PWD/include/*" "$PWD/export/*" "$PWD/src/*" "$PWD/source/*"
-                              "../include/*" "../export/*" "../src/*" "../source/*" ".."))
+(setq cc-search-directories '("$PWD/include/*/*" "$PWD/export/*" "$PWD/src/*/*" "$PWD/source/*/*" "."))
+                               ;;"../include/*" "../export/*" "../include/*/*" "../src/*" "../source/*" ".."))
 (setq-default indent-tabs-mode nil) ;; DO NOT USE TABS! Linux-style uses tabs... So this won't work...
 ;; Theming
 ;;(load-theme 'tango-dark t)
 ;;(load-theme 'wombat t)
 ;;(load-theme 'modus-vivendi t)
-;;(load-theme 'tsdh-dark t)
+;;(load-theme 'gruvbox t)
 ;;(load-theme 'desert t)
 ;;(load-theme 'wheatgrass t)
-(load-theme 'zenburn t)
+;;(load-theme 'zenburn t)
 ;;(load-theme 'manoj-dark t)
-
+(load-theme 'modus-vivendi t)
 
 ; In order to have all those special color names, like 'gainsboro' etc., one
 ; needs to enable 24-bit colors in the terminal.  This can done by putting the
@@ -406,16 +406,16 @@
 ; useful.
 ;;(global-set-key "\C-x\C-m" 'execute-extended-command)
 ;;(global-set-key "\C-c\C-m" 'execute-extended-command)
-(global-set-key "\C-w" 'backward-kill-word)
-(global-set-key "\C-x\C-k" 'kill-region)  ;; C-x k is kill-buffer
+;;(global-set-key "\C-w" 'backward-kill-word)
+;;(global-set-key "\C-x\C-k" 'kill-region)  ;; C-x k is kill-buffer
 ;;(global-set-key "\C-c\C-k" 'kill-region)
 ;;(global-set-key "\C-xe" 'end-of-buffer)
 ;;(global-set-key "\C-xt" 'beginning-of-buffer)
 ;;(global-set-key "\C-xi" 'info)
 ;;(global-set-key [?\C-h] 'delete-backward-char)
-(global-set-key [?\C-x ?h] 'help-command) ;; overrides mark-whole-buffer
-(global-set-key "\C-h" 'backward-delete-char) ; normally 'help'.S.Y. puts this in an "(unless window-system ...)" statement
-(global-set-key "\C-x\C-h" 'help) ; was undefined
+;;(global-set-key [?\C-x ?h] 'help-command) ;; overrides mark-whole-buffer
+;;(global-set-key "\C-h" 'backward-delete-char) ; normally 'help'.S.Y. puts this in an "(unless window-system ...)" statement
+;;(global-set-key "\C-x\C-h" 'help) ; was undefined
 ;(define-key help-map "i" 'find-function) ; was `info'
 ;(define-key help-map "l" 'find-library) ; was `view-lossage'
 ;(define-key help-map "r" 'find-variable) ; was `info-emacs-manual'
