@@ -222,8 +222,16 @@
 
 
 
-(setq cc-search-directories '("$PWD/include/*/*" "$PWD/export/*" "$PWD/src/*/*" "$PWD/source/*/*" "."))
-                               ;;"../include/*" "../export/*" "../include/*/*" "../src/*" "../source/*" ".."))
+;; Below the PWD variable is bash's environment variable holding the path at the
+;; time Emacs was started. Therefore it contains the "base" directory of Emacs.
+;; With the */* represents all subdirectories up to two-levels deep from the
+;; preceeding directory. (See help on ff-search-directories.)
+;; The * pattern also covers just the preceeding directory.
+;; Acutally these values for the search directories mimick closely Vim's
+;;
+;;   set path=include/**,src/**,export/**,source/**,../include/**,../export/**,../src/**,../source/**
+(setq cc-search-directories '("$PWD/include/*/*" "$PWD/export/*" "$PWD/src/*/*" "$PWD/source/*/*"
+                              "../include/*/*" "../export/*/*" "../src/*" "../source/*" "."))
 (setq-default indent-tabs-mode nil) ;; DO NOT USE TABS! Linux-style uses tabs... So this won't work...
 ;; Theming
 ;;(load-theme 'tango-dark t)
