@@ -414,8 +414,8 @@
 ; useful.
 ;;(global-set-key "\C-x\C-m" 'execute-extended-command)
 ;;(global-set-key "\C-c\C-m" 'execute-extended-command)
-;;(global-set-key "\C-w" 'backward-kill-word)
-;;(global-set-key "\C-x\C-k" 'kill-region)  ;; C-x k is kill-buffer
+(global-set-key "\C-w" 'backward-kill-word)
+(global-set-key "\C-x\C-k" 'kill-region)  ;; C-x k is kill-buffer
 ;;(global-set-key "\C-c\C-k" 'kill-region)
 ;;(global-set-key "\C-xe" 'end-of-buffer)
 ;;(global-set-key "\C-xt" 'beginning-of-buffer)
@@ -498,3 +498,12 @@
 
 ;; 1/10-style count in seach results
 (setq isearch-lazy-count t)
+
+;; Jump directly to first definition (tag), instead of sticking in the xref
+;; window.
+(use-package xref
+  :config
+  (setq xref-auto-jump-to-first-xref t) ;; Use 'show to open it
+  (setq xref-auto-jump-to-first-definition t))
+
+
