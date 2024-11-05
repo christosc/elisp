@@ -503,7 +503,14 @@
 ;; window.
 (use-package xref
   :config
-  (setq xref-auto-jump-to-first-xref t) ;; Use 'show to open it
+  ;; I don't want to auto jump when viewing the references of an identifier, so
+  ;; I don't mingle with xref-auto-jump-to-first-xref.
+  ;;(setq xref-auto-jump-to-first-xref t) ;; Use 'show to open it
   (setq xref-auto-jump-to-first-definition t))
 
+;; I'm using this file, .project, as a marker where my project's root directory
+;; lies in the filesystem. Thus I can use all the project.el commands with
+;; regard to the directory where that .project file is found.
+;; E.g. I can use the xref-find-references command, bound to M-?.
+(setq project-vc-extra-root-markers '(".project"))
 
