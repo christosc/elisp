@@ -503,9 +503,7 @@
 ;; window.
 (use-package xref
   :config
-  ;; I don't want to auto jump when viewing the references of an identifier, so
-  ;; I don't mingle with xref-auto-jump-to-first-xref.
-  ;;(setq xref-auto-jump-to-first-xref t) ;; Use 'show to open it
+  (setq xref-auto-jump-to-first-xref 'move)
   (setq xref-auto-jump-to-first-definition t))
 
 ;; I'm using this file, .project, as a marker where my project's root directory
