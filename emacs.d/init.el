@@ -414,8 +414,8 @@
 ; useful.
 ;;(global-set-key "\C-x\C-m" 'execute-extended-command)
 ;;(global-set-key "\C-c\C-m" 'execute-extended-command)
-(global-set-key "\C-w" 'backward-kill-word)
-(global-set-key "\C-x\C-k" 'kill-region)  ;; C-x k is kill-buffer
+;;(global-set-key "\C-w" 'backward-kill-word)
+;;(global-set-key "\C-x\C-k" 'kill-region)  ;; C-x k is kill-buffer
 ;;(global-set-key "\C-c\C-k" 'kill-region)
 ;;(global-set-key "\C-xe" 'end-of-buffer)
 ;;(global-set-key "\C-xt" 'beginning-of-buffer)
@@ -445,8 +445,9 @@
 ;(global-set-key "\C-\M-l" 'downcase-word)    ; was `reposition-window'
 ;;(global-set-key "\C-\M-j" 'call-last-kbd-macro) ; was `default-indent-new-line'
 
-;; (unless window-system
-;;   (setq visible-cursor nil))
+;; I think I don't like blinking cursor in terminal Emacs...
+(unless window-system
+  (setq visible-cursor nil))
 
 ; Reduce the number of beeps Emacs is making. This is from Emacs Wiki (Alarm
 ; Bell)
