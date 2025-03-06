@@ -240,10 +240,12 @@
 ;;(load-theme 'gruvbox t)
 ;;(load-theme 'desert t)
 ;;(load-theme 'wheatgrass t)
-;;(load-theme 'zenburn t)
+(load-theme 'zenburn t)
 ;;(load-theme 'manoj-dark t)
-(load-theme 'modus-vivendi t)
-
+;;(load-theme 'modus-vivendi t)
+;;(load-theme 'gruvbox-dark-hard t)
+;;(load-theme 'leuven-dark t)
+(add-to-list 'default-frame-alist '(background-color  . "black"))
 ; In order to have all those special color names, like 'gainsboro' etc., one
 ; needs to enable 24-bit colors in the terminal.  This can done by putting the
 ; setting
@@ -414,9 +416,9 @@
 ; useful.
 ;;(global-set-key "\C-x\C-m" 'execute-extended-command)
 ;;(global-set-key "\C-c\C-m" 'execute-extended-command)
-;;(global-set-key "\C-w" 'backward-kill-word)
-;;(global-set-key "\C-x\C-k" 'kill-region)  ;; C-x k is kill-buffer
-;;(global-set-key "\C-c\C-k" 'kill-region)
+;; (global-set-key "\C-w" 'backward-kill-word)
+;; (global-set-key "\C-x\C-k" 'kill-region)  ;; C-x k is kill-buffer
+;; (global-set-key "\C-c\C-k" 'kill-region)
 ;;(global-set-key "\C-xe" 'end-of-buffer)
 ;;(global-set-key "\C-xt" 'beginning-of-buffer)
 ;;(global-set-key "\C-xi" 'info)
@@ -446,8 +448,8 @@
 ;;(global-set-key "\C-\M-j" 'call-last-kbd-macro) ; was `default-indent-new-line'
 
 ;; I think I don't like blinking cursor in terminal Emacs...
-(unless window-system
-  (setq visible-cursor nil))
+;; (unless window-system
+;;   (setq visible-cursor nil))
 
 ; Reduce the number of beeps Emacs is making. This is from Emacs Wiki (Alarm
 ; Bell)
@@ -507,9 +509,8 @@
   (setq xref-auto-jump-to-first-xref 'move)
   (setq xref-auto-jump-to-first-definition t))
 
-;; I'm using this file, .project, as a marker where my project's root directory
+;; I'm using this file, .project.el, as a marker where my project's root directory
 ;; lies in the filesystem. Thus I can use all the project.el commands with
 ;; regard to the directory where that .project file is found.
 ;; E.g. I can use the xref-find-references command, bound to M-?.
-(setq project-vc-extra-root-markers '(".project"))
-
+(setq project-vc-extra-root-markers '(".project.el" ".projectile"))
