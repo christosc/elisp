@@ -8,15 +8,20 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("d80952c58cf1b06d936b1392c38230b74ae1a2a6729594770762dc0779ac66b7" "b1a691bb67bd8bd85b76998caf2386c9a7b2ac98a116534071364ed6489b695d" "57d7e8b7b7e0a22dc07357f0c30d18b33ffcbb7bcd9013ab2c9f70748cfa4838" "f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7" default))
+   '("d80952c58cf1b06d936b1392c38230b74ae1a2a6729594770762dc0779ac66b7"
+     "b1a691bb67bd8bd85b76998caf2386c9a7b2ac98a116534071364ed6489b695d"
+     "57d7e8b7b7e0a22dc07357f0c30d18b33ffcbb7bcd9013ab2c9f70748cfa4838"
+     "f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7" default))
  '(diff-switches "-u")
- '(package-selected-packages '(gruvbox-theme helm zenburn-theme markdown-mode yaml-mode)))
+ '(package-selected-packages
+   '(company gruvbox-theme helm lsp-mode lsp-ui markdown-mode yaml-mode
+             zenburn-theme)))
 
 ;;; uncomment for CJK utf-8 support for non-Asian users
 ;;(require 'un-define)
 
 ;; Don't hide the menu so that we can learn some useful keyboard shortcuts.
-(menu-bar-mode -1)
+(menu-bar-mode 1)
 
 ;;(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 ;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.2")
@@ -127,7 +132,8 @@
 
 
 ;; Enable mouse support
-(xterm-mouse-mode 1)
+(xterm-mouse-mode t)
+(mouse-wheel-mode t)
 ;; </mouse-support>
 
 ;; Ignore case when auto-completing in the minibuffer (does it work?)
@@ -141,9 +147,9 @@
 ;; (setq read-buffer-completion-ignore-case t)
 
 
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-(package-initialize)
+;; (require 'package)
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+;; (package-initialize)
 
 (add-to-list 'auto-mode-alist '("\\.proto\\'" . protobuf-mode))
 
@@ -246,6 +252,7 @@
 ;;(load-theme 'gruvbox-dark-hard t)
 ;;(load-theme 'leuven-dark t)
 (add-to-list 'default-frame-alist '(background-color  . "black"))
+(set-face-attribute 'region nil :background "mediumblue") ;; Zenburn needs improvement in region highlight
 ; In order to have all those special color names, like 'gainsboro' etc., one
 ; needs to enable 24-bit colors in the terminal.  This can done by putting the
 ; setting
@@ -257,7 +264,7 @@
 
 ; If you can find the specific color theme, use that, otherwise make a custom
 ; theme.
-;; (if  t
+;;(if  nil
 ;;     (progn
 ;;       (load-theme 'zenburn t)
 ;;       ;;(load-theme 'gruvbox t)
@@ -429,9 +436,9 @@
 ;(define-key help-map "i" 'find-function) ; was `info'
 ;(define-key help-map "l" 'find-library) ; was `view-lossage'
 ;(define-key help-map "r" 'find-variable) ; was `info-emacs-manual'
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+;; (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+;; (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+;;(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (defalias 'qrr 'query-replace-regexp)
 (global-set-key [f5] 'call-last-kbd-macro) ; S.Y. uses `M-j'
 ;; (global-set-key "\M-s" 'isearch-forward-regexp) ; was `isearch-forward-symbol-at-point'
@@ -514,3 +521,29 @@
 ;; regard to the directory where that .project file is found.
 ;; E.g. I can use the xref-find-references command, bound to M-?.
 (setq project-vc-extra-root-markers '(".project.el" ".projectile"))
+
+;;(setq package-check-signature 'allow-unsigned)
+(setq package-check-signature nil)
+(setq package-archives '(("melpa" . "/data/chryssoc/mirror-elpa/melpa/")
+                         ("org"   . "/data/chryssoc/mirror-elpa/org/")
+                         ("gnu"   . "/data/chryssoc/mirror-elpa/gnu/")))
+(package-initialize)
+
+
+(use-package lsp-mode
+  :ensure t
+  :hook ((c-mode c++-mode) . lsp-deferred)
+  :commands (lsp lsp-deferred)
+  :config
+  (setq lsp-clients-clangd-executable "/data/chryssoc/bin/clangd"))  ;; Update this path if necessary
+
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+(use-package company
+  :ensure t
+  :hook (prog-mode . company-mode)
+  :config
+  (setq company-minimum-prefix-length 1
+        company-idle-delay 0.0))  ;; Adjust as needed
