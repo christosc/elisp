@@ -523,6 +523,24 @@
 (setq project-vc-extra-root-markers '(".project.el" ".projectile"))
 
 ;;(setq package-check-signature 'allow-unsigned)
+
+;; !!!: This is the way to circuvent restrictions imposed by the proxy in a corporate environment.
+;; (Solution given by ChatGPT.)
+;; emacs-antiproxy: This approach involves setting up a local mirror of package
+;; archives, which can be beneficial when dealing with restrictive proxies or
+;; firewalls. By cloning a mirror repository, you can access packages locally
+;; without direct internet access:​ GitHub
+;;
+;;     git clone --depth 1 https://github.com/d12frosted/elpa-mirror.git ~/.emacs.d/mirror-elpa/
+;;
+;; Then, configure Emacs to use this local mirror:​
+;;
+;; (setq package-archives '(("melpa" . "~/.emacs.d/mirror-elpa/melpa/")
+;;                          ("org"   . "~/.emacs.d/mirror-elpa/org/")
+;;                          ("gnu"   . "~/.emacs.d/mirror-elpa/gnu/")))
+;; (package-initialize)
+;;
+;; This method allows you to install packages without needing to traverse the proxy. ​
 (setq package-check-signature nil)
 (setq package-archives '(("melpa" . "/data/chryssoc/mirror-elpa/melpa/")
                          ("org"   . "/data/chryssoc/mirror-elpa/org/")
