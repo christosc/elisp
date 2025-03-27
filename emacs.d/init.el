@@ -14,8 +14,8 @@
      "f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7" default))
  '(diff-switches "-u")
  '(package-selected-packages
-   '(company gruvbox-theme helm lsp-mode lsp-ui markdown-mode yaml-mode
-             zenburn-theme)))
+   '(company gruvbox-theme helm lsp-mode lsp-ui markdown-mode protobuf-mode
+             yaml-mode zenburn-theme)))
 
 ;;; uncomment for CJK utf-8 support for non-Asian users
 ;;(require 'un-define)
@@ -246,13 +246,14 @@
 ;;(load-theme 'gruvbox t)
 ;;(load-theme 'desert t)
 ;;(load-theme 'wheatgrass t)
-(load-theme 'zenburn t)
+;;(load-theme 'zenburn t)
 ;;(load-theme 'manoj-dark t)
 ;;(load-theme 'modus-vivendi t)
+(load-theme 'modus-vivendi-tinted t)
 ;;(load-theme 'gruvbox-dark-hard t)
 ;;(load-theme 'leuven-dark t)
-(add-to-list 'default-frame-alist '(background-color  . "black"))
-(set-face-attribute 'region nil :background "mediumblue") ;; Zenburn needs improvement in region highlight
+;;(add-to-list 'default-frame-alist '(background-color  . "black"))
+;;(set-face-attribute 'region nil :background "mediumblue") ;; Zenburn needs improvement in region highlight
 ; In order to have all those special color names, like 'gainsboro' etc., one
 ; needs to enable 24-bit colors in the terminal.  This can done by putting the
 ; setting
@@ -455,8 +456,8 @@
 ;;(global-set-key "\C-\M-j" 'call-last-kbd-macro) ; was `default-indent-new-line'
 
 ;; I think I don't like blinking cursor in terminal Emacs...
-;; (unless window-system
-;;   (setq visible-cursor nil))
+(unless window-system
+  (setq visible-cursor nil))
 
 ; Reduce the number of beeps Emacs is making. This is from Emacs Wiki (Alarm
 ; Bell)
@@ -547,21 +548,44 @@
                          ("gnu"   . "/data/chryssoc/mirror-elpa/gnu/")))
 (package-initialize)
 
+(with-eval-after-load 'lsp-mode
+  (define-key lsp-mode-map (kbd "C-c l r") 'lsp-find-references))
+
+(with-eval-after-load 'lsp-ui
+  (define-key lsp-mode-map (kbd "C-c l d") 'lsp-ui-doc-show))
+
+(with-eval-after-load 'lsp-mode
+  (setq lsp-ui-sideline-enable t
+        lsp-ui-sideline-show-diagnostics t))
+
+(with-eval-after-load 'lsp-mode
+  (define-key lsp-mode-map (kbd "C-c C-o") 'lsp-clangd-find-other-file))
 
 (use-package lsp-mode
   :ensure t
   :hook ((c-mode c++-mode) . lsp-deferred)
   :commands (lsp lsp-deferred)
   :config
-  (setq lsp-clients-clangd-executable "/data/chryssoc/bin/clangd"))  ;; Update this path if necessary
+  (setq lsp-clients-clangd-executable "/data/chryssoc/bin/clangd")  ;; Update this path if necessary
+  (setq lsp-clients-clangd-args '("--log=verbose" "--background-index" "--clang-tidy"))
+  (setq lsp-log-io t) ;; enable verbose logging
+  ;; Additional configurations
+  )
+
+(setq lsp-log-io t) ;; enable verbose logging
+;;(setq lsp-clients-clangd-args '("--log=verbose"))
 
 (use-package lsp-ui
   :ensure t
-  :commands lsp-ui-mode)
-
-(use-package company
-  :ensure t
-  :hook (prog-mode . company-mode)
+  :commands lsp-ui-mode
   :config
-  (setq company-minimum-prefix-length 1
-        company-idle-delay 0.0))  ;; Adjust as needed
+  (setq lsp-ui-sideline-enable t)
+  (setq lsp-ui-sideline-show-diagnostics t)
+  )
+
+;; (use-package company
+;;   :ensure t
+;;   :hook (prog-mode . company-mode)
+;;   :config
+;;   (setq company-minimum-prefix-length 1
+;;         company-idle-delay 0.0))  ;; Adjust as needed
