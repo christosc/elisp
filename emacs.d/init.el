@@ -548,40 +548,54 @@
                          ("gnu"   . "/data/chryssoc/mirror-elpa/gnu/")))
 (package-initialize)
 
-(with-eval-after-load 'lsp-mode
-  (define-key lsp-mode-map (kbd "C-c l r") 'lsp-find-references))
+;; Eglot is built into Emacs since version 29
+;; Enable eglot for C and C++ modes
+(add-hook 'c-mode-hook 'eglot-ensure)
+(add-hook 'c++-mode-hook 'eglot-ensure)
 
-(with-eval-after-load 'lsp-ui
-  (define-key lsp-mode-map (kbd "C-c l d") 'lsp-ui-doc-show))
+;; Enable eglot for Python mode
+(add-hook 'python-mode-hook 'eglot-ensure)
 
-(with-eval-after-load 'lsp-mode
-  (setq lsp-ui-sideline-enable t
-        lsp-ui-sideline-show-diagnostics t))
-
-(with-eval-after-load 'lsp-mode
-  (define-key lsp-mode-map (kbd "C-c C-o") 'lsp-clangd-find-other-file))
-
-(use-package lsp-mode
+(use-package company
   :ensure t
-  :hook ((c-mode c++-mode) . lsp-deferred)
-  :commands (lsp lsp-deferred)
-  :config
-  (setq lsp-clients-clangd-executable "/data/chryssoc/bin/clangd")  ;; Update this path if necessary
-  (setq lsp-clients-clangd-args '("--log=verbose" "--background-index" "--clang-tidy"))
-  (setq lsp-log-io t) ;; enable verbose logging
-  ;; Additional configurations
-  )
+  :hook (prog-mode . company-mode))
 
-(setq lsp-log-io t) ;; enable verbose logging
-;;(setq lsp-clients-clangd-args '("--log=verbose"))
+;; Commenting out lsp-mode; I'll try built-in eglot...
+;; (with-eval-after-load 'lsp-mode
+;;   (define-key lsp-mode-map (kbd "C-c l r") 'lsp-find-references))
 
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode
-  :config
-  (setq lsp-ui-sideline-enable t)
-  (setq lsp-ui-sideline-show-diagnostics t)
-  )
+;; (with-eval-after-load 'lsp-ui
+;;   (define-key lsp-mode-map (kbd "C-c l d") 'lsp-ui-doc-show)
+;;   (define-key lsp-mode-map (kbd "C-c k") 'lsp-ui-doc-glance))
+
+;; (with-eval-after-load 'lsp-mode
+;;   (setq lsp-ui-sideline-enable t
+;;         lsp-ui-sideline-show-diagnostics t))
+
+;; (with-eval-after-load 'lsp-mode
+;;   (define-key lsp-mode-map (kbd "C-c C-o") 'lsp-clangd-find-other-file))
+
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :hook ((c-mode c++-mode) . lsp-deferred)
+;;   :commands (lsp lsp-deferred)
+;;   :config
+;;   (setq lsp-clients-clangd-executable "/data/chryssoc/bin/clangd")  ;; Update this path if necessary
+;;   (setq lsp-clients-clangd-args '("--log=verbose" "--background-index" "--clang-tidy"))
+;;   (setq lsp-log-io t) ;; enable verbose logging
+;;   ;; Additional configurations
+;;   )
+
+;; (setq lsp-log-io t) ;; enable verbose logging
+;; ;;(setq lsp-clients-clangd-args '("--log=verbose"))
+
+;; (use-package lsp-ui
+;;   :ensure t
+;;   :commands lsp-ui-mode
+;;   :config
+;;   (setq lsp-ui-sideline-enable t)
+;;   (setq lsp-ui-sideline-show-diagnostics t)
+;;   )
 
 ;; (use-package company
 ;;   :ensure t
