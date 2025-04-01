@@ -603,3 +603,8 @@
 ;;   :config
 ;;   (setq company-minimum-prefix-length 1
 ;;         company-idle-delay 0.0))  ;; Adjust as needed
+
+(require 'eglot)
+(add-to-list 'eglot-server-programs
+             '((c-mode c++-mode)
+               . ("clangd" "--header-insertion=never")))
