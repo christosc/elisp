@@ -14,8 +14,8 @@
      "f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7" default))
  '(diff-switches "-u")
  '(package-selected-packages
-   '(company gruvbox-theme helm lsp-mode lsp-ui markdown-mode protobuf-mode
-             yaml-mode zenburn-theme)))
+   '(company copilot eglot-copilot gruvbox-theme helm lsp-mode lsp-ui markdown-mode
+             protobuf-mode yaml-mode zenburn-theme)))
 
 ;;; uncomment for CJK utf-8 support for non-Asian users
 ;;(require 'un-define)
@@ -556,10 +556,6 @@
 ;; Enable eglot for Python mode
 (add-hook 'python-mode-hook 'eglot-ensure)
 
-(use-package company
-  :ensure t
-  :hook (prog-mode . company-mode))
-
 ;; Commenting out lsp-mode; I'll try built-in eglot...
 ;; (with-eval-after-load 'lsp-mode
 ;;   (define-key lsp-mode-map (kbd "C-c l r") 'lsp-find-references))
@@ -597,14 +593,17 @@
 ;;   (setq lsp-ui-sideline-show-diagnostics t)
 ;;   )
 
-;; (use-package company
-;;   :ensure t
-;;   :hook (prog-mode . company-mode)
-;;   :config
-;;   (setq company-minimum-prefix-length 1
-;;         company-idle-delay 0.0))  ;; Adjust as needed
+(setq lsp-clients-clangd-executable "/data/chryssoc/bin/clangd")
+
+(use-package company
+  :ensure t
+  :hook (prog-mode . company-mode)
+  :config
+  (setq company-minimum-prefix-length 1
+        company-idle-delay 1.0))  ;; Adjust as needed
 
 (require 'eglot)
 (add-to-list 'eglot-server-programs
              '((c-mode c++-mode)
                . ("clangd" "--header-insertion=never")))
+
