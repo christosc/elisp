@@ -14,8 +14,8 @@
      "f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7" default))
  '(diff-switches "-u")
  '(package-selected-packages
-   '(company copilot eglot-copilot gruvbox-theme helm lsp-mode lsp-ui markdown-mode
-             protobuf-mode yaml-mode zenburn-theme)))
+   '(company copilot copilot-chat eglot-copilot gruvbox-theme helm lsp-mode lsp-ui
+             markdown-mode protobuf-mode yaml-mode zenburn-theme)))
 
 ;;; uncomment for CJK utf-8 support for non-Asian users
 ;;(require 'un-define)
@@ -607,3 +607,14 @@
              '((c-mode c++-mode)
                . ("clangd" "--header-insertion=never")))
 
+(require 'quelpa)
+(require 'quelpa-use-package)
+
+(use-package copilot
+  :vc (:url "https://github.com/copilot-emacs/copilot.el"
+            :rev :newest
+            :branch "main"))
+
+(add-hook 'prog-mode-hook 'copilot-mode)
+
+(use-package copilot-chat)
