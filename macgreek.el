@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: nil -*-
 ;; macgreek.el --- Emacs input method that imitates the Mac's respective keyboard layout
 ;;                 for writing (polytonic) Greek.
 ;;

@@ -1,6 +1,10 @@
-;; .emacs
+;;; -*- lexical-binding: nil -*-
+; .emacs
 
 ;; !!!: For better colors in terminal emacs set 'TERM' env variable to 'screen-256color'.
+(setq url-proxy-services
+       '(("http" . "http://87.254.212.120:8080")
+         ("https" . "http://87.254.212.120:8080")))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -14,24 +18,27 @@
      "f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7" default))
  '(diff-switches "-u")
  '(package-selected-packages
-   '(company copilot copilot-chat eglot-copilot gruvbox-theme helm lsp-mode lsp-ui
-             markdown-mode protobuf-mode yaml-mode zenburn-theme)))
+   '(company eglot-copilot gruvbox-theme helm lsp-mode lsp-ui markdown-mode
+             protobuf-mode yaml yaml-mode zenburn-theme)))
 
 ;;; uncomment for CJK utf-8 support for non-Asian users
 ;;(require 'un-define)
 
 ;; Don't hide the menu so that we can learn some useful keyboard shortcuts.
-(menu-bar-mode 1)
+(menu-bar-mode -1)
 
 ;;(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 ;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.2")
-;; (require 'package)
-;; ;;Any add to list for package-archives (to add marmalade or melpa) goes here
-;; (add-to-list 'package-archives
-;;     '("MELPA" .
-;;       "https://melpa.org/packages/"))
+(require 'package)
+;;Any add to list for package-archives (to add marmalade or melpa) goes here
+;; (setq package-archives
+;;       '("melpa" . "http://melpa.org/packages/"))
 
-;; (package-initialize)
+(setq package-archives '(("melpa-local" . "file:///data/chryssoc/mirror/")))
+
+
+(package-initialize)
+
 (add-to-list 'load-path "C:/Users/chryssoc/AppData/Roaming/.emacs.d/elisp")
 (add-to-list 'load-path "~/.emacs.d/elisp")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
@@ -242,14 +249,14 @@
 ;; Theming
 ;;(load-theme 'tango-dark t)
 ;;(load-theme 'wombat t)
-;;(load-theme 'modus-vivendi t)
+(load-theme 'modus-vivendi t)
 ;;(load-theme 'gruvbox t)
 ;;(load-theme 'desert t)
 ;;(load-theme 'wheatgrass t)
 ;;(load-theme 'zenburn t)
 ;;(load-theme 'manoj-dark t)
 ;;(load-theme 'modus-vivendi t)
-(load-theme 'modus-vivendi-tinted t)
+;;(load-theme 'modus-vivendi-tinted t)
 ;;(load-theme 'gruvbox-dark-hard t)
 ;;(load-theme 'leuven-dark t)
 ;;(add-to-list 'default-frame-alist '(background-color  . "black"))
@@ -485,7 +492,7 @@
 
 
 ;; Associate .h files with C++ mode
-(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+;;(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 ;; Reverse direction movement in other-window
 (global-set-key (kbd "C-x O") '(lambda () (interactive) (other-window -1)))
@@ -541,12 +548,15 @@
 ;;                          ("gnu"   . "~/.emacs.d/mirror-elpa/gnu/")))
 ;; (package-initialize)
 ;;
+
 ;; This method allows you to install packages without needing to traverse the proxy. ​
-(setq package-check-signature nil)
-(setq package-archives '(("melpa" . "/data/chryssoc/mirror-elpa/melpa/")
-                         ("org"   . "/data/chryssoc/mirror-elpa/org/")
-                         ("gnu"   . "/data/chryssoc/mirror-elpa/gnu/")))
-(package-initialize)
+;; <method>
+;; (setq package-check-signature nil)
+;; (setq package-archives '(("melpa" . "/data/chryssoc/mirror-elpa/melpa/")
+;;                          ("org"   . "/data/chryssoc/mirror-elpa/org/")
+;;                          ("gnu"   . "/data/chryssoc/mirror-elpa/gnu/")))
+;; </method>
+;;(package-initialize)
 
 ;; Eglot is built into Emacs since version 29
 ;; Enable eglot for C and C++ modes
@@ -595,26 +605,222 @@
 
 (setq lsp-clients-clangd-executable "/data/chryssoc/bin/clangd")
 
-(use-package company
-  :ensure t
-  :hook (prog-mode . company-mode)
-  :config
-  (setq company-minimum-prefix-length 1
-        company-idle-delay 1.0))  ;; Adjust as needed
+;; (use-package company
+;;   :ensure t
+;;   :hook (prog-mode . company-mode)
+;;   :config
+;;   (setq company-minimum-prefix-length 1
+;;         company-idle-delay 1.0))  ;; Adjust as needed
 
 (require 'eglot)
 (add-to-list 'eglot-server-programs
              '((c-mode c++-mode)
                . ("clangd" "--header-insertion=never")))
 
+(setq eglot-ignored-server-capabilities '(:inlayHintProvider))
+
+
 (require 'quelpa)
 (require 'quelpa-use-package)
 
-(use-package copilot
-  :vc (:url "https://github.com/copilot-emacs/copilot.el"
-            :rev :newest
-            :branch "main"))
+;; (use-package copilot
+;;   :vc (:url "https://github.com/copilot-emacs/copilot.el"
+;;             :rev :newest
+;;             :branch "main"))
 
-(add-hook 'prog-mode-hook 'copilot-mode)
+;; (add-hook 'prog-mode-hook 'copilot-mode)
 
-(use-package copilot-chat)
+;;(use-package copilot-chat)
+
+
+(require 'native-compile)
+(require 'treesit)
+
+(setq treesit-language-source-alist
+      
+      '(
+        
+        (cpp . ("https://github.com/tree-sitter/tree-sitter-cpp"))
+        
+        ;; Add other languages you want here, e.g.:
+        
+        (c . ("https://github.com/tree-sitter/tree-sitter-c"))
+        
+        (python . ("https://github.com/tree-sitter/tree-sitter-python"))
+        
+        (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript"))
+        
+        ;; ... and so on for other languages
+        
+        ))
+
+;;(setq treesit-font-lock-level 0) ;; Adjust as needed, 4 is usually good for C++
+
+;(setq treesit-extra-load-path '("/data/chryssoc/tree-sitter-grammars/"))
+
+(setq major-mode-remap-alist
+      '((c-mode . c-ts-mode)
+        (c++-mode . c++-ts-mode)
+        (java-mode . java-ts-mode)
+        (python-mode . python-ts-mode)
+        (sh-mode . bash-ts-mode)))
+
+
+;; (setq gnutls-trustfiles '("/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"))
+
+;; (use-package treesit-auto
+;;   :ensure t
+;;   :config
+;;   (setq treesit-auto-install 'prompt)
+;;   (treesit-auto-add-to-auto-mode-alist 'all))
+
+;; ;; Disable Tree-sitter entirely
+
+(setq treesit-auto-install nil)
+(setq major-mode-remap-alist nil)
+;;(setq treesit-font-lock-level 0)
+
+;; ;; Fully disable font-lock (pure text mode)
+
+;;(global-font-lock-mode -1)
+
+
+
+;; ;; Disable package management entirely
+
+;; (setq package-enable-at-startup nil)
+;; (setq package-quickstart nil)
+;; (setq package-archives nil)
+
+
+
+;; ;; Use classic cc-mode (very stable, built into Emacs forever)
+
+;; (require 'cc-mode)
+;; (add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
+;; (add-to-list 'auto-mode-alist '("\\.c\\'" . c-mode))
+;; (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
+
+;; (add-hook 'c++-ts-mode-hook
+;;           (lambda ()
+;;             (unless (treesit-language-available-p 'cpp)
+;;               (message "C++ Treesitter grammar not available, skipping query override.")
+;;               (cl-return)) ;; exit if grammar isn't loaded
+
+;;             ;; Temporarily disable font-lock to prevent further errors while we modify settings
+;;             (font-lock-mode -1)
+
+;;             ;; Get the current rules
+;;             (let* ((current-settings treesit-font-lock-settings)
+;;                    (found-and-fixed nil)
+;;                    (new-settings nil)
+;;                    ;; This is the *correct* query you validated
+;;                    (correct-doc-query
+;;                     (treesit-query-compile
+;;                      'cpp
+;;                      "((comment) @font-lock-doc-face (#match? @font-lock-doc-face \"/\\\\*\\\\*\"))")))
+;;               ;; Iterate through the current settings to find and replace the problematic one
+;;               (dolist (rule current-settings)
+;;                 (if (and (listp rule)
+;;                          ;; This is a rough check to identify the problematic rule.
+;;                          ;; You might need to be more precise based on what you find.
+;;                          ;; For example, checking if the rule's `feature` is 'comment
+;;                          ;; and if its query string contains a specific substring.
+;;                          (string-match-p "font-lock-doc-face" (prin1-to-string rule))
+;;                          (not found-and-fixed)) ; Only fix the first one found
+;;                     (progn
+;;                       (setq new-settings (cons `(comment . ,correct-doc-query) new-settings)) ;; Use the compiled query directly
+;;                       (setq found-and-fixed t))
+;;                   (setq new-settings (cons rule new-settings))))
+;;               ;; Apply the new settings
+;;               (setq-local treesit-font-lock-settings (nreverse new-settings)))
+
+;;             ;; Re-enable font-lock
+;;             (font-lock-mode 1)
+;;             (message "C++ Tree-sitter doc comment query overridden (if found).")))
+
+;; (add-hook 'c++-ts-mode-hook
+;;           (lambda ()
+;;             (message "Overriding C++ Tree-sitter 'comment' feature rules...")
+;;             ;; Add your corrected doc comment rule.
+;;             ;; Setting :override t will replace any existing 'comment' rules.
+;;             ;; We'll include both standard comments and doc comments here for completeness.
+;;             (treesit-font-lock-add-rules
+;;              :language 'cpp
+;;              :feature 'comment
+;;              :override t ; <-- This is the key! It replaces previous 'comment' rules
+;;              '(
+;;                ;; Rule for general comments
+;;                ((comment) @font-lock-comment-face)
+
+;;                ;; Your validated rule for doc comments
+;;                ((comment) @font-lock-doc-face
+;;                 (#match? @font-lock-doc-face "/\\*\\*"))
+
+;;                ;; Optionally, add a rule for C++-style doc comments (///) if needed
+;;                ((comment) @font-lock-doc-face
+;;                 (#match? @font-lock-doc-face "///"))
+;;                ))
+;;             (message "C++ Tree-sitter 'comment' feature rules overridden."))
+;;           90) ;; <-- The priority argument goes HERE, as the third argument to add-hook
+
+;; (add-hook 'c++-ts-mode-hook
+;;           (lambda ()
+;;             (message "Applying custom Tree-sitter rules for C++ comments...")
+;;             (treesit-font-lock-set-keywords
+;;              'cpp
+;;              `((comment @font-lock-comment-face)
+;;                (comment @font-lock-doc-face
+;;                         (#match? @font-lock-doc-face "/\\*\\*"))))
+;;             (message "Custom Tree-sitter rules applied.")))
+
+
+;; Enable native compilation for all packages
+
+(setq native-comp-jit-compilation t)
+
+
+
+;; Suppress compiler warnings during async compilation
+
+(setq native-comp-async-report-warnings-errors nil)
+
+
+
+;; Set the number of compilation jobs (adjust based on your CPU cores)
+
+(setq native-comp-async-jobs 4)
+
+;; Enable deferred compilation for better startup performance
+(setq package-native-compile t)
+
+;; Automatically compile packages after installation
+(setq native-comp-jit-compilation t)
+
+;; Emulate Vim's C-a/C-x keyboard shortcuts
+(defun increment-number-at-point ()
+  (interactive)
+  (let ((old-point (point)))
+    (unwind-protect
+        (progn
+          (skip-chars-backward "0-9")
+          (or (looking-at "[0-9]+")
+              (error "No number at point"))
+          (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
+      (goto-char old-point))))
+
+(defun decrement-number-at-point ()
+  (interactive)
+  (let ((old-point (point)))
+    (unwind-protect
+        (progn
+          (skip-chars-backward "0-9")
+          (or (looking-at "[0-9]+")
+              (error "No number at point"))
+          (replace-match (number-to-string (1- (string-to-number (match-string 0))))))
+      (goto-char old-point))))
+
+(global-set-key (kbd "C-c +") 'increment-number-at-point)
+(global-set-key (kbd "C-c -") 'decrement-number-at-point)
+
