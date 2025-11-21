@@ -27,6 +27,13 @@
 ;; Don't hide the menu so that we can learn some useful keyboard shortcuts.
 (menu-bar-mode -1)
 
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '((c-mode c++-mode) . ("clangd"
+                                      "--log=error"
+                                      "--background-index"
+                                      "--clang-tidy"))))
+
 ;;(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 ;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.2")
 (require 'package)
@@ -43,9 +50,9 @@
 (add-to-list 'load-path "~/.emacs.d/elisp")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
-(require 'fic-mode)
-(add-hook 'c++-mode-hook 'turn-on-fic-mode)
-(add-hook 'emacs-lisp-mode-hook 'turn-on-fic-mode)
+;; (require 'fic-mode)
+;; (add-hook 'c++-mode-hook 'turn-on-fic-mode)
+;; (add-hook 'emacs-lisp-mode-hook 'turn-on-fic-mode)
 
 ;; Private definitions
 (defconst private-file "private.el" "File with private definitions.")
@@ -824,3 +831,26 @@
 (global-set-key (kbd "C-c +") 'increment-number-at-point)
 (global-set-key (kbd "C-c -") 'decrement-number-at-point)
 
+
+(setq treesit--indent-verbose nil)
+(setq c-ts-mode-indent-verbose nil)
+
+(define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
+(define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error)
+
+;; Function to send OSC 52 escape sequence
+(defun osc52-send-string (string)
+  "Send STRING to the terminal clipboard using OSC 52."
+  (let ((encoded (base64-encode-string string t)))
+    (send-string-to-terminal (concat "\e]52;c;" encoded "\a"))))
+
+;; Override the interprogram-cut-function
+(defun osc52-copy-to-clipboard (text)
+  "Copy TEXT to system clipboard via OSC 52."
+  (osc52-send-string text))
+
+;; Set up clipboard integration
+(setq interprogram-cut-function 'osc52-copy-to-clipboard)
+
+;; Optional: also set this for better compatibility
+(setq select-enable-clipboard t)
