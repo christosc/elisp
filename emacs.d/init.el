@@ -1,10 +1,68 @@
 ;;; -*- lexical-binding: nil -*-
 ; .emacs
 
-;; !!!: For better colors in terminal emacs set 'TERM' env variable to 'screen-256color'.
-(setq url-proxy-services
-       '(("http" . "http://87.254.212.120:8080")
-         ("https" . "http://87.254.212.120:8080")))
+;; ==========================================
+;; Core Performance & I/O Optimizations
+;; ==========================================
+
+;; Increase the amount of data Emacs reads from processes (to 1MB).
+;; ABSOLUTELY CRUCIAL to prevent clangd from bottlenecking.
+(setq read-process-output-max (* 1024 1024))
+
+;; Lighten UI and scrolling (extremely useful in terminal/SSH).
+;; jit-lock-defer-time prevents micro-stutters from syntax highlighting.
+(setq fast-but-imprecise-scrolling t
+      jit-lock-defer-time 0
+      cursor-in-non-selected-windows nil)
+
+;; ==========================================
+;; Memory Management (Garbage Collection)
+;; ==========================================
+
+;; Set a very high limit (100MB) temporarily during startup,
+;; so Emacs opens quickly without GC interruptions.
+(setq gc-cons-threshold (* 100 1024 1024))
+
+;; Once startup is complete, revert to a reasonable limit (16MB).
+;; This way, Emacs will perform small, unnoticeable cleanups (micro-pauses)
+;; instead of a massive, annoying freeze after accumulating 100MB of garbage.
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 16 1024 1024))))
+
+;; Note: An even better alternative is to install the 'gcmh' package
+;; (Garbage Collector Magic Hack) and run it with (gcmh-mode 1).
+
+;; ==========================================
+;; C/C++ Mode & Eglot (LSP)
+;; ==========================================
+
+(require 'eglot)
+
+;; Enable eglot automatically when opening C or C++ files.
+(add-hook 'c-mode-hook 'eglot-ensure)
+(add-hook 'c++-mode-hook 'eglot-ensure)
+
+;; Disable synchronous connection. Eglot will connect to the LSP server
+;; in the background (asynchronously) without blocking the UI.
+(setq eglot-sync-connect nil)
+
+;; Set eglot's log buffer to 0. Otherwise, after hours of work,
+;; the communication history consumes a lot of memory and slows down the editor.
+(setq eglot-events-buffer-size 0)
+
+;; ==========================================
+;; Flymake (Diagnostics / Errors)
+;; ==========================================
+
+;; Show diagnostics (underlines) half a second (0.5s) 
+;; AFTER you stop typing, to avoid spamming clangd with requests.
+(setq flymake-no-changes-timeout 0.5)
+
+;; !!!: for better colors in terminal emacs set 'TERM' env variable to 'screen-256color'.
+;; (setq url-proxy-services
+;;        '(("http" . "http://87.254.212.120:8080")
+;;          ("https" . "http://87.254.212.120:8080")))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -19,7 +77,9 @@
  '(diff-switches "-u")
  '(package-selected-packages
    '(company eglot-copilot gruvbox-theme helm lsp-mode lsp-ui markdown-mode
-             protobuf-mode yaml yaml-mode zenburn-theme)))
+             olivetti protobuf-mode yaml yaml-mode zenburn-theme))
+ '(package-vc-selected-packages
+   '((olivetti :vc-backend Git :url "https://github.com/rnkn/olivetti"))))
 
 ;;; uncomment for CJK utf-8 support for non-Asian users
 ;;(require 'un-define)
@@ -41,7 +101,7 @@
 ;; (setq package-archives
 ;;       '("melpa" . "http://melpa.org/packages/"))
 
-(setq package-archives '(("melpa-local" . "file:///data/chryssoc/mirror/")))
+;;(setq package-archives '(("melpa-local" . "file:///data/chryssoc/mirror/")))
 
 
 (package-initialize)
