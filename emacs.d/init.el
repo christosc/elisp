@@ -1,8 +1,8 @@
 ;;; -*- lexical-binding: nil -*-
 ; .emacs
 
-(setq treesit-font-lock-level 1)
-(setq font-lock-maximum-decoration 1)
+;; (setq treesit-font-lock-level 1)
+;; (setq font-lock-maximum-decoration 2)
 
 ;; ==========================================
 ;; Core Performance & I/O Optimizations
@@ -36,15 +36,26 @@
 ;; Note: An even better alternative is to install the 'gcmh' package
 ;; (Garbage Collector Magic Hack) and run it with (gcmh-mode 1).
 
+;; ============= Treesitter ===================
+
+(setq treesit-language-source-alist
+      '((c   . ("https://github.com/tree-sitter/tree-sitter-c"))
+        (cpp . ("https://github.com/tree-sitter/tree-sitter-cpp"))))
+;; Do then M-x treesit-install-language-grammar RET cpp RET (and then also for c).
+
 ;; ==========================================
 ;; C/C++ Mode & Eglot (LSP)
 ;; ==========================================
+
+
 
 (require 'eglot)
 
 ;; Enable eglot automatically when opening C or C++ files.
 (add-hook 'c-mode-hook 'eglot-ensure)
 (add-hook 'c++-mode-hook 'eglot-ensure)
+(add-hook 'c++-ts-mode-hook 'eglot-ensure)
+(add-hook 'c-ts-mode-hook 'eglot-ensure)
 
 ;; Disable synchronous connection. Eglot will connect to the LSP server
 ;; in the background (asynchronously) without blocking the UI.
@@ -938,3 +949,6 @@
                     "--pch-storage=memory"
                     "--all-scopes-completion"
                     "--limit-references=0"))))
+
+(add-to-list 'major-mode-remap-alist '(c++-mode  . c++-ts-mode))
+(add-to-list 'major-mode-remap-alist '(c-mode    . c-ts-mode))
