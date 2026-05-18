@@ -1,6 +1,9 @@
 ;;; -*- lexical-binding: nil -*-
 ; .emacs
 
+(setq treesit-font-lock-level 1)
+(setq font-lock-maximum-decoration 1)
+
 ;; ==========================================
 ;; Core Performance & I/O Optimizations
 ;; ==========================================
@@ -76,10 +79,14 @@
      "f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7" default))
  '(diff-switches "-u")
  '(package-selected-packages
-   '(company eglot-copilot gruvbox-theme helm lsp-mode lsp-ui markdown-mode
-             olivetti protobuf-mode yaml yaml-mode zenburn-theme))
+   '(company corfu eglot-copilot eldoc-box gruvbox-theme helm lsp-mode lsp-ui
+             markdown-mode olivetti protobuf-mode yaml yaml-mode zenburn-theme))
  '(package-vc-selected-packages
-   '((olivetti :vc-backend Git :url "https://github.com/rnkn/olivetti"))))
+   '((flymake-popon :vc-backend Git :url
+                    "https://github.com/doomelpa/flymake-popon.git")
+     (eldoc-box :vc-backend Git :url "https://github.com/casouri/eldoc-box.git")
+     (corfu :vc-backend Git :url "https://github.com/minad/corfu")
+     (olivetti :vc-backend Git :url "https://github.com/rnkn/olivetti"))))
 
 ;;; uncomment for CJK utf-8 support for non-Asian users
 ;;(require 'un-define)
@@ -316,7 +323,7 @@
 ;; Theming
 ;;(load-theme 'tango-dark t)
 ;;(load-theme 'wombat t)
-(load-theme 'modus-vivendi t)
+;;(load-theme 'modus-vivendi t)
 ;;(load-theme 'gruvbox t)
 ;;(load-theme 'desert t)
 ;;(load-theme 'wheatgrass t)
@@ -326,6 +333,7 @@
 ;;(load-theme 'modus-vivendi-tinted t)
 ;;(load-theme 'gruvbox-dark-hard t)
 ;;(load-theme 'leuven-dark t)
+;;(load-theme 'tsdh-dark)
 ;;(add-to-list 'default-frame-alist '(background-color  . "black"))
 ;;(set-face-attribute 'region nil :background "mediumblue") ;; Zenburn needs improvement in region highlight
 ; In order to have all those special color names, like 'gainsboro' etc., one
@@ -914,3 +922,19 @@
 
 ;; Optional: also set this for better compatibility
 (setq select-enable-clipboard t)
+(require 'flymake-popon)
+(setq set-mark-command-repeat-pop t)
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '((c++-mode c++-ts-mode c-mode c-ts-mode)
+                 . ("clangd"
+                    "--background-index"
+                    "--clang-tidy"
+                    "--log=error"
+                    "--completion-style=detailed"
+                    "--header-insertion=iwyu"
+                    "--j=4"
+                    "--pch-storage=memory"
+                    "--all-scopes-completion"
+                    "--limit-references=0"))))
