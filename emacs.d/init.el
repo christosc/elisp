@@ -438,5 +438,23 @@
 
 (custom-set-faces)
 
+
+;;; ====================================================================
+;;  TRAMP
+;;  ===================================================================
+;; Windows GUI Emacs runs ssh.exe via pipes, so OpenSSH refuses to allocate
+;; a pty and TRAMP's prompt detection times out. -tt forces pty allocation.
+;; Not needed (and harmful) on Linux/macOS, where TRAMP's defaults work.
+(when (eq system-type 'windows-nt)
+  (with-eval-after-load 'tramp
+    (add-to-list 'tramp-connection-properties
+                 (list (regexp-quote "/ssh:")
+                       "login-args"
+                       '(("-tt")
+                         ("-l" "%u")
+                         ("-p" "%p")
+                         ("%c")
+                         ("-e" "none")
+                         ("%h"))))))
 (provide 'init)
 ;;; init.el ends here
