@@ -217,6 +217,7 @@
 ;;      buffer.
 ;; ----------------------------------------------------------------
 
+(setq-default indent-tabs-mode nil)
 (setq c-ts-mode-indent-offset 4)
 
 (defun cac/eglot-format-on-save ()
@@ -365,6 +366,10 @@
 (global-set-key (kbd "C-c +")   #'increment-number-at-point)
 (global-set-key (kbd "C-c -")   #'decrement-number-at-point)
 (global-set-key (kbd "<f5>")    #'call-last-kbd-macro)
+;; Readline-style word deletion. C-w deletes the previous word
+;; instead of killing the region; kill-region moves to C-c w.
+(global-set-key (kbd "C-w")   #'backward-kill-word)
+(global-set-key (kbd "C-c w") #'kill-region)
 
 ;; Search paths used by ff-find-other-file. Mirrors the equivalent
 ;; Vim 'path' setting:
