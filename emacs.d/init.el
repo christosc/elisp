@@ -81,10 +81,6 @@
 (xterm-mouse-mode t)
 (mouse-wheel-mode t)
 
-;; No blinking cursor in terminal Emacs.
-;; (unless window-system
-;;   (setq visible-cursor nil))
-
 ;; on Windows set a dark theme
 (if (display-graphic-p)
     ;; GUI (usually your Windows instance)
