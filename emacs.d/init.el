@@ -82,8 +82,13 @@
 (mouse-wheel-mode t)
 
 ;; No blinking cursor in terminal Emacs.
-(unless window-system
-  (setq visible-cursor nil))
+;; (unless window-system
+;;   (setq visible-cursor nil))
+
+;; on Windows set a dark theme
+(if (display-graphic-p)
+    ;; GUI (usually your Windows instance)
+    (load-theme 'wombat t))
 
 ;; Tame the bell — only ring on genuine errors, not on minibuffer aborts.
 (setq ring-bell-function
@@ -392,8 +397,12 @@
   "Copy TEXT to the system clipboard via OSC 52."
   (osc52-send-string text))
 
-(setq interprogram-cut-function #'osc52-copy-to-clipboard
-      select-enable-clipboard   t)
+;; Activate OSC 52 only on TTY frames; GUI frames use the native
+;; selection mechanism of the OS (e.g., w32 clipboard on Windows).
+(unless (display-graphic-p)
+  (setq interprogram-cut-function #'osc52-copy-to-clipboard))
+
+(setq select-enable-clipboard t)
 
 ;; ============================================================
 ;; Private definitions (host-specific, not in version control)
