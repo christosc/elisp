@@ -513,5 +513,22 @@
 ;; Default verbosity is enough for normal use; raise to 6 when debugging.
 (setq tramp-verbose 3)
 
+;; -------   Org Mode -----------------------------------
+
+;; Targeted silencer (Solution A): handles the case where some other
+;; code path eventually reaches sh-set-shell.
+(with-eval-after-load 'sh-script
+  (advice-add 'sh-set-shell :around
+              (lambda (orig &rest args)
+                (let ((inhibit-message t))
+                  (apply orig args)))))
+
+;; Avoid invoking that path at all when typing in Org buffers (Solution B).
+;; Plain Enter in Org just inserts a newline. Disabling electric-indent
+;; locally makes org-return skip newline-and-indent, which in turn
+;; skips org-edit-src-code's temp-buffer dance for src blocks.
+(add-hook 'org-mode-hook
+          (lambda () (electric-indent-local-mode -1)))
+
 (provide 'init)
 ;;; init.el ends here
