@@ -39,7 +39,7 @@
 (setq native-comp-jit-compilation              t
       package-native-compile                   t
       native-comp-async-report-warnings-errors nil
-      native-comp-async-jobs                   4)
+      native-comp-async-jobs                   (max 2 (/ (num-processors) 2)))
 
 ;; ============================================================
 ;; Package Management
@@ -98,6 +98,17 @@
 (recentf-mode 1)
 (setq recentf-max-menu-items  25
       recentf-max-saved-items 25)
+
+;; Use JetBrains Mono at 11pt on Windows only, to match the bundled
+;; WezTerm default font. On Linux Emacs 31 keep the system default.
+(when (eq system-type 'windows-nt)
+  ;; Affects the current/initial frame.
+  (set-face-attribute 'default nil
+                      :family "JetBrains Mono"
+                      :height 110)
+  ;; Affects all frames created afterwards (including emacsclient frames).
+  (add-to-list 'default-frame-alist
+               '(font . "JetBrains Mono-11")))
 
 ;; ============================================================
 ;; Encoding & Input Method
