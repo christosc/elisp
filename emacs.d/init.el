@@ -148,6 +148,15 @@
         (python     . ("https://github.com/tree-sitter/tree-sitter-python"))
         (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript"))))
 
+
+;; Pin to ABI 14 grammars whenever the running Emacs cannot load ABI 15.
+;; Self-adjusts if a future Emacs upgrade lifts the ABI ceiling.
+(when (and (fboundp 'treesit-library-abi-version)
+           (< (treesit-library-abi-version) 15))
+  (setq treesit-language-source-alist
+        '((c   "https://github.com/tree-sitter/tree-sitter-c"   "v0.23.2")
+          (cpp "https://github.com/tree-sitter/tree-sitter-cpp" "v0.23.4"))))
+
 ;; Manual install of grammars only:
 ;;   M-x treesit-install-language-grammar RET <lang> RET
 (setq treesit-auto-install nil)
@@ -445,6 +454,9 @@
 ;; Windows GUI Emacs runs ssh.exe via pipes, so OpenSSH refuses to allocate
 ;; a pty and TRAMP's prompt detection times out. -tt forces pty allocation.
 ;; Not needed (and harmful) on Linux/macOS, where TRAMP's defaults work.
+(with-eval-after-load 'tramp
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
+
 (when (eq system-type 'windows-nt)
   (with-eval-after-load 'tramp
     (add-to-list 'tramp-connection-properties
