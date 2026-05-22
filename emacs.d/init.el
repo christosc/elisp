@@ -479,5 +479,29 @@
                          ("%c")
                          ("-e" "none")
                          ("%h"))))))
+
+;; -------- TRAMP performance settings --------
+
+;; Prefer the ssh method on Windows (works with native ssh.exe).
+;; If you switch to PuTTY for connection sharing, use 'plink' instead.
+(setq tramp-default-method "ssh")
+
+;; Skip probing for Git, SVN, Bzr, etc. — we only ever use Mercurial.
+(setq vc-handled-backends '(Hg))
+
+;; No remote backup files, no remote lockfiles.
+(setq backup-enable-predicate
+      (lambda (name)
+        (and (normal-backup-enable-predicate name)
+             (not (file-remote-p name 'method)))))
+(setq remote-file-name-inhibit-locks t)
+
+;; Cache remote file properties aggressively.
+(setq remote-file-name-inhibit-cache nil)    ; default; do not flip to t for speed
+(setq tramp-completion-reread-directory-timeout nil)
+
+;; Default verbosity is enough for normal use; raise to 6 when debugging.
+(setq tramp-verbose 3)
+
 (provide 'init)
 ;;; init.el ends here
