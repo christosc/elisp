@@ -101,6 +101,12 @@
 
 ;; Use JetBrains Mono at 11pt on Windows only, to match the bundled
 ;; WezTerm default font. On Linux Emacs 31 keep the system default.
+;;
+;; Greek glyphs are routed to DejaVu Sans Mono: JetBrains Mono lacks
+;; the Greek Extended block (U+1F00..U+1FFF), where all polytonic
+;; precomposed characters live (breathings, perispomeni, iota subscript).
+;; For using a single monospaced font that also includes the Greek "extended"
+;; characters, see the Iosevka font.
 (when (eq system-type 'windows-nt)
   ;; Affects the current/initial frame.
   (set-face-attribute 'default nil
@@ -108,7 +114,11 @@
                       :height 110)
   ;; Affects all frames created afterwards (including emacsclient frames).
   (add-to-list 'default-frame-alist
-               '(font . "JetBrains Mono-11")))
+               '(font . "JetBrains Mono-11"))
+  ;; Route all Greek (basic + Extended polytonic) to DejaVu Sans Mono.
+  ;; Modifies the default fontset, so applies globally across frames.
+  (set-fontset-font t 'greek             (font-spec :family "DejaVu Sans Mono"))
+  (set-fontset-font t '(#x1F00 . #x1FFF) (font-spec :family "DejaVu Sans Mono")))
 
 ;; ============================================================
 ;; Encoding & Input Method
