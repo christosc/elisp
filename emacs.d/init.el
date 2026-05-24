@@ -98,7 +98,8 @@
 ;; on Windows set a dark theme
 (if (display-graphic-p)
     ;; GUI (usually your Windows instance)
-    (load-theme 'wombat t))
+    (load-theme 'wombat t)
+  (load-theme 'wombat t))
 
 ;; Tame the bell — only ring on genuine errors, not on minibuffer aborts.
 (setq ring-bell-function
