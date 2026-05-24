@@ -176,6 +176,11 @@
   ;; Make `q' quit read-only buffers like in less/man.
   (eat-enable-yank-to-terminal t))
 
+;; Eat's own terminfo requires a tic-compiled entry on every remote host,
+;; which is awkward to install across machines (especially without sudo).
+;; Advertising as xterm-256color uses terminfo that exists everywhere.
+(setq eat-term-name "xterm-256color")
+
 ;; ============================================================
 ;; Tree-sitter
 ;; ============================================================
