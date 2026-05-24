@@ -11,7 +11,7 @@
 ;; alias e='emacsclient -nw -a ""'
 ;; alias ec='emacsclient -c -a ""'
 ;; export EDITOR='emacsclient -nw -a ""'
-;; export VISUAL='emacsclient -nw -a ""'
+;; export VISUAL="$EDITOR"
 
 ;; alias e="emacs"
 ;; alias em="emacs"
