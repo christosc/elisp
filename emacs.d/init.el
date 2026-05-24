@@ -518,6 +518,21 @@
 ;; Default verbosity is enough for normal use; raise to 6 when debugging.
 (setq tramp-verbose 3)
 
+;; Use /usr/bin/bash automatically whenever `shell' is invoked from a
+;; buffer whose default-directory is on a remote host. Local `shell'
+;; invocations on Windows continue to use whatever shell-file-name is
+;; configured locally (cmd.exe, PowerShell, MSYS2 bash, etc.).
+(with-eval-after-load 'tramp
+  (connection-local-set-profile-variables
+   'remote-bash-profile
+   '((explicit-shell-file-name . "/usr/bin/bash")
+     (explicit-bash-args       . ("-l" "-i"))))
+
+  (connection-local-set-profiles
+   '(:application tramp)
+   'remote-bash-profile))
+
+
 ;; -------   Org Mode -----------------------------------
 
 ;; Targeted silencer (Solution A): handles the case where some other
