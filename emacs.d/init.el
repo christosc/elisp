@@ -4,6 +4,20 @@
 ;; Personal Emacs configuration centred on C/C++ development with
 ;; tree-sitter major modes, Eglot + clangd, and clang-format on save.
 
+;; On the remote development machine's .bashrc:
+;; Use emacsclient as the canonical entry point. The -a '' (empty
+;; alternate editor) tells emacsclient to auto-start a daemon on first
+;; use, and reuse it thereafter. No explicit daemon management needed.
+;; alias e='emacsclient -nw -a ""'
+;; alias ec='emacsclient -c -a ""'
+;; export EDITOR='emacsclient -nw -a ""'
+;; export VISUAL='emacsclient -nw -a ""'
+
+;; alias e="emacs"
+;; alias em="emacs"
+;; alias emc="emacsclient -nw"
+;; export EDITOR=emacs
+
 ;;; Code:
 
 ;; ============================================================
