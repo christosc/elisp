@@ -157,37 +157,39 @@
 (setq xref-auto-jump-to-first-xref       'move
       xref-auto-jump-to-first-definition t)
 
+
+;; ============================================================
+;; eat
+;; ============================================================
+
+;; Cross-platform pure-Elisp terminal emulator. Works over TRAMP and
+;; on Windows without any native compilation. Replaces ansi-term/vterm.
+(use-package eat
+  :ensure t
+  :hook
+  ;; Integration with eshell for visual commands (vim, htop, etc.):
+  (eshell-load . eat-eshell-mode)
+  (eshell-load . eat-eshell-visual-command-mode)
+  :custom
+  ;; Smoother but slightly slower; lower for higher throughput.
+  (eat-kill-buffer-on-exit t)
+  ;; Make `q' quit read-only buffers like in less/man.
+  (eat-enable-yank-to-terminal t))
+
 ;; ============================================================
 ;; Tree-sitter
 ;; ============================================================
 
-(require 'treesit)
+;; Install treesit-auto from its git repo. package-vc-install is
+;; built-in since Emacs 29 and works on both the local Windows Emacs
+;; (where ELPA is also accessible) and the corporate Rocky Emacs
+;; (where ELPA is blocked but git is allowed).
+(unless (package-installed-p 'treesit-auto)
+  (package-vc-install "https://github.com/renzmann/treesit-auto"))
 
-(setq treesit-language-source-alist
-      '((c          . ("https://github.com/tree-sitter/tree-sitter-c"))
-        (cpp        . ("https://github.com/tree-sitter/tree-sitter-cpp"))
-        (python     . ("https://github.com/tree-sitter/tree-sitter-python"))
-        (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript"))))
-
-
-;; Pin to ABI 14 grammars whenever the running Emacs cannot load ABI 15.
-;; Self-adjusts if a future Emacs upgrade lifts the ABI ceiling.
-(when (and (fboundp 'treesit-library-abi-version)
-           (< (treesit-library-abi-version) 15))
-  (setq treesit-language-source-alist
-        '((c   "https://github.com/tree-sitter/tree-sitter-c"   "v0.23.2")
-          (cpp "https://github.com/tree-sitter/tree-sitter-cpp" "v0.23.4"))))
-
-;; Manual install of grammars only:
-;;   M-x treesit-install-language-grammar RET <lang> RET
-(setq treesit-auto-install nil)
-
-;; Route mainstream programming modes through their tree-sitter variants.
-(setq major-mode-remap-alist
-      '((c-mode      . c-ts-mode)
-        (c++-mode    . c++-ts-mode)
-        (python-mode . python-ts-mode)
-        (sh-mode     . bash-ts-mode)))
+(use-package treesit-auto
+  :custom (treesit-auto-install 'prompt)
+  :config (global-treesit-auto-mode))
 
 ;; ============================================================
 ;; Eglot + clangd
@@ -446,27 +448,30 @@
 ;; ============================================================
 
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("d80952c58cf1b06d936b1392c38230b74ae1a2a6729594770762dc0779ac66b7"
      "b1a691bb67bd8bd85b76998caf2386c9a7b2ac98a116534071364ed6489b695d"
      "57d7e8b7b7e0a22dc07357f0c30d18b33ffcbb7bcd9013ab2c9f70748cfa4838"
-     "f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7"
-     default))
+     "f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7" default))
  '(diff-switches "-u")
- '(package-selected-packages
-   '(company corfu eglot-copilot eldoc-box gruvbox-theme markdown-mode
-             olivetti protobuf-mode yaml yaml-mode zenburn-theme))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
-   '((flymake-popon :vc-backend Git
-                    :url "https://github.com/doomelpa/flymake-popon.git")
-     (eldoc-box    :vc-backend Git
-                   :url "https://github.com/casouri/eldoc-box.git")
-     (corfu        :vc-backend Git
-                   :url "https://github.com/minad/corfu")
-     (olivetti     :vc-backend Git
-                   :url "https://github.com/rnkn/olivetti"))))
+   '((flymake-popon :vc-backend Git :url
+                    "https://github.com/doomelpa/flymake-popon.git")
+     (eldoc-box :vc-backend Git :url "https://github.com/casouri/eldoc-box.git")
+     (corfu :vc-backend Git :url "https://github.com/minad/corfu")
+     (olivetti :vc-backend Git :url "https://github.com/rnkn/olivetti"))))
 
-(custom-set-faces)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 
 
 ;;; ====================================================================
