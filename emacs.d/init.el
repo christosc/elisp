@@ -494,11 +494,24 @@ deferring each binding until its FEATURE is loaded."
 ;;             (setq-local electric-indent-chars
 ;;                         (remove ?: electric-indent-chars))))
 
-(add-hook 'c++-ts-mode-hook
-          (lambda () (electric-indent-local-mode -1)))
+;; (add-hook 'c++-ts-mode-hook
+;;           (lambda () (electric-indent-local-mode -1)))
 
-(add-hook 'c-ts-mode-hook
-          (lambda () (electric-indent-local-mode -1)))
+;; (add-hook 'c-ts-mode-hook
+;;           (lambda () (electric-indent-local-mode -1)))
+
+;; Define a function to clear trigger characters
+(defun my-c-ts-remove-electric-chars ()
+  ;; Keep electric indent ONLY for the Return key (newline)
+  (setq-local electric-indent-chars '(?\n)))
+
+; Apply to tree-sitter C and C++ modes
+(add-hook 'c-ts-mode-hook #'my-c-ts-remove-electric-chars)
+(add-hook 'c++-ts-mode-hook #'my-c-ts-remove-electric-chars)
+
+;; Apply to classic C and C++ modes
+(add-hook 'c-mode-hook #'my-c-ts-remove-electric-chars)
+(add-hook 'c++-mode-hook #'my-c-ts-remove-electric-chars)
 
 ;; ============================================================
 ;; OSC 52 Clipboard Integration
