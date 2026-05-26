@@ -639,7 +639,7 @@ deferring each binding until its FEATURE is loaded."
 (setq tramp-default-method "ssh")
 
 ;; Skip probing for Git, SVN, Bzr, etc. — we only ever use Mercurial.
-(setq vc-handled-backends '(Hg))
+(setq vc-handled-backends '(Git Hg))
 
 ;; No remote backup files, no remote lockfiles.
 (setq backup-enable-predicate
