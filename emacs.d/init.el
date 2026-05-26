@@ -172,7 +172,42 @@
 (setq xref-auto-jump-to-first-xref       'move
       xref-auto-jump-to-first-definition t)
 
+;;============================ Various packages ===============
+;; Has to be put first: installation of the compatibility libraty via Git
+(use-package compat
+  :vc (:url "https://github.com/emacs-compat/compat.git"))
 
+;; ;; 1. Vertico
+(use-package vertico
+  :vc (:url "https://github.com/minad/vertico.git")
+  :init
+  (vertico-mode))
+
+;; 2. Orderless
+(use-package orderless
+  :vc (:url "https://github.com/oantolin/orderless.git")
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
+
+;; 3. Marginalia
+(use-package marginalia
+  :vc (:url "https://github.com/minad/marginalia.git")
+  :init
+  (marginalia-mode))
+
+;; 4. Consult
+(use-package consult
+  :vc (:url "https://github.com/minad/consult.git")
+  :bind (("C-s" . consult-line)
+         ("C-x b" . consult-buffer)
+         ("M-y" . consult-yank-pop)
+         ("M-g g" . consult-goto-line)
+         ("M-g i" . consult-imenu)
+         ("C-c p r" . consult-ripgrep)))
+
+;; ;
 ;; ============================================================
 ;; eat
 ;; ============================================================
