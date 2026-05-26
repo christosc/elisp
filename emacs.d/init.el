@@ -442,7 +442,7 @@
 (defalias 'dtw 'delete-trailing-whitespace)
 (defalias 'fnd 'find-name-dired)
 
-(global-set-key (kbd "C-x C-r") #'recentf-open-files)
+(global-set-key (kbd "C-c C-r") #'recentf-open-files)
 (global-set-key (kbd "C-c d")   #'goto-definition)
 (global-set-key (kbd "C-c g .") #'grep-word-under-curr-dir)
 (global-set-key (kbd "C-c g p") #'grep-word-under-parent-dir)
@@ -450,10 +450,9 @@
 (global-set-key (kbd "C-c t")   #'grep-cpp-def)
 (global-set-key (kbd "C-c r")   #'revert-buffer)
 (global-set-key (kbd "C-c F")   #'find-name-dired) ;; C-c f is taken by eglot format region
-(global-set-key (kbd "C-c o")   #'ff-find-other-file)
 (global-set-key (kbd "C-c +")   #'increment-number-at-point)
 (global-set-key (kbd "C-c -")   #'decrement-number-at-point)
-(global-set-key (kbd "<f5>")    #'call-last-kbd-macro)
+
 ;; Readline-style word deletion. C-w deletes the previous word
 ;; instead of killing the region; kill-region moves to C-c w.
 (global-set-key (kbd "C-w")   #'backward-kill-word)
@@ -465,6 +464,89 @@
 (setq cc-search-directories
       '("$PWD/include/*/*" "$PWD/export/*" "$PWD/src/*/*" "$PWD/source/*/*"
         "../include/*/*"   "../export/*/*" "../src/*"    "../source/*" "."))
+
+
+;; --------------------------------------------------------------
+;; Switch between .cpp/.h pairs in C and C++ buffers. Prefer
+;; clangd's accurate textDocument/switchSourceHeader request when
+;; eglot is active; fall back to the built-in ff-find-other-file
+;; heuristic when not.
+;; --------------------------------------------------------------
+
+(defun my/clangd-switch-source-header ()
+  "Switch between source and header using clangd's LSP extension."
+  (interactive)
+  (let ((server (and (fboundp 'eglot-current-server)
+                     (eglot-current-server))))
+    (unless server
+      (user-error "Eglot is not active in this buffer"))
+    (let ((other (eglot--request
+                  server
+                  :textDocument/switchSourceHeader
+                  (eglot--TextDocumentIdentifier))))
+      (if (and (stringp other) (not (string-empty-p other)))
+          (find-file (eglot--uri-to-path other))
+        (user-error "Clangd found no matching source/header file")))))
+
+(defun my/switch-source-header ()
+  "Switch between source and header files in C/C++.
+Use clangd via eglot when available; fall back to ff-find-other-file."
+  (interactive)
+  (if (and (fboundp 'eglot-current-server)
+           (eglot-current-server))
+      (my/clangd-switch-source-header)
+    (ff-find-other-file)))
+
+;; Bind C-c o to my/switch-source-header in every relevant keymap.
+;; Build each (define-key ...) form at loop time via backquote, so
+;; the map symbol is interpolated as a literal — no closure capture
+;; pitfalls.
+(defun my/define-key-in-loaded-maps (key command map-specs)
+  "Bind KEY to COMMAND in each (FEATURE . MAP-SYMBOL) of MAP-SPECS,
+deferring each binding until its FEATURE is loaded."
+  (pcase-dolist (`(,feature ,map-sym) map-specs)
+    (eval-after-load feature
+      `(define-key ,map-sym ,key ',command))))
+
+(my/define-key-in-loaded-maps
+ (kbd "C-c o") 'my/switch-source-header
+ '((cc-mode    c-mode-base-map)
+   (c-ts-mode  c-ts-base-mode-map)))
+
+;; ;; In c++-ts-mode, typing `:' (especially as part of `::') triggers
+;; ;; electric indentation that often misindents the line — the parser
+;; ;; sees an incomplete qualified-id and guesses wrong. Remove `:' from
+;; ;; the electric trigger list, locally per buffer.
+;; (add-hook 'c++-ts-mode-hook
+;;           (lambda ()
+;;             (setq-local electric-indent-chars
+;;                         (remove ?: electric-indent-chars))))
+
+;; ;; Same for c-ts-mode in case you ever work with C files using
+;; ;; bitfields, labels, or other `:'-bearing syntax.
+;; (add-hook 'c-ts-mode-hook
+;;           (lambda ()
+;;             (setq-local electric-indent-chars
+;;                         (remove ?: electric-indent-chars))))
+
+;; (add-hook 'c++-ts-mode-hook
+;;           (lambda () (electric-indent-local-mode -1)))
+
+;; (add-hook 'c-ts-mode-hook
+;;           (lambda () (electric-indent-local-mode -1)))
+
+;; Define a function to clear trigger characters
+(defun my-c-ts-remove-electric-chars ()
+  ;; Keep electric indent ONLY for the Return key (newline)
+  (setq-local electric-indent-chars '(?\n)))
+
+; Apply to tree-sitter C and C++ modes
+(add-hook 'c-ts-mode-hook #'my-c-ts-remove-electric-chars)
+(add-hook 'c++-ts-mode-hook #'my-c-ts-remove-electric-chars)
+
+;; Apply to classic C and C++ modes
+(add-hook 'c-mode-hook #'my-c-ts-remove-electric-chars)
+(add-hook 'c++-mode-hook #'my-c-ts-remove-electric-chars)
 
 ;; ============================================================
 ;; OSC 52 Clipboard Integration
