@@ -56,6 +56,14 @@
       native-comp-async-jobs                   (max 2 (/ (num-processors) 2)))
 
 ;; ============================================================
+;; Cache management
+;; ============================================================
+
+(setq org-persist-directory
+      (expand-file-name "emacs/org-persist/"
+                        (getenv "LOCALAPPDATA")))
+
+;; ============================================================
 ;; Package Management
 ;; ============================================================
 
@@ -139,6 +147,7 @@
 ;; Encoding & Input Method
 ;; ============================================================
 
+(set-language-environment "UTF-8")
 (prefer-coding-system        'utf-8-unix)
 (set-default-coding-systems  'utf-8-unix)
 (set-keyboard-coding-system  'utf-8-unix)
@@ -535,18 +544,30 @@ deferring each binding until its FEATURE is loaded."
 ;; (add-hook 'c-ts-mode-hook
 ;;           (lambda () (electric-indent-local-mode -1)))
 
-;; Define a function to clear trigger characters
-(defun my-c-ts-remove-electric-chars ()
-  ;; Keep electric indent ONLY for the Return key (newline)
-  (setq-local electric-indent-chars '(?\n)))
+;; ;; Define a function to clear trigger characters
+;; (defun my-c-ts-remove-electric-chars ()
+;;   ;; Keep electric indent ONLY for the Return key (newline)
+;;   (setq-local electric-indent-chars '(?\n)))
 
-; Apply to tree-sitter C and C++ modes
-(add-hook 'c-ts-mode-hook #'my-c-ts-remove-electric-chars)
-(add-hook 'c++-ts-mode-hook #'my-c-ts-remove-electric-chars)
 
-;; Apply to classic C and C++ modes
-(add-hook 'c-mode-hook #'my-c-ts-remove-electric-chars)
-(add-hook 'c++-mode-hook #'my-c-ts-remove-electric-chars)
+;; ; Apply to tree-sitter C and C++ modes
+;; (add-hook 'c-ts-mode-hook #'my-c-ts-remove-electric-chars)
+;; (add-hook 'c++-ts-mode-hook #'my-c-ts-remove-electric-chars)
+
+;; ;; Apply to classic C and C++ modes
+;; (add-hook 'c-mode-hook #'my-c-ts-remove-electric-chars)
+;; (add-hook 'c++-mode-hook #'my-c-ts-remove-electric-chars)
+
+;; Define a function for the setup
+(defun my-c-ts-indent-setup ()
+  ;; Disable electric indent for trigger characters
+  (electric-indent-local-mode -1)
+  ;; Bind Return to indent the new line
+  (local-set-key (kbd "RET") 'newline-and-indent))
+
+;; Apply to both C and C++ tree-sitter modes
+(add-hook 'c-ts-mode-hook #'my-c-ts-indent-setup)
+(add-hook 'c++-ts-mode-hook #'my-c-ts-indent-setup)
 
 ;; ============================================================
 ;; OSC 52 Clipboard Integration
