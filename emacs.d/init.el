@@ -35,6 +35,7 @@
       cursor-in-non-selected-windows nil
       recenter-redisplay           nil) ; don't flash on C-l in terminal
 
+
 ;; ============================================================
 ;; Garbage Collection
 ;; ============================================================
@@ -103,11 +104,30 @@
 (xterm-mouse-mode t)
 (mouse-wheel-mode t)
 
-;; on Windows set a dark theme
-(if (display-graphic-p)
-    ;; GUI (usually your Windows instance)
-    (load-theme 'wombat t)
-  (load-theme 'wombat t))
+(setq custom-safe-themes t)
+
+(global-font-lock-mode -1)
+
+(with-eval-after-load 'flymake
+  (set-face-attribute 'flymake-error   nil :inherit nil :foreground 'unspecified :underline t)
+  (set-face-attribute 'flymake-warning nil :inherit nil :foreground 'unspecified :underline t)
+  (set-face-attribute 'flymake-note    nil :inherit nil :foreground 'unspecified :underline t))
+
+(with-eval-after-load 'eglot
+  (dolist (f '(eglot-diagnostic-tag-unnecessary-face
+               eglot-diagnostic-tag-deprecated-face))
+    (set-face-attribute f nil
+                        :inherit nil :weight 'unspecified :strike-through nil
+                        :foreground 'unspecified :underline t)))
+
+;; ;; on Windows set a dark theme
+;; (if (display-graphic-p)
+;;     ;; GUI (usually your Windows instance)
+;;     (load-theme 'wombat t)
+;;   (progn (load-theme 'modus-vivendi-tinted)
+;;          (set-face-attribute 'region nil :background "blue"))
+;;   )
+
 
 ;; Tame the bell — only ring on genuine errors, not on minibuffer aborts.
 (setq ring-bell-function
@@ -159,9 +179,12 @@
 ;; Window Movement
 ;; ============================================================
 
-;; Shift-arrow and Meta-arrow both navigate between windows.
-(windmove-default-keybindings)
-(windmove-default-keybindings 'meta)
+;; ;; Shift-arrow and Meta-arrow both navigate between windows.
+;; (windmove-default-keybindings)
+;; (windmove-default-keybindings 'meta)
+
+(setq help-window-select t)
+(winner-mode 1)
 
 ;; Reverse direction with C-x O.
 (global-set-key (kbd "C-x O") (lambda () (interactive) (other-window -1)))
@@ -182,39 +205,50 @@
       xref-auto-jump-to-first-definition t)
 
 ;;============================ Various packages ===============
-;; Has to be put first: installation of the compatibility libraty via Git
-(use-package compat
-  :vc (:url "https://github.com/emacs-compat/compat.git"))
 
-;; ;; 1. Vertico
-(use-package vertico
-  :vc (:url "https://github.com/minad/vertico.git")
-  :init
-  (vertico-mode))
+;; (use-package alabaster-themes
+;;   :vc (:url "https://github.com/vedang/alabaster-themes")
+;;   :ensure t
+;;   :config
+;;   ;; Load the light theme
+;;   (load-theme 'alabaster-themes-dark-mono t)
+;;   ;; Interactively select a theme
+;;   :commands (alabaster-themes-select))
 
-;; 2. Orderless
-(use-package orderless
-  :vc (:url "https://github.com/oantolin/orderless.git")
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles partial-completion)))))
+;; ;; Has to be put first: installation of the compatibility libraty via Git
+;; (use-package compat
+;;   :vc (:url "https://github.com/emacs-compat/compat.git"))
 
-;; 3. Marginalia
-(use-package marginalia
-  :vc (:url "https://github.com/minad/marginalia.git")
-  :init
-  (marginalia-mode))
+;; ;; ;; 1. Vertico
+;; (use-package vertico
+;;   :vc (:url "https://github.com/minad/vertico.git")
+;;   :init
+;;   (vertico-mode))
 
-;; 4. Consult
-(use-package consult
-  :vc (:url "https://github.com/minad/consult.git")
-  :bind (("C-s" . consult-line)
-         ("C-x b" . consult-buffer)
-         ("M-y" . consult-yank-pop)
-         ("M-g g" . consult-goto-line)
-         ("M-g i" . consult-imenu)
-         ("C-c p r" . consult-ripgrep)))
+;; ;; 2. Orderless
+;; (use-package orderless
+;;   :vc (:url "https://github.com/oantolin/orderless.git")
+;;   :custom
+;;   (completion-styles '(orderless basic))
+;;   (completion-category-defaults nil)
+;;   (completion-category-overrides '((file (styles partial-completion)))))
+
+;; ;; 3. Marginalia
+;; (use-package marginalia
+;;   :vc (:url "https://github.com/minad/marginalia.git")
+;;   :init
+;;   (marginalia-mode))
+
+;; ;; 4. Consult
+;; (use-package consult
+;;   :vc (:url "https://github.com/minad/consult.git"))
+
+(fido-vertical-mode 1)
+(setq completion-styles '(flex basic)
+      completion-category-overrides '((file (styles partial-completion))))
+
+(use-package alabaster-themes
+  :vc (:url "https://github.com/vedang/alabaster-themes"))
 
 ;; ;
 ;; ============================================================
@@ -611,14 +645,19 @@ deferring each binding until its FEATURE is loaded."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("d80952c58cf1b06d936b1392c38230b74ae1a2a6729594770762dc0779ac66b7"
+   '("00aec9bcfac7c9e2badb3689385047c22ea73b335c4f0e77528d670d153faa71"
+     "01f6946488b7d6f6857e58b2372527b7bd1b63910f38123e72cf00e4c9651895"
+     "791886cabf8c25ac6aeec16fdccd6096a48795578187296a725f8815fedf3874"
+     "d80952c58cf1b06d936b1392c38230b74ae1a2a6729594770762dc0779ac66b7"
      "b1a691bb67bd8bd85b76998caf2386c9a7b2ac98a116534071364ed6489b695d"
      "57d7e8b7b7e0a22dc07357f0c30d18b33ffcbb7bcd9013ab2c9f70748cfa4838"
      "f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7" default))
  '(diff-switches "-u")
  '(package-selected-packages nil)
  '(package-vc-selected-packages
-   '((flymake-popon :vc-backend Git :url
+   '((alabaster-themes :vc-backend Git :url
+                       "https://github.com/vedang/alabaster-themes")
+     (flymake-popon :vc-backend Git :url
                     "https://github.com/doomelpa/flymake-popon.git")
      (eldoc-box :vc-backend Git :url "https://github.com/casouri/eldoc-box.git")
      (corfu :vc-backend Git :url "https://github.com/minad/corfu")
@@ -710,3 +749,14 @@ deferring each binding until its FEATURE is loaded."
 
 (provide 'init)
 ;;; init.el ends here
+
+;; Use vertical splits for side-by-side diffs, mimicking Neovim's behavior
+(setq ediff-split-window-function 'split-window-horizontally)
+
+;; Buffer layout
+
+(add-to-list 'display-buffer-alist
+             '("\\*\\(grep\\|Buffer List\\)\\*"
+               (display-buffer-reuse-window
+                display-buffer-below-selected)
+               (window-height . 0.3)))
