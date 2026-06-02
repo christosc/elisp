@@ -108,9 +108,9 @@
 
 (setq custom-safe-themes t)
 
-(if (not (display-graphic-p))
-    ;; In terminal do not use colors
-    (global-font-lock-mode -1))
+;; (if (not (display-graphic-p))
+;;     ;; In terminal do not use colors
+;;     (global-font-lock-mode -1))
 
 (with-eval-after-load 'flymake
   (set-face-attribute 'flymake-error   nil :inherit nil :foreground 'unspecified :underline t)
@@ -129,10 +129,12 @@
     (setq eglot-mode-line-format
           (remove 'eglot-mode-line-pending-requests eglot-mode-line-format))))
 
+(load-theme 'modus-vivendi t)
+
 ;; ;; on Windows set a dark theme
 ;; (if (display-graphic-p)
 ;;     ;; GUI (usually your Windows instance)
-;;     (load-theme 'wombat t)
+;;     (load-theme 'modus-vivendi t)
 ;;   (progn (load-theme 'modus-vivendi-tinted)
 ;;          (set-face-attribute 'region nil :background "blue"))
 ;;   )
