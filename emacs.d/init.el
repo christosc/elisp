@@ -108,7 +108,9 @@
 
 (setq custom-safe-themes t)
 
-(global-font-lock-mode -1)
+(if (not (display-graphic-p))
+    ;; In terminal do not use colors
+    (global-font-lock-mode -1))
 
 (with-eval-after-load 'flymake
   (set-face-attribute 'flymake-error   nil :inherit nil :foreground 'unspecified :underline t)
