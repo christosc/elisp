@@ -606,7 +606,7 @@ deferring each binding until its FEATURE is loaded."
   ;; Disable electric indent for trigger characters
   (electric-indent-local-mode -1)
   ;; Bind Return to indent the new line
-  (local-set-key (kbd "RET") 'default-indent-new-line))
+  (local-set-key (kbd "RET") #'default-indent-new-line))
 
 (defun my/c++-setup ()
   (setq fill-column 100)
@@ -614,7 +614,8 @@ deferring each binding until its FEATURE is loaded."
   ;; Disable electric indent for trigger characters
   (electric-indent-local-mode -1)
   ;; Bind Return to indent the new line
-  (local-set-key (kbd "RET") 'default-indent-new-line))
+  ;;(local-set-key (kbd "RET") #'newline-and-indent))
+  (local-set-key (kbd "RET") #'default-indent-new-line))
 
 (add-hook 'c++-mode-hook #'my/c++-setup)
 ;; Apply to both C and C++ tree-sitter modes
