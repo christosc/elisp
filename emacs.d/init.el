@@ -615,7 +615,6 @@ deferring each binding until its FEATURE is loaded."
   (electric-indent-local-mode -1)
   ;; Bind Return to indent the new line
   (local-set-key (kbd "RET") 'default-indent-new-line))
-  )
 
 (add-hook 'c++-mode-hook #'my/c++-setup)
 ;; Apply to both C and C++ tree-sitter modes
