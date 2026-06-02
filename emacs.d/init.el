@@ -89,7 +89,9 @@
       isearch-lazy-count        t
       set-mark-command-repeat-pop t)
 
-(setq-default fill-column 80)
+(setq-default fill-column 100)
+
+;; (display-fill-column-indicator-mode 1)
 
 ;; Tag navigation should not be case-folded.
 (set-default 'tags-case-fold-search nil)
@@ -119,6 +121,10 @@
     (set-face-attribute f nil
                         :inherit nil :weight 'unspecified :strike-through nil
                         :foreground 'unspecified :underline t)))
+
+(with-eval-after-load 'eglot
+  (setq eglot-mode-line-format
+        (delq 'eglot-mode-line-pending-requests eglot-mode-line-format)))
 
 ;; ;; on Windows set a dark theme
 ;; (if (display-graphic-p)
@@ -183,7 +189,10 @@
 ;; (windmove-default-keybindings)
 ;; (windmove-default-keybindings 'meta)
 
-(setq help-window-select t)
+;; Automatically switch focus to the help window when it opens
+;;(setq help-window-select t)
+
+;; Enable Winner mode to easily undo/redo window layout changes
 (winner-mode 1)
 
 ;; Reverse direction with C-x O.
@@ -597,7 +606,7 @@ deferring each binding until its FEATURE is loaded."
   ;; Disable electric indent for trigger characters
   (electric-indent-local-mode -1)
   ;; Bind Return to indent the new line
-  (local-set-key (kbd "RET") 'newline-and-indent))
+  (local-set-key (kbd "RET") 'default-indent-new-line))
 
 ;; Apply to both C and C++ tree-sitter modes
 (add-hook 'c-ts-mode-hook #'my-c-ts-indent-setup)
