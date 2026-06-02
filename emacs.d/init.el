@@ -608,9 +608,19 @@ deferring each binding until its FEATURE is loaded."
   ;; Bind Return to indent the new line
   (local-set-key (kbd "RET") 'default-indent-new-line))
 
+(defun my/c++-setup ()
+  (setq fill-column 100)
+  (display-fill-column-indicator-mode 1)
+  ;; Disable electric indent for trigger characters
+  (electric-indent-local-mode -1)
+  ;; Bind Return to indent the new line
+  (local-set-key (kbd "RET") 'default-indent-new-line))
+  )
+
+(add-hook 'c++-mode-hook #'my/c++-setup)
 ;; Apply to both C and C++ tree-sitter modes
-(add-hook 'c-ts-mode-hook #'my-c-ts-indent-setup)
-(add-hook 'c++-ts-mode-hook #'my-c-ts-indent-setup)
+(add-hook 'c-ts-mode-hook #'my/c++-setup)
+(add-hook 'c++-ts-mode-hook #'my/c++-setup)
 
 ;; ============================================================
 ;; OSC 52 Clipboard Integration
