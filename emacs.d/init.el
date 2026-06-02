@@ -123,8 +123,9 @@
                         :foreground 'unspecified :underline t)))
 
 (with-eval-after-load 'eglot
-  (setq eglot-mode-line-format
-        (delq 'eglot-mode-line-pending-requests eglot-mode-line-format)))
+  (when (boundp 'eglot-mode-line-format)
+    (setq eglot-mode-line-format
+          (remove 'eglot-mode-line-pending-requests eglot-mode-line-format))))
 
 ;; ;; on Windows set a dark theme
 ;; (if (display-graphic-p)
@@ -663,24 +664,8 @@ deferring each binding until its FEATURE is loaded."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("00aec9bcfac7c9e2badb3689385047c22ea73b335c4f0e77528d670d153faa71"
-     "01f6946488b7d6f6857e58b2372527b7bd1b63910f38123e72cf00e4c9651895"
-     "791886cabf8c25ac6aeec16fdccd6096a48795578187296a725f8815fedf3874"
-     "d80952c58cf1b06d936b1392c38230b74ae1a2a6729594770762dc0779ac66b7"
-     "b1a691bb67bd8bd85b76998caf2386c9a7b2ac98a116534071364ed6489b695d"
-     "57d7e8b7b7e0a22dc07357f0c30d18b33ffcbb7bcd9013ab2c9f70748cfa4838"
-     "f366d4bc6d14dcac2963d45df51956b2409a15b770ec2f6d730e73ce0ca5c8a7" default))
- '(diff-switches "-u")
- '(package-selected-packages nil)
  '(package-vc-selected-packages
-   '((alabaster-themes :vc-backend Git :url
-                       "https://github.com/vedang/alabaster-themes")
-     (flymake-popon :vc-backend Git :url
-                    "https://github.com/doomelpa/flymake-popon.git")
-     (eldoc-box :vc-backend Git :url "https://github.com/casouri/eldoc-box.git")
-     (corfu :vc-backend Git :url "https://github.com/minad/corfu")
-     (olivetti :vc-backend Git :url "https://github.com/rnkn/olivetti"))))
+   '((alabaster-themes :url "https://github.com/vedang/alabaster-themes"))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
