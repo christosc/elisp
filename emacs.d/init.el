@@ -129,6 +129,15 @@
     (setq eglot-mode-line-format
           (remove 'eglot-mode-line-pending-requests eglot-mode-line-format))))
 
+(defun my/eglot-enable-semantic-tokens ()
+  "Ενεργοποίηση LSP semantic tokens ως διορθωτικό στρώμα πάνω στο tree-sitter."
+  (when (and (eglot-managed-p)
+             (fboundp 'eglot-semantic-tokens-mode)
+             (eglot-server-capable :semanticTokensProvider))
+    (eglot-semantic-tokens-mode 1)))
+
+(add-hook 'eglot-managed-mode-hook #'my/eglot-enable-semantic-tokens)
+
 (load-theme 'modus-vivendi t)
 
 ;; ;; on Windows set a dark theme
