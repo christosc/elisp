@@ -69,7 +69,9 @@
 ;; ============================================================
 
 (require 'package)
-(package-initialize)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(unless package-archive-contents
+  (package-refresh-contents))
 
 ;; Extra load paths (Windows + Linux home).
 (add-to-list 'load-path "C:/Users/chryssoc/AppData/Roaming/.emacs.d/elisp")
@@ -647,25 +649,6 @@ deferring each binding until its FEATURE is loaded."
   (setq interprogram-cut-function #'osc52-copy-to-clipboard))
 
 (setq select-enable-clipboard t)
-
-;; ============================================================
-;; Private definitions (host-specific, not in version control)
-;; E.g. it contains statements like this:
-;;  (setq url-proxy-services
-;;    '(("http"    . "8.8.8.8:8080")
-;;     ("https"    . "8.8.8.8:8080")
-;;     ("no_proxy" . "^\\(localhost\\|127\\.0\\.0\\.1\\)")))
-;;
-;; WARNING: Proxy addresses should NOT be prefixed with the schema
-;; "http://"!
-;; ============================================================
-
-(let ((private-file "private.el"))
-  (if (locate-file private-file load-path)
-      (progn
-        (message "Loading private.el")
-        (load private-file))
-    (message "No file private.el found")))
 
 ;; ============================================================
 ;; Customize (managed by Emacs — keep at the bottom)
