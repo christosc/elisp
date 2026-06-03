@@ -74,10 +74,9 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-;; Extra load paths (Windows + Linux home).
-(add-to-list 'load-path "C:/Users/chryssoc/AppData/Roaming/.emacs.d/elisp")
-(add-to-list 'load-path "~/.emacs.d/elisp")
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+;; Extra load paths — abide to the user-emacs-directory on every platform
+(add-to-list 'load-path (locate-user-emacs-file "elisp"))
+(add-to-list 'custom-theme-load-path (locate-user-emacs-file "themes"))
 
 ;; ============================================================
 ;; UI & Editing Basics
