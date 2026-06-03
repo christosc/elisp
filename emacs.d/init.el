@@ -107,6 +107,7 @@
 (mouse-wheel-mode t)
 
 (setq custom-safe-themes t)
+(which-function-mode 1)
 
 ;; (if (not (display-graphic-p))
 ;;     ;; In terminal do not use colors
@@ -430,6 +431,14 @@
   (setq plantuml-jar-path "C:/Users/chryssoc/Applications/plantuml-1.2023.12.jar"
         plantuml-default-exec-mode 'jar))
 
+(use-package imenu-list
+  :vc (:url "https://github.com/bmag/imenu-list" :rev :newest)
+  :bind ("C-c M" . imenu-list-smart-toggle)
+  :custom
+  (imenu-list-focus-after-activation t)
+  (imenu-list-auto-resize t)
+  (imenu-list-position 'right))
+
 ;; ============================================================
 ;; Org Mode
 ;; ============================================================
@@ -528,6 +537,7 @@
 ;; --- Default bindings that doesn't reach terminal ---
 (keymap-global-set "C-c q" #'query-replace-regexp) ; ἀντὶ C-M-%
 (keymap-global-set "C-c /" #'comment-line)         ; ἀντὶ C-x C-;
+(keymap-global-set "C-c m" #'imenu)
 
 ;; Note M-% (query-replace) and M-; (comment-dwim)
 ;; do work already, so they don't need rebinding.
@@ -640,6 +650,14 @@ deferring each binding until its FEATURE is loaded."
 
 ;; ============================================================
 ;; Private definitions (host-specific, not in version control)
+;; E.g. it contains statements like this:
+;;  (setq url-proxy-services
+;;    '(("http"    . "8.8.8.8:8080")
+;;     ("https"    . "8.8.8.8:8080")
+;;     ("no_proxy" . "^\\(localhost\\|127\\.0\\.0\\.1\\)")))
+;;
+;; WARNING: Proxy addresses should NOT be prefixed with the schema
+;; "http://"!
 ;; ============================================================
 
 (let ((private-file "private.el"))
@@ -658,8 +676,10 @@ deferring each binding until its FEATURE is loaded."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(package-selected-packages '(imenu-list))
  '(package-vc-selected-packages
-   '((alabaster-themes :url "https://github.com/vedang/alabaster-themes"))))
+   '((imenu-list :url "https://github.com/bmag/imenu-list")
+     (alabaster-themes :url "https://github.com/vedang/alabaster-themes"))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
