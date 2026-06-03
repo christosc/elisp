@@ -275,7 +275,8 @@
       completion-category-overrides '((file (styles partial-completion))))
 
 (use-package alabaster-themes
-  :vc (:url "https://github.com/vedang/alabaster-themes"))
+  :ensure t)
+
 
 ;; ;
 ;; ============================================================
@@ -435,7 +436,7 @@
         plantuml-default-exec-mode 'jar))
 
 (use-package imenu-list
-  :vc (:url "https://github.com/bmag/imenu-list" :rev :newest)
+  :ensure t
   :bind ("C-c M" . imenu-list-smart-toggle)
   :custom
   (imenu-list-focus-after-activation t)
@@ -660,7 +661,7 @@ deferring each binding until its FEATURE is loaded."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(imenu-list))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
    '((imenu-list :url "https://github.com/bmag/imenu-list")
      (alabaster-themes :url "https://github.com/vedang/alabaster-themes"))))
