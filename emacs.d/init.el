@@ -309,8 +309,25 @@
   (package-vc-install "https://github.com/renzmann/treesit-auto"))
 
 (use-package treesit-auto
-  :custom (treesit-auto-install 'prompt)
-  :config (global-treesit-auto-mode))
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  ;; 1. first override the Lua recipe (with :ext and :abi14-revision)
+  (setq treesit-auto-recipe-list
+        (cl-remove 'lua treesit-auto-recipe-list
+                   :key #'treesit-auto-recipe-lang))
+  (add-to-list 'treesit-auto-recipe-list
+               (make-treesit-auto-recipe
+                :lang 'lua
+                :ts-mode 'lua-ts-mode
+                :remap 'lua-mode
+                :url "https://github.com/tree-sitter-grammars/tree-sitter-lua"
+                :abi14-revision "v0.3.0"
+                :ext "\\.lua\\'"))
+  ;; 2. then the registration to the auto-mode-alist
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  ;; 3. And last the global mode
+  (global-treesit-auto-mode))
 
 ;; ============================================================
 ;; Eglot + clangd
@@ -578,42 +595,6 @@ deferring each binding until its FEATURE is loaded."
  (kbd "C-c o") 'my/switch-source-header
  '((cc-mode    c-mode-base-map)
    (c-ts-mode  c-ts-base-mode-map)))
-
-;; ;; In c++-ts-mode, typing `:' (especially as part of `::') triggers
-;; ;; electric indentation that often misindents the line — the parser
-;; ;; sees an incomplete qualified-id and guesses wrong. Remove `:' from
-;; ;; the electric trigger list, locally per buffer.
-;; (add-hook 'c++-ts-mode-hook
-;;           (lambda ()
-;;             (setq-local electric-indent-chars
-;;                         (remove ?: electric-indent-chars))))
-
-;; ;; Same for c-ts-mode in case you ever work with C files using
-;; ;; bitfields, labels, or other `:'-bearing syntax.
-;; (add-hook 'c-ts-mode-hook
-;;           (lambda ()
-;;             (setq-local electric-indent-chars
-;;                         (remove ?: electric-indent-chars))))
-
-;; (add-hook 'c++-ts-mode-hook
-;;           (lambda () (electric-indent-local-mode -1)))
-
-;; (add-hook 'c-ts-mode-hook
-;;           (lambda () (electric-indent-local-mode -1)))
-
-;; ;; Define a function to clear trigger characters
-;; (defun my-c-ts-remove-electric-chars ()
-;;   ;; Keep electric indent ONLY for the Return key (newline)
-;;   (setq-local electric-indent-chars '(?\n)))
-
-
-;; ; Apply to tree-sitter C and C++ modes
-;; (add-hook 'c-ts-mode-hook #'my-c-ts-remove-electric-chars)
-;; (add-hook 'c++-ts-mode-hook #'my-c-ts-remove-electric-chars)
-
-;; ;; Apply to classic C and C++ modes
-;; (add-hook 'c-mode-hook #'my-c-ts-remove-electric-chars)
-;; (add-hook 'c++-mode-hook #'my-c-ts-remove-electric-chars)
 
 (defun my/c++-setup ()
   (setq fill-column 100)
