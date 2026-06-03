@@ -525,6 +525,13 @@
 (defalias 'dtw 'delete-trailing-whitespace)
 (defalias 'fnd 'find-name-dired)
 
+;; --- Default bindings that doesn't reach terminal ---
+(keymap-global-set "C-c r" #'query-replace-regexp) ; ἀντὶ C-M-%
+(keymap-global-set "C-c /" #'comment-line)         ; ἀντὶ C-x C-;
+
+;; Note M-% (query-replace) and M-; (comment-dwim)
+;; do work already, so they don't need rebinding.
+
 (global-set-key (kbd "C-c C-r") #'recentf-open-files)
 (global-set-key (kbd "C-c d")   #'goto-definition)
 (global-set-key (kbd "C-c g .") #'grep-word-under-curr-dir)
