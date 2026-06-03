@@ -680,6 +680,17 @@ deferring each binding until its FEATURE is loaded."
 (add-hook 'c-ts-mode-hook #'my/c++-setup)
 (add-hook 'c++-ts-mode-hook #'my/c++-setup)
 
+(defun my/c++-ts-namespace-flush-left ()
+  "Δηλώσεις/ὁρισμοὶ ἀπ' εὐθείας μέσα σὲ namespace ξεκινοῦν στὴ στήλη 0."
+  (setf (alist-get 'cpp treesit-simple-indent-rules)
+        (append
+         '(((n-p-gp nil nil "namespace_definition") grand-parent 0)
+           ;; optionally the same for extern "C" { ... }:
+           ((n-p-gp nil nil "linkage_specification") grand-parent 0))
+         (alist-get 'cpp treesit-simple-indent-rules))))
+
+(add-hook 'c++-ts-mode-hook #'my/c++-ts-namespace-flush-left)
+
 ;; ============================================================
 ;; OSC 52 Clipboard Integration
 ;; (sends yanks from a terminal session to the host clipboard)
