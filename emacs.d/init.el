@@ -526,7 +526,7 @@
 (defalias 'fnd 'find-name-dired)
 
 ;; --- Default bindings that doesn't reach terminal ---
-(keymap-global-set "C-c r" #'query-replace-regexp) ; ἀντὶ C-M-%
+(keymap-global-set "C-c q" #'query-replace-regexp) ; ἀντὶ C-M-%
 (keymap-global-set "C-c /" #'comment-line)         ; ἀντὶ C-x C-;
 
 ;; Note M-% (query-replace) and M-; (comment-dwim)
