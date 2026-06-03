@@ -133,7 +133,7 @@
           (remove 'eglot-mode-line-pending-requests eglot-mode-line-format))))
 
 (defun my/eglot-enable-semantic-tokens ()
-  "Ενεργοποίηση LSP semantic tokens ως διορθωτικό στρώμα πάνω στο tree-sitter."
+  "Activate LSP semantic tokens as corrective layer over tree-sitter."
   (when (and (eglot-managed-p)
              (fboundp 'eglot-semantic-tokens-mode)
              (eglot-server-capable :semanticTokensProvider))
@@ -373,6 +373,7 @@
                 python-ts-mode-hook))
   (add-hook hook #'eglot-ensure))
 
+
 ;; ----------------------------------------------------------------
 ;; clang-format integration via clangd's LSP formatter.
 ;;
@@ -404,6 +405,55 @@
 
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "C-c f") #'eglot-format))
+
+(require 'cl-lib)
+
+(defvar my/imenu-kind-order
+  '("Namespace" "Class" "Struct" "Interface" "Enum" "EnumMember"
+    "Constructor" "Method" "Function" "Field" "Property"
+    "Constant" "Variable" "TypeParameter")
+  "Preferred order of imenu kind headers; unlisted kinds go last.")
+
+(defun my/imenu-kind-rank (kind)
+  "Rank of KIND in the preferred order (unknown kinds last)."
+  (or (seq-position my/imenu-kind-order kind #'equal)
+      most-positive-fixnum))
+
+(with-eval-after-load 'eglot
+  (defun my/eglot-imenu-by-kind ()
+    "Eglot imenu index regrouped under kind headers, in a sensible order.
+Eglot returns a flat index whose entries carry the kind in the
+`imenu-kind' text property; this wraps it into a nested alist so
+imenu-list shows collapsible kind headers."
+    (let ((flat (eglot-imenu))
+          (groups nil))
+      (cl-labels
+          ((collect (entries)
+             (dolist (e entries)
+               (if (imenu--subalist-p e)
+                   (collect (cdr e))
+                 (let* ((name (car e))
+                        (kind (or (get-text-property 0 'imenu-kind name) "Other"))
+                        (cell (assoc kind groups)))
+                   (if cell
+                       (setcdr cell (cons e (cdr cell)))
+                     (push (cons kind (list e)) groups)))))))
+        (collect flat))
+      (setq groups
+            (mapcar (lambda (g) (cons (car g) (nreverse (cdr g)))) groups))
+      (sort groups
+            (lambda (a b)
+              (< (my/imenu-kind-rank (car a))
+                 (my/imenu-kind-rank (car b)))))))
+
+  (defun my/eglot-enable-kind-imenu ()
+    "Group imenu by symbol kind in Eglot-managed buffers."
+    (when (eglot-managed-p)
+      (setq-local imenu-create-index-function #'my/eglot-imenu-by-kind)))
+
+  (add-hook 'eglot-managed-mode-hook #'my/eglot-enable-kind-imenu))
+
+(setq imenu-list-auto-resize t)
 
 ;; ============================================================
 ;; Flymake (diagnostics)
@@ -635,9 +685,9 @@ deferring each binding until its FEATURE is loaded."
 ;; (sends yanks from a terminal session to the host clipboard)
 ;; ============================================================
 
-(defun osc52-send-string (string)
+(defun osc52-send-string (str)
   "Send STRING to the terminal clipboard via OSC 52."
-  (let ((encoded (base64-encode-string string t)))
+  (let ((encoded (base64-encode-string (encode-coding-string str 'utf-8) t)))
     (send-string-to-terminal (concat "\e]52;c;" encoded "\a"))))
 
 (defun osc52-copy-to-clipboard (text)
