@@ -681,7 +681,7 @@ deferring each binding until its FEATURE is loaded."
 (add-hook 'c++-ts-mode-hook #'my/c++-setup)
 
 (defun my/c++-ts-namespace-flush-left ()
-  "Δηλώσεις/ὁρισμοὶ ἀπ' εὐθείας μέσα σὲ namespace ξεκινοῦν στὴ στήλη 0."
+  "Declaration/definitions directly inside a namespace start with zero indentation."
   (setf (alist-get 'cpp treesit-simple-indent-rules)
         (append
          '(((n-p-gp nil nil "namespace_definition") grand-parent 0)
