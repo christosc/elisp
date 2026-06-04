@@ -604,8 +604,8 @@ imenu-list shows collapsible kind headers."
 (defalias 'fnd 'find-name-dired)
 
 ;; --- Default bindings that doesn't reach terminal ---
-(keymap-global-set "C-c q" #'query-replace-regexp) ; ἀντὶ C-M-%
-(keymap-global-set "C-c /" #'comment-line)         ; ἀντὶ C-x C-;
+(keymap-global-set "C-c r" #'query-replace-regexp) ; instead C-M-%
+(keymap-global-set "C-c /" #'comment-line)         ; instead C-x C-;
 (keymap-global-set "C-c m" #'imenu)
 
 ;; Note M-% (query-replace) and M-; (comment-dwim)
@@ -617,7 +617,7 @@ imenu-list shows collapsible kind headers."
 (global-set-key (kbd "C-c g p") #'grep-word-under-parent-dir)
 (global-set-key (kbd "C-c c o") #'occur-curr-word)
 (global-set-key (kbd "C-c t")   #'grep-cpp-def)
-(global-set-key (kbd "C-c r")   #'revert-buffer)
+;;(global-set-key (kbd "C-c r")   #'revert-buffer) ;; reserved for query-replace-regexp
 (global-set-key (kbd "C-c F")   #'find-name-dired) ;; C-c f is taken by eglot format region
 (global-set-key (kbd "C-c +")   #'increment-number-at-point)
 (global-set-key (kbd "C-c -")   #'decrement-number-at-point)
