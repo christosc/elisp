@@ -78,6 +78,22 @@
 (add-to-list 'load-path (locate-user-emacs-file "elisp"))
 (add-to-list 'custom-theme-load-path (locate-user-emacs-file "themes"))
 
+;; kkp: report modifier combinations unambiguously in terminal Emacs
+;; via the Kitty Keyboard Protocol. Harmless / no-op on GUI frames.
+(use-package kkp
+  :ensure t
+  :config
+  ;; Alt stays mapped to Meta (Emacs default).
+  ;; Uncomment to map the Alt key to Emacs's Alt modifier instead:
+  ;; (setq kkp-alt-modifier 'alt)
+  ;; tmux can't carry full KKP.
+  (unless (getenv "TMUX")
+    (global-kkp-mode +1)))
+
+(add-hook 'tty-setup-hook
+          (lambda ()
+            (define-key input-decode-map "\e[27;7;37~" [?\C-\M-%])))
+
 ;; ============================================================
 ;; UI & Editing Basics
 ;; ============================================================
@@ -721,9 +737,7 @@ deferring each binding until its FEATURE is loaded."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(aio alabaster-themes company eat gruvbox-theme helm imenu-list json-mode lsp-ui polymode
-         protobuf-mode quelpa-use-package request shell-maker transient treesit-auto yaml))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
    '((imenu-list :url "https://github.com/bmag/imenu-list")
      (alabaster-themes :url "https://github.com/vedang/alabaster-themes"))))
