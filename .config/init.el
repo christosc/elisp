@@ -86,7 +86,7 @@
 (setq column-number-mode        t
       completion-ignore-case    t
       vc-follow-symlinks        t
-      confirm-kill-emacs        'yes-or-no-p
+      ;;confirm-kill-emacs        'yes-or-no-p
       sentence-end-double-space nil
       isearch-lazy-count        t
       set-mark-command-repeat-pop t)
@@ -721,7 +721,9 @@ deferring each binding until its FEATURE is loaded."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(aio alabaster-themes company eat gruvbox-theme helm imenu-list json-mode lsp-ui polymode
+         protobuf-mode quelpa-use-package request shell-maker transient treesit-auto yaml))
  '(package-vc-selected-packages
    '((imenu-list :url "https://github.com/bmag/imenu-list")
      (alabaster-themes :url "https://github.com/vedang/alabaster-themes"))))
