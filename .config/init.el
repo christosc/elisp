@@ -26,14 +26,14 @@
 
 ;; Increase data Emacs reads from processes to 1MB. Crucial so that
 ;; clangd does not bottleneck on LSP traffic.
-(setq read-process-output-max (* 1024 1024))
+;;(setq read-process-output-max (* 1024 1024))
 
 ;; Lighter UI / scrolling, helpful in terminal and over SSH.
 ;; jit-lock-defer-time prevents micro-stutters from font-lock.
-(setq fast-but-imprecise-scrolling t
-      jit-lock-defer-time          0
-      cursor-in-non-selected-windows nil
-      recenter-redisplay           nil) ; don't flash on C-l in terminal
+;; (setq fast-but-imprecise-scrolling t
+;;       ;;jit-lock-defer-time          0
+;;       cursor-in-non-selected-windows nil
+;;       recenter-redisplay           nil) ; don't flash on C-l in terminal
 
 
 ;; ============================================================
@@ -42,10 +42,10 @@
 
 ;; High threshold during startup, lower it once loaded.
 ;; Consider the `gcmh' package for adaptive handling later.
-(setq gc-cons-threshold (* 100 1024 1024))
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq gc-cons-threshold (* 16 1024 1024))))
+;; (setq gc-cons-threshold (* 100 1024 1024))
+;; (add-hook 'emacs-startup-hook
+;;           (lambda ()
+;;             (setq gc-cons-threshold (* 16 1024 1024))))
 
 ;; ============================================================
 ;; Native Compilation
@@ -131,10 +131,10 @@
 ;;     ;; In terminal do not use colors
 ;;     (global-font-lock-mode -1))
 
-(with-eval-after-load 'flymake
-  (set-face-attribute 'flymake-error   nil :inherit nil :foreground 'unspecified :underline t)
-  (set-face-attribute 'flymake-warning nil :inherit nil :foreground 'unspecified :underline t)
-  (set-face-attribute 'flymake-note    nil :inherit nil :foreground 'unspecified :underline t))
+;; (with-eval-after-load 'flymake
+;;   (set-face-attribute 'flymake-error   nil :inherit nil :foreground 'unspecified :underline t)
+;;   (set-face-attribute 'flymake-warning nil :inherit nil :foreground 'unspecified :underline t)
+;;   (set-face-attribute 'flymake-note    nil :inherit nil :foreground 'unspecified :underline t))
 
 (with-eval-after-load 'eglot
   (dolist (f '(eglot-diagnostic-tag-unnecessary-face
@@ -706,6 +706,11 @@ deferring each binding until its FEATURE is loaded."
          (alist-get 'cpp treesit-simple-indent-rules))))
 
 (add-hook 'c++-ts-mode-hook #'my/c++-ts-namespace-flush-left)
+
+(add-hook 'c++-ts-mode-hook
+          (lambda ()
+            (setq-local treesit-font-lock-level 2)
+            (treesit-font-lock-recompute-features)))
 
 ;; ============================================================
 ;; OSC 52 Clipboard Integration
