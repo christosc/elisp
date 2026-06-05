@@ -30,10 +30,10 @@
 
 ;; Lighter UI / scrolling, helpful in terminal and over SSH.
 ;; jit-lock-defer-time prevents micro-stutters from font-lock.
-;; (setq fast-but-imprecise-scrolling t
-;;       ;;jit-lock-defer-time          0
-;;       cursor-in-non-selected-windows nil
-;;       recenter-redisplay           nil) ; don't flash on C-l in terminal
+(setq fast-but-imprecise-scrolling t
+      jit-lock-defer-time          0
+      cursor-in-non-selected-windows nil
+      recenter-redisplay           nil) ; don't flash on C-l in terminal
 
 
 ;; ============================================================
@@ -136,12 +136,12 @@
 ;;   (set-face-attribute 'flymake-warning nil :inherit nil :foreground 'unspecified :underline t)
 ;;   (set-face-attribute 'flymake-note    nil :inherit nil :foreground 'unspecified :underline t))
 
-(with-eval-after-load 'eglot
-  (dolist (f '(eglot-diagnostic-tag-unnecessary-face
-               eglot-diagnostic-tag-deprecated-face))
-    (set-face-attribute f nil
-                        :inherit nil :weight 'unspecified :strike-through nil
-                        :foreground 'unspecified :underline t)))
+;; (with-eval-after-load 'eglot
+;;   (dolist (f '(eglot-diagnostic-tag-unnecessary-face
+;;                eglot-diagnostic-tag-deprecated-face))
+;;     (set-face-attribute f nil
+;;                         :inherit nil :weight 'unspecified :strike-through nil
+;;                         :foreground 'unspecified :underline t)))
 
 (with-eval-after-load 'eglot
   (when (boundp 'eglot-mode-line-format)
