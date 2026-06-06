@@ -16,4 +16,13 @@
 
 As of Emacs 31 (from master branch) the build I make is configured like this:
 
+```
   $ ./configure --prefix=/data/chryssoc --without-x --with-native-compilation=aot --enable-link-time-optimization --without-compress-install --disable-gc-mark-trace --with-tree-sitter
+```
+
+On WSL I needed more elaborate configuration:
+
+```
+PKG_CONFIG_PATH=$HOME/.local/lib/pkgconfig  ./configure   --prefix=$HOME/.local/emacs-31 CPPFLAGS="-I$HOME/.local/include" LDFLAGS="-L$HOME/.local/lib" --without-x \
+                                            --with-native-compilation=aot --enable-link-time-optimization --without-compress-install --disable-gc-mark-trace --with-tree-sitter
+```
