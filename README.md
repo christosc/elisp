@@ -16,4 +16,4 @@
 
 As of Emacs 31 (from master branch) the build I make is configured like this:
 
-  $ ./configure --prefix=/data/chryssoc --without-x --with-native-compilation=aot --enable-link-time-optimization --without-compress-install --disable-gc-mark-trace CFLAGS=-I/data/chryssoc/include LDFLAGS=-L/data/chryssoc/lib -L/data/chryssoc/lib64 PKG_CONFIG_PATH=/data/chryssoc/lib/pkgconfig:/data/chryssoc/lib64/pkgconfig --no-create --no-recursion
+  $ ./configure --prefix=/data/chryssoc --without-x --with-native-compilation=aot --enable-link-time-optimization --without-compress-install --disable-gc-mark-trace --with-tree-sitter
