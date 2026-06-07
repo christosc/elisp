@@ -78,21 +78,6 @@
 (add-to-list 'load-path (locate-user-emacs-file "elisp"))
 (add-to-list 'custom-theme-load-path (locate-user-emacs-file "themes"))
 
-;; kkp: report modifier combinations unambiguously in terminal Emacs
-;; via the Kitty Keyboard Protocol. Harmless / no-op on GUI frames.
-(use-package kkp
-  :ensure t
-  :config
-  ;; Alt stays mapped to Meta (Emacs default).
-  ;; Uncomment to map the Alt key to Emacs's Alt modifier instead:
-  ;; (setq kkp-alt-modifier 'alt)
-  ;; tmux can't carry full KKP.
-  (unless (getenv "TMUX")
-    (global-kkp-mode +1)))
-
-(add-hook 'tty-setup-hook
-          (lambda ()
-            (define-key input-decode-map "\e[27;7;37~" [?\C-\M-%])))
 
 ;; ============================================================
 ;; UI & Editing Basics
