@@ -161,10 +161,6 @@
                                       exit-minibuffer keyboard-quit))
           (ding))))
 
-;; Recent files.
-(recentf-mode 1)
-(setq recentf-max-menu-items  25
-      recentf-max-saved-items 25)
 
 ;; Use JetBrains Mono at 11pt on Windows only, to match the bundled
 ;; WezTerm default font. On Linux Emacs 31 keep the system default.
