@@ -20,6 +20,20 @@
 
 ;;; Code:
 
+;; Some key definitions that are useful to preserve C-M-% for query-replace-regexp.
+;; The first two are useful for Windows Terminal, which can map the full combo of C-M-% to an escape
+;; sequence.
+;; The third is useful for Alacritty, which cannot remap the full combo of C-M-% to a sequence.
+;; Thst's why we use ESC C-% key combo, and encode only the C-% part.
+;; Also we present two escape sequences for C-M-%, which capture both types of escape sequence
+;; translation in tmux:
+;;
+;;     set -g extended-keys-format csi-u
+;;     set -g extended-keys-format xterm
+(define-key input-decode-map "\e[37;7u"    (kbd "C-M-%"))  ; csi-u
+(define-key input-decode-map "\e[27;7;37~" (kbd "C-M-%"))  ; csi-tilde
+(define-key input-decode-map "\e[37;5u"    (kbd "C-%"))  ; csi-u (to be used with ESC prefix)
+
 ;; ============================================================
 ;; Core Performance & I/O
 ;; ============================================================
@@ -713,6 +727,7 @@ deferring each binding until its FEATURE is loaded."
   (setq interprogram-cut-function #'osc52-copy-to-clipboard))
 
 (setq select-enable-clipboard t)
+
 
 ;; ============================================================
 ;; Customize (managed by Emacs — keep at the bottom)
