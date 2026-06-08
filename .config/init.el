@@ -316,33 +316,21 @@
 ;; Tree-sitter
 ;; ============================================================
 
-;; Install treesit-auto from its git repo. package-vc-install is
-;; built-in since Emacs 29 and works on both the local Windows Emacs
-;; (where ELPA is also accessible) and the corporate Rocky Emacs
-;; (where ELPA is blocked but git is allowed).
-(unless (package-installed-p 'treesit-auto)
-  (package-vc-install "https://github.com/renzmann/treesit-auto"))
 
-(use-package treesit-auto
-  :custom
-  (treesit-auto-install 'prompt)
-  :config
-  ;; 1. first override the Lua recipe (with :ext and :abi14-revision)
-  (setq treesit-auto-recipe-list
-        (cl-remove 'lua treesit-auto-recipe-list
-                   :key #'treesit-auto-recipe-lang))
-  (add-to-list 'treesit-auto-recipe-list
-               (make-treesit-auto-recipe
-                :lang 'lua
-                :ts-mode 'lua-ts-mode
-                :remap 'lua-mode
-                :url "https://github.com/tree-sitter-grammars/tree-sitter-lua"
-                :abi14-revision "v0.3.0"
-                :ext "\\.lua\\'"))
-  ;; 2. then the registration to the auto-mode-alist
-  (treesit-auto-add-to-auto-mode-alist 'all)
-  ;; 3. And last the global mode
-  (global-treesit-auto-mode))
+;; Πηγὲς grammars — built-in treesit (Emacs 29+)
+(setq treesit-language-source-alist
+      '((lua  "https://github.com/tree-sitter-grammars/tree-sitter-lua" "v0.3.0")
+        (yang "https://github.com/Hubro/tree-sitter-yang")))
+
+;; Remap legacy mode → ts-mode (μόνο ὅπου ὑπάρχει καὶ legacy mode καὶ ts-mode)
+(add-to-list 'major-mode-remap-alist '(lua-mode . lua-ts-mode))
+
+;; Ἄνοιγμα ἀρχείων κατευθεῖαν στὸ ts-mode
+(add-to-list 'auto-mode-alist '("\\.lua\\'" . lua-ts-mode))
+
+(use-package yang-mode
+  :ensure t
+  :mode "\\.yang\\'")
 
 ;; ============================================================
 ;; Eglot + clangd
@@ -738,10 +726,7 @@ deferring each binding until its FEATURE is loaded."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil)
- '(package-vc-selected-packages
-   '((imenu-list :url "https://github.com/bmag/imenu-list")
-     (alabaster-themes :url "https://github.com/vedang/alabaster-themes"))))
+ '(package-selected-packages nil))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
