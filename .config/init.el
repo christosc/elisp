@@ -30,8 +30,16 @@
 ;;
 ;;     set -g extended-keys-format csi-u
 ;;     set -g extended-keys-format xterm
+;;
+;; In Windows Terminal settings, in segement "actions", I have:
+;; { "command": { "action": "sendInput", "input": "\u001b[37;7u" }, "keys": "ctrl+alt+shift+5" }
 (define-key input-decode-map "\e[37;7u"    (kbd "C-M-%"))  ; csi-u
 (define-key input-decode-map "\e[27;7;37~" (kbd "C-M-%"))  ; csi-tilde
+;; In alacritty.toml I have:
+;; [[keyboard.bindings]]
+;; key = "%"
+;; mods = "Control|Shift"
+;; chars = "\u001b[37;5u"
 (define-key input-decode-map "\e[37;5u"    (kbd "C-%"))  ; csi-u (to be used with ESC prefix)
 
 ;; ============================================================
@@ -317,15 +325,15 @@
 ;; ============================================================
 
 
-;; Πηγὲς grammars — built-in treesit (Emacs 29+)
+;; Grammar sources — built-in treesit (Emacs 29+)
 (setq treesit-language-source-alist
       '((lua  "https://github.com/tree-sitter-grammars/tree-sitter-lua" "v0.3.0")
         (yang "https://github.com/Hubro/tree-sitter-yang")))
 
-;; Remap legacy mode → ts-mode (μόνο ὅπου ὑπάρχει καὶ legacy mode καὶ ts-mode)
+;; Remap legacy mode → ts-mode (only where there is both legacy mode and ts-mode)
 (add-to-list 'major-mode-remap-alist '(lua-mode . lua-ts-mode))
 
-;; Ἄνοιγμα ἀρχείων κατευθεῖαν στὸ ts-mode
+;; Open Lua files immediately in ts-mode
 (add-to-list 'auto-mode-alist '("\\.lua\\'" . lua-ts-mode))
 
 (use-package yang-mode
