@@ -333,6 +333,7 @@
 ;; Tree-sitter
 ;; ============================================================
 
+(require 'treesit)
 
 ;; Grammar sources — built-in treesit (Emacs 29+)
 (setq treesit-language-source-alist
@@ -340,10 +341,17 @@
         (yang "https://github.com/Hubro/tree-sitter-yang")))
 
 ;; Remap legacy mode → ts-mode (only where there is both legacy mode and ts-mode)
-(add-to-list 'major-mode-remap-alist '(lua-mode . lua-ts-mode))
+;;(add-to-list 'major-mode-remap-alist '(lua-mode . lua-ts-mode))
 
 ;; Open Lua files immediately in ts-mode
-(add-to-list 'auto-mode-alist '("\\.lua\\'" . lua-ts-mode))
+;;(add-to-list 'auto-mode-alist '("\\.lua\\'" . lua-ts-mode))
+
+(dolist (entry '((bash . (sh-mode   . bash-ts-mode))
+                 (cpp  . (c++-mode  . c++-ts-mode))
+                 (c    . (c-mode    . c-ts-mode))
+                 (lua  . (lua-mode  . lua-ts-mode))))
+  (when (treesit-ready-p (car entry) t)        ; t = silently, without warning
+    (add-to-list 'major-mode-remap-alist (cdr entry))))
 
 (use-package yang-mode
   :ensure t
