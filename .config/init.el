@@ -20,6 +20,12 @@
 
 ;;; Code:
 
+;; =============================================================================
+;; TO BE ENABLED IF YOU ARE USING EMACS IN TERMINAL FROM A TERMINAL EMULATOR
+;; IN WINDOWS (WINDOWS TERMINAL, ALACRITTY ETC.) IN A REAL LINUX SIMULATOR THOSE
+;; HACKS DO NOT SEEM TO BE NEEDED!
+;; =============================================================================
+;;
 ;; Some key definitions that are useful to preserve C-M-% for query-replace-regexp.
 ;; The first two are useful for Windows Terminal, which can map the full combo of C-M-% to an escape
 ;; sequence.
@@ -33,14 +39,17 @@
 ;;
 ;; In Windows Terminal settings, in segement "actions", I have:
 ;; { "command": { "action": "sendInput", "input": "\u001b[37;7u" }, "keys": "ctrl+alt+shift+5" }
-(define-key input-decode-map "\e[37;7u"    (kbd "C-M-%"))  ; csi-u
-(define-key input-decode-map "\e[27;7;37~" (kbd "C-M-%"))  ; csi-tilde
+
+;; (define-key input-decode-map "\e[37;7u"    (kbd "C-M-%"))  ; csi-u
+;; (define-key input-decode-map "\e[27;7;37~" (kbd "C-M-%"))  ; csi-tilde
+
 ;; In alacritty.toml I have:
 ;; [[keyboard.bindings]]
 ;; key = "%"
 ;; mods = "Control|Shift"
 ;; chars = "\u001b[37;5u"
-(define-key input-decode-map "\e[37;5u"    (kbd "C-%"))  ; csi-u (to be used with ESC prefix)
+
+;; (define-key input-decode-map "\e[37;5u"    (kbd "C-%"))  ; csi-u (to be used with ESC prefix)
 
 ;; ============================================================
 ;; Core Performance & I/O
@@ -288,9 +297,9 @@
 ;; (use-package consult
 ;;   :vc (:url "https://github.com/minad/consult.git"))
 
-(fido-vertical-mode 1)
-(setq completion-styles '(flex basic)
-      completion-category-overrides '((file (styles partial-completion))))
+;; (fido-vertical-mode 1)
+;; (setq completion-styles '(flex basic)
+;;       completion-category-overrides '((file (styles partial-completion))))
 
 (use-package alabaster-themes
   :ensure t)
@@ -734,7 +743,9 @@ deferring each binding until its FEATURE is loaded."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(aio alabaster-themes eat gruvbox-theme imenu-list json-mode polymode protobuf-mode request
+         shell-maker transient yaml yang-mode)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
