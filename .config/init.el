@@ -766,60 +766,87 @@ deferring each binding until its FEATURE is loaded."
 ;;; ====================================================================
 ;;  TRAMP
 ;;  ===================================================================
-;; Windows GUI Emacs runs ssh.exe via pipes, so OpenSSH refuses to allocate
-;; a pty and TRAMP's prompt detection times out. -tt forces pty allocation.
-;; Not needed (and harmful) on Linux/macOS, where TRAMP's defaults work.
-(with-eval-after-load 'tramp
-  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
-(when (eq system-type 'windows-nt)
-  (with-eval-after-load 'tramp
-    (add-to-list 'tramp-connection-properties
-                 (list (regexp-quote "/ssh:")
-                       "login-args"
-                       '(("-tt")
-                         ("-l" "%u")
-                         ("-p" "%p")
-                         ("%c")
-                         ("-e" "none")
-                         ("%h"))))))
+(require 'tramp)
 
-;; -------- TRAMP performance settings --------
+;; Respect ~/.ssh/config (ControlMaster etc.) instead of TRAMP's own options
+(setq tramp-use-ssh-controlmaster-options nil)
 
-;; Prefer the ssh method on Windows (works with native ssh.exe).
-;; If you switch to PuTTY for connection sharing, use 'plink' instead.
-(setq tramp-default-method "ssh")
+;; Use the remote login shell's PATH, so TRAMP finds your Mason-installed
+;; clangd under ~/.local/... without hardcoding paths
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 
-;; Skip probing for Git, SVN, Bzr, etc. — we only ever use Mercurial.
-(setq vc-handled-backends '(Git Hg))
-
-;; No remote backup files, no remote lockfiles.
-(setq backup-enable-predicate
-      (lambda (name)
-        (and (normal-backup-enable-predicate name)
-             (not (file-remote-p name 'method)))))
+;; Fewer round-trips: don't create remote lockfiles on edit
 (setq remote-file-name-inhibit-locks t)
 
-;; Cache remote file properties aggressively.
-(setq remote-file-name-inhibit-cache nil)    ; default; do not flip to t for speed
-(setq tramp-completion-reread-directory-timeout nil)
+;; Keep auto-saves and backups LOCAL — never write them over the network
+(setq tramp-auto-save-directory
+      (expand-file-name "tramp-autosave" user-emacs-directory))
+(add-to-list 'backup-directory-alist
+             (cons tramp-file-name-regexp
+                   (expand-file-name "tramp-backups" user-emacs-directory)))
 
-;; Default verbosity is enough for normal use; raise to 6 when debugging.
-(setq tramp-verbose 3)
+;; Don't let VC probe remote directories (expensive over 200ms RTT).
+;; You use hg from the shell anyway.
+(setq vc-ignore-dir-regexp
+      (format "\\(%s\\)\\|\\(%s\\)" vc-ignore-dir-regexp tramp-file-name-regexp))
 
-;; Use /usr/bin/bash automatically whenever `shell' is invoked from a
-;; buffer whose default-directory is on a remote host. Local `shell'
-;; invocations on Windows continue to use whatever shell-file-name is
-;; configured locally (cmd.exe, PowerShell, MSYS2 bash, etc.).
-(with-eval-after-load 'tramp
-  (connection-local-set-profile-variables
-   'remote-bash-profile
-   '((explicit-shell-file-name . "/usr/bin/bash")
-     (explicit-bash-args       . ("-l" "-i"))))
+;; Quiet logging (raise to 6 only when debugging)
+(setq tramp-verbose 1)
 
-  (connection-local-set-profiles
-   '(:application tramp)
-   'remote-bash-profile))
+;;; --- TRAMP: local Emacs editing files on labnn10 over SSH -------------
+
+(require 'tramp)
+
+;; Respect ~/.ssh/config (ControlMaster/ControlPersist do the heavy
+;; lifting there) instead of TRAMP injecting its own options.
+(setq tramp-use-ssh-controlmaster-options nil)
+
+;; Use the remote login shell's PATH so TRAMP/eglot find the
+;; Mason-installed clangd under ~/.local/... without hardcoded paths.
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
+;; Fewer round-trips: no lockfiles on remote hosts.
+(setq remote-file-name-inhibit-locks t)
+
+;; Keep auto-saves and backups LOCAL — never write them over the network.
+(setq tramp-auto-save-directory
+      (expand-file-name "tramp-autosave" user-emacs-directory))
+(add-to-list 'backup-directory-alist
+             (cons tramp-file-name-regexp
+                   (expand-file-name "tramp-backups" user-emacs-directory)))
+
+;; Never let VC probe remote directories (expensive over high RTT);
+;; hg is driven from the shell anyway.
+(setq vc-ignore-dir-regexp
+      (format "\\(%s\\)\\|\\(%s\\)" vc-ignore-dir-regexp tramp-file-name-regexp))
+
+;; Locally, only Git and Mercurial exist — skip probing for SVN, Bzr, etc.
+(setq vc-handled-backends '(Git Hg))
+
+;; Quiet logging; raise to 6 temporarily when debugging connections.
+(setq tramp-verbose 1)
+
+;; Connection-local profiles:
+;;  1. Direct async processes — lets eglot spawn clangd on the remote
+;;     as a plain ssh subprocess (much faster I/O path). Emacs 29+.
+;;  2. Remote M-x shell uses a bash login shell (picks up SCL toolset).
+(connection-local-set-profile-variables
+ 'remote-direct-async
+ '((tramp-direct-async-process . t)))
+
+(connection-local-set-profile-variables
+ 'remote-bash-profile
+ '((explicit-shell-file-name . "/usr/bin/bash")
+   (explicit-bash-args       . ("-l" "-i"))))
+
+(connection-local-set-profiles
+ '(:application tramp :machine "labnn10")
+ 'remote-direct-async)
+
+(connection-local-set-profiles
+ '(:application tramp)
+ 'remote-bash-profile)
 
 
 ;; -------   Org Mode -----------------------------------
