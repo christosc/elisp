@@ -231,8 +231,8 @@
 ;; ============================================================
 
 ;; ;; Shift-arrow and Meta-arrow both navigate between windows.
-;; (windmove-default-keybindings)
-;; (windmove-default-keybindings 'meta)
+(windmove-default-keybindings)
+(windmove-default-keybindings 'meta) ;; use 'meta to avoid clash with org-mode keybindings
 
 ;; Automatically switch focus to the help window when it opens
 ;;(setq help-window-select t)
