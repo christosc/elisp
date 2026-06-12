@@ -115,6 +115,13 @@
 ;; ============================================================
 
 (menu-bar-mode -1)
+
+(setq inhibit-startup-screen t)
+
+;; Don't request the terminal's "very visible" (blinking) cursor;
+;; use the normal static cursor instead.
+(setq visible-cursor nil)
+
 (setq column-number-mode        t
       completion-ignore-case    t
       vc-follow-symlinks        t
