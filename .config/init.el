@@ -19,7 +19,7 @@
 ;; export EDITOR=emacs
 
 ;;; Code:
-
+;;(setq use-package-compute-statistics t)
 ;; =============================================================================
 ;; TO BE ENABLED IF YOU ARE USING EMACS IN TERMINAL FROM A TERMINAL EMULATOR
 ;; IN WINDOWS (WINDOWS TERMINAL, ALACRITTY ETC.) IN A REAL LINUX SIMULATOR THOSE
@@ -101,9 +101,6 @@
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
 
 ;; Extra load paths — abide to the user-emacs-directory on every platform
 (add-to-list 'load-path (locate-user-emacs-file "elisp"))
@@ -206,16 +203,24 @@
 ;; For using a single monospaced font that also includes the Greek "extended"
 ;; characters, see the Iosevka font.
   ;; Affects the current/initial frame.
-(set-face-attribute 'default nil
-                    :family "JetBrains Mono"
-                    :height 120)
-;; Affects all frames created afterwards (including emacsclient frames).
-(add-to-list 'default-frame-alist
-             '(font . "JetBrains Mono-12"))
-;; Route all Greek (basic + Extended polytonic) to DejaVu Sans Mono.
-;; Modifies the default fontset, so applies globally across frames.
-(set-fontset-font t 'greek             (font-spec :family "DejaVu Sans Mono"))
-(set-fontset-font t '(#x1F00 . #x1FFF) (font-spec :family "DejaVu Sans Mono"))
+
+(defun my/setup-gui-fonts (&optional frame)
+  "Configure fonts; runs only on graphical frames."
+  (when (display-graphic-p frame)
+    (with-selected-frame (or frame (selected-frame))
+      (set-face-attribute 'default nil
+                          :family "JetBrains Mono"
+                          :height 120)
+      ;; Route all Greek (basic + Extended polytonic) to DejaVu Sans Mono.
+      (set-fontset-font t 'greek             (font-spec :family "DejaVu Sans Mono"))
+      (set-fontset-font t '(#x1F00 . #x1FFF) (font-spec :family "DejaVu Sans Mono")))
+    ;; One-shot: the settings are global, no need to re-run per frame.
+    (remove-hook 'after-make-frame-functions #'my/setup-gui-fonts)))
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions #'my/setup-gui-fonts)
+  (when (display-graphic-p)
+    (my/setup-gui-fonts)))
 
 ;; ============================================================
 ;; Encoding & Input Method
