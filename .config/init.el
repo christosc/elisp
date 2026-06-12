@@ -99,8 +99,10 @@
 ;; Package Management
 ;; ============================================================
 
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; ΟΧΙ (require 'package). Τὰ archives χρειάζονται μόνο σὲ install:
+(with-eval-after-load 'package
+  (add-to-list 'package-archives
+               '("melpa" . "https://melpa.org/packages/") t))
 
 ;; Extra load paths — abide to the user-emacs-directory on every platform
 (add-to-list 'load-path (locate-user-emacs-file "elisp"))
@@ -309,8 +311,8 @@
 ;; (setq completion-styles '(flex basic)
 ;;       completion-category-overrides '((file (styles partial-completion))))
 
-(use-package alabaster-themes
-  :ensure t)
+;; (use-package alabaster-themes
+;;   :ensure t)
 
 
 ;; ;
@@ -369,20 +371,19 @@
 ;; Eglot + clangd
 ;; ============================================================
 
-(require 'eglot)
-
-;; Connect asynchronously; never block the UI on LSP handshake.
-(setq eglot-sync-connect nil)
-
-;; Disable the events log buffer — over a long session it consumes
-;; significant memory and slows the editor noticeably.
-(setq eglot-events-buffer-size 0)
-
-;; Inlay hints are visually noisy and can be slow; off by default.
-(setq eglot-ignored-server-capabilities '(:inlayHintProvider))
-
 ;; clangd command line. Matches the flags used in the Neovim setup.
 (with-eval-after-load 'eglot
+  ;; Connect asynchronously; never block the UI on LSP handshake.
+  (setq eglot-sync-connect nil)
+
+  ;; Disable the events log buffer — over a long session it consumes
+  ;; significant memory and slows the editor noticeably.
+  (setq eglot-events-buffer-size 0)
+
+  ;; Inlay hints are visually noisy and can be slow; off by default.
+  (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
+
+
   (add-to-list 'eglot-server-programs
                '((c++-mode c++-ts-mode c-mode c-ts-mode)
                  . ("clangd"
@@ -771,69 +772,27 @@ deferring each binding until its FEATURE is loaded."
  )
 
 
-;;; ====================================================================
-;;  TRAMP
-;;  ===================================================================
-
-(require 'tramp)
-
-;; Respect ~/.ssh/config (ControlMaster etc.) instead of TRAMP's own options
-(setq tramp-use-ssh-controlmaster-options nil)
-
-;; Use the remote login shell's PATH, so TRAMP finds your Mason-installed
-;; clangd under ~/.local/... without hardcoding paths
-(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-
-;; Fewer round-trips: don't create remote lockfiles on edit
-(setq remote-file-name-inhibit-locks t)
-
-;; Keep auto-saves and backups LOCAL — never write them over the network
-(setq tramp-auto-save-directory
-      (expand-file-name "tramp-autosave" user-emacs-directory))
-(add-to-list 'backup-directory-alist
-             (cons tramp-file-name-regexp
-                   (expand-file-name "tramp-backups" user-emacs-directory)))
-
-;; Don't let VC probe remote directories (expensive over 200ms RTT).
-;; You use hg from the shell anyway.
-(setq vc-ignore-dir-regexp
-      (format "\\(%s\\)\\|\\(%s\\)" vc-ignore-dir-regexp tramp-file-name-regexp))
-
-;; Quiet logging (raise to 6 only when debugging)
-(setq tramp-verbose 1)
-
 ;;; --- TRAMP: local Emacs editing files on labnn10 over SSH -------------
 
-(require 'tramp)
-
-;; Respect ~/.ssh/config (ControlMaster/ControlPersist do the heavy
-;; lifting there) instead of TRAMP injecting its own options.
-(setq tramp-use-ssh-controlmaster-options nil)
-
-;; Use the remote login shell's PATH so TRAMP/eglot find the
-;; Mason-installed clangd under ~/.local/... without hardcoded paths.
-(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-
-;; Fewer round-trips: no lockfiles on remote hosts.
-(setq remote-file-name-inhibit-locks t)
-
-;; Keep auto-saves and backups LOCAL — never write them over the network.
-(setq tramp-auto-save-directory
+;;; --- TRAMP --------------------------------------------------------
+;; Plain setqs: safe before tramp loads (defcustom won't override).
+(setq tramp-use-ssh-controlmaster-options nil
+      remote-file-name-inhibit-locks t
+      tramp-verbose 1
+      tramp-auto-save-directory
       (expand-file-name "tramp-autosave" user-emacs-directory))
-(add-to-list 'backup-directory-alist
-             (cons tramp-file-name-regexp
-                   (expand-file-name "tramp-backups" user-emacs-directory)))
 
-;; Never let VC probe remote directories (expensive over high RTT);
-;; hg is driven from the shell anyway.
-(setq vc-ignore-dir-regexp
-      (format "\\(%s\\)\\|\\(%s\\)" vc-ignore-dir-regexp tramp-file-name-regexp))
-
-;; Locally, only Git and Mercurial exist — skip probing for SVN, Bzr, etc.
 (setq vc-handled-backends '(Git Hg))
 
-;; Quiet logging; raise to 6 temporarily when debugging connections.
-(setq tramp-verbose 1)
+;; Anything referencing tramp's own symbols waits for first remote access.
+(with-eval-after-load 'tramp
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  (add-to-list 'backup-directory-alist
+               (cons tramp-file-name-regexp
+                     (expand-file-name "tramp-backups" user-emacs-directory)))
+  (setq vc-ignore-dir-regexp
+        (format "\\(%s\\)\\|\\(%s\\)"
+                vc-ignore-dir-regexp tramp-file-name-regexp)))
 
 ;; Connection-local profiles:
 ;;  1. Direct async processes — lets eglot spawn clangd on the remote
