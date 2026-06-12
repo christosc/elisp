@@ -314,6 +314,12 @@
 ;; (use-package alabaster-themes
 ;;   :ensure t)
 
+(use-package kkp
+  :ensure t
+  :hook (tty-setup . global-kkp-mode)
+  :config
+  ;; (setq kkp-alt-modifier 'alt) ;; use this if you want to map the Alt keyboard modifier to Alt in Emacs (and not to Meta)
+  )
 
 ;; ;
 ;; ============================================================
@@ -760,9 +766,7 @@ deferring each binding until its FEATURE is loaded."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(aio alabaster-themes eat gruvbox-theme imenu-list json-mode polymode protobuf-mode request
-         shell-maker transient yaml yang-mode)))
+ '(package-selected-packages nil))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
