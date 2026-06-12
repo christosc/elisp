@@ -26,3 +26,16 @@ On WSL I needed more elaborate configuration:
 PKG_CONFIG_PATH=$HOME/.local/lib/pkgconfig  ./configure   --prefix=$HOME/.local/emacs-31 CPPFLAGS="-I$HOME/.local/include" LDFLAGS="-L$HOME/.local/lib" --without-x \
                                             --with-native-compilation=aot --enable-link-time-optimization --without-compress-install --disable-gc-mark-trace --with-tree-sitter
 ```
+
+On Linux I needed:
+
+```
+./configure --prefix=$HOME/.local/emacs-31 \
+  --without-x --with-native-compilation=aot \
+  --enable-link-time-optimization --without-compress-install \
+  --disable-gc-mark-trace --with-tree-sitter \
+  PKG_CONFIG_PATH="$HOME/.local/lib/pkgconfig:/data/chryssoc/lib/pkgconfig:/data/chryssoc/lib64/pkgconfig" \
+  CFLAGS="-g -O2 -I$HOME/.local/include" \
+  LDFLAGS="-L$HOME/.local/lib -L/data/chryssoc/lib -L/data/chryssoc/lib64 \
+           -Wl,-rpath,$HOME/.local/lib -Wl,-rpath,/data/chryssoc/lib -Wl,-rpath,/data/chryssoc/lib64"
+```
