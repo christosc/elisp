@@ -17,7 +17,6 @@
 ;; (add-hook 'after-init-hook
 ;;           (lambda () (profiler-stop) (profiler-report)))
 
-
 ;; early-init.el: ἀναστολὴ GC κατὰ τὴν ἐκκίνησι
 (setq gc-cons-threshold most-positive-fixnum)
 ;; στὸ τέλος τοῦ init.el: ἐπαναφορὰ σὲ λογικὴ τιμή

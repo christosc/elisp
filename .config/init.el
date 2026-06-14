@@ -303,9 +303,34 @@
 ;;   :init
 ;;   (marginalia-mode))
 
+;; Route all xref/project file searches through ripgrep
+(setq xref-search-program 'ripgrep)
+
+(use-package vertico :ensure t :init (vertico-mode 1))
+
+(use-package orderless
+  :ensure t
+  :custom (completion-styles '(orderless basic)))
+
+(use-package marginalia :ensure t :init (marginalia-mode 1))
+
 ;; ;; 4. Consult
 ;; (use-package consult
 ;;   :vc (:url "https://github.com/minad/consult.git"))
+(use-package consult
+  :ensure t
+  :bind (("C-c n s" . my/notes-search)
+         ("M-s l"   . consult-line)
+         ("C-x b"   . consult-buffer)))
+
+;; Search across all notes with ripgrep
+(defun my/notes-search ()
+  "Search the notes repository with ripgrep."
+  (interactive)
+  (consult-ripgrep "~/notes"))
+
+;; Built-in, terminal-friendly, zero packages — different UX (inline ghost preview)
+(add-hook 'prog-mode-hook #'completion-preview-mode)
 
 ;; (fido-vertical-mode 1)
 ;; (setq completion-styles '(flex basic)
