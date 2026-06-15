@@ -818,10 +818,7 @@ deferring each binding until its FEATURE is loaded."
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
   (add-to-list 'backup-directory-alist
                (cons tramp-file-name-regexp
-                     (expand-file-name "tramp-backups" user-emacs-directory)))
-  (setq vc-ignore-dir-regexp
-        (format "\\(%s\\)\\|\\(%s\\)"
-                vc-ignore-dir-regexp tramp-file-name-regexp)))
+                     (expand-file-name "tramp-backups" user-emacs-directory))))
 
 ;; Connection-local profiles:
 ;;  1. Direct async processes — lets eglot spawn clangd on the remote
