@@ -212,7 +212,7 @@
     (with-selected-frame (or frame (selected-frame))
       (set-face-attribute 'default nil
                           :family "JetBrains Mono"
-                          :height 120)
+                          :height 130)
       ;; Route all Greek (basic + Extended polytonic) to DejaVu Sans Mono.
       (set-fontset-font t 'greek             (font-spec :family "DejaVu Sans Mono"))
       (set-fontset-font t '(#x1F00 . #x1FFF) (font-spec :family "DejaVu Sans Mono")))
@@ -555,6 +555,18 @@ imenu-list shows collapsible kind headers."
   (imenu-list-focus-after-activation t)
   (imenu-list-auto-resize t)
   (imenu-list-position 'right))
+
+(use-package desktop
+  :ensure nil
+  :if (and (display-graphic-p) (not (daemonp)))
+  :custom
+  (desktop-restore-eager 5)
+  (desktop-auto-save-timeout 30)
+  (desktop-load-locked-desktop 'check-pid)
+  :config
+  (desktop-save-mode 1))
+
+(setq tab-bar-select-restore-windows nil)
 
 ;; ============================================================
 ;; Org Mode
