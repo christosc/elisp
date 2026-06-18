@@ -793,6 +793,27 @@ deferring each binding until its FEATURE is loaded."
 
 (setq select-enable-clipboard t)
 
+(defun my/next-error-navigation-p (_buffer-name _alist)
+  "Non-nil when `display-buffer' is called during next-error navigation."
+  (memq this-command
+        '(next-error previous-error first-error
+          next-error-no-select previous-error-no-select
+          compile-goto-error)))
+
+(defun my/display-next-error-source (buffer alist)
+  "Display source BUFFER by reusing an existing window."
+  (if (with-current-buffer (window-buffer (selected-window))
+        (derived-mode-p 'compilation-mode))
+      ;; Navigating from the *grep* window: use another window, never grep's.
+      (display-buffer-use-some-window
+       buffer (cons '(inhibit-same-window . t) alist))
+    ;; Navigating from within the source window: reuse it in place.
+    (display-buffer-same-window buffer alist)))
+
+(add-to-list 'display-buffer-alist
+             '(my/next-error-navigation-p
+               (display-buffer-reuse-window
+                my/display-next-error-source)))
 
 ;; ============================================================
 ;; Customize (managed by Emacs — keep at the bottom)
