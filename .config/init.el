@@ -801,12 +801,22 @@ deferring each binding until its FEATURE is loaded."
           compile-goto-error)))
 
 (defun my/display-next-error-source (buffer alist)
-  "Display source BUFFER by reusing an existing window."
+  "Display source BUFFER by reusing a sensible existing window."
   (if (with-current-buffer (window-buffer (selected-window))
         (derived-mode-p 'compilation-mode))
-      ;; Navigating from the *grep* window: use another window, never grep's.
-      (display-buffer-use-some-window
-       buffer (cons '(inhibit-same-window . t) alist))
+      ;; From the *grep* window: reuse a window showing ordinary file
+      ;; content.  `compilation-mode' and `xref--xref-buffer-mode' both
+      ;; derive from `special-mode', so *grep* and *xref* are skipped.
+      (let ((win (get-window-with-predicate
+                  (lambda (w)
+                    (and (not (window-dedicated-p w))
+                         (with-current-buffer (window-buffer w)
+                           (not (derived-mode-p 'special-mode))))))))
+        (if win
+            (progn (set-window-buffer win buffer) win)
+          ;; No ordinary window available: pop up a new one rather than
+          ;; clobbering a special buffer such as *xref*.
+          (display-buffer-pop-up-window buffer alist)))
     ;; Navigating from within the source window: reuse it in place.
     (display-buffer-same-window buffer alist)))
 
