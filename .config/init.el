@@ -801,6 +801,37 @@ deferring each binding until its FEATURE is loaded."
 
 (setq select-enable-clipboard t)
 
+(defun my/next-error-navigation-p (_buffer-name _alist)
+  "Non-nil when `display-buffer' is called during next-error navigation."
+  (memq this-command
+        '(next-error previous-error first-error
+          next-error-no-select previous-error-no-select
+          compile-goto-error)))
+
+(defun my/display-next-error-source (buffer alist)
+  "Display source BUFFER by reusing a sensible existing window."
+  (if (with-current-buffer (window-buffer (selected-window))
+        (derived-mode-p 'compilation-mode))
+      ;; From the *grep* window: reuse a window showing ordinary file
+      ;; content.  `compilation-mode' and `xref--xref-buffer-mode' both
+      ;; derive from `special-mode', so *grep* and *xref* are skipped.
+      (let ((win (get-window-with-predicate
+                  (lambda (w)
+                    (and (not (window-dedicated-p w))
+                         (with-current-buffer (window-buffer w)
+                           (not (derived-mode-p 'special-mode))))))))
+        (if win
+            (progn (set-window-buffer win buffer) win)
+          ;; No ordinary window available: pop up a new one rather than
+          ;; clobbering a special buffer such as *xref*.
+          (display-buffer-pop-up-window buffer alist)))
+    ;; Navigating from within the source window: reuse it in place.
+    (display-buffer-same-window buffer alist)))
+
+(add-to-list 'display-buffer-alist
+             '(my/next-error-navigation-p
+               (display-buffer-reuse-window
+                my/display-next-error-source)))
 
 ;; ============================================================
 ;; Customize (managed by Emacs — keep at the bottom)
