@@ -1,4 +1,4 @@
-;;; init.el --- Christos's Emacs configuration  -*- lexical-binding: t; -*-
+;; init.el --- Christos's Emacs configuration  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Personal Emacs configuration centred on C/C++ development with
@@ -412,7 +412,7 @@
   (setq eglot-events-buffer-size 0)
 
   ;; Inlay hints are visually noisy and can be slow; off by default.
-  (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
+  (setq eglot-ignored-server-capabilities '(:inlayHintProvider :documentOnTypeFormattingProvider))
 
 
   (add-to-list 'eglot-server-programs
@@ -742,14 +742,22 @@ deferring each binding until its FEATURE is loaded."
  '((cc-mode    c-mode-base-map)
    (c-ts-mode  c-ts-base-mode-map)))
 
+(defun cc/soften-electric-indent ()
+  "Keep new-line indentation but never reindent existing lines."
+  (setq-local electric-indent-inhibit t))
+
+(add-hook 'c++-ts-mode-hook #'cc/soften-electric-indent)
+
 (defun my/c++-setup ()
   (setq fill-column 100)
   (display-fill-column-indicator-mode 1)
-  ;; Disable electric indent for trigger characters
-  (electric-indent-local-mode -1)
-  ;; Bind Return to indent the new line
-  ;;(local-set-key (kbd "RET") #'newline-and-indent))
-  (local-set-key (kbd "RET") #'newline-and-indent))
+
+  ;; ;; Disable electric indent for trigger characters
+  ;; (electric-indent-local-mode -1)
+  ;; ;; Bind Return to indent the new line
+  ;; ;;(local-set-key (kbd "RET") #'newline-and-indent))
+  ;; (local-set-key (kbd "RET") #'newline-and-indent)
+)
 
 (add-hook 'c++-mode-hook #'my/c++-setup)
 ;; Apply to both C and C++ tree-sitter modes
