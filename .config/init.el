@@ -387,11 +387,11 @@
 ;; Open Lua files immediately in ts-mode
 ;;(add-to-list 'auto-mode-alist '("\\.lua\\'" . lua-ts-mode))
 
-(dolist (entry '((bash . (sh-mode   . bash-ts-mode))
-                 (cpp  . (c++-mode  . c++-ts-mode))
-                 (c    . (c-mode    . c-ts-mode))
-                 (lua  . (lua-mode  . lua-ts-mode))))
-  (when (treesit-ready-p (car entry) t)        ; t = silently, without warning
+(dolist (entry '((bash . (sh-mode  . bash-ts-mode))
+                 (cpp  . (c++-mode . c++-ts-mode))
+                 (c    . (c-mode   . c-ts-mode))
+                 (lua  . (lua-mode . lua-ts-mode))))
+  (when (treesit-language-available-p (car entry))   ; C primitive, no require, no void-function
     (add-to-list 'major-mode-remap-alist (cdr entry))))
 
 (use-package yang-mode
@@ -458,14 +458,13 @@
 ;; ----------------------------------------------------------------
 
 (setq-default indent-tabs-mode nil)
-(setq c-ts-mode-indent-offset 4)
+;;(setq c-ts-mode-indent-offset 4)
 
-(defun cac/eglot-format-on-save ()
-  "Enable clangd-driven formatting on save in the current buffer."
-  (add-hook 'before-save-hook #'eglot-format-buffer nil t))
-
-;; (dolist (hook '(c-ts-mode-hook c++-ts-mode-hook))
-;;   (add-hook hook #'cac/eglot-format-on-save))
+(use-package c-ts-mode
+  :ensure nil
+  :custom
+  (c-ts-mode-indent-offset 4)
+  )
 
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "C-c f") #'eglot-format))
