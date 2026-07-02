@@ -851,46 +851,64 @@ deferring each binding until its FEATURE is loaded."
  )
 
 
-;;; --- TRAMP: local Emacs editing files on labnn10 over SSH -------------
-
 ;;; --- TRAMP --------------------------------------------------------
-;; Plain setqs: safe before tramp loads (defcustom won't override).
-(setq tramp-use-ssh-controlmaster-options nil
-      remote-file-name-inhibit-locks t
-      tramp-verbose 1
+;; Γυμνὰ setq: ἀσφαλῆ πρὶν φορτωθεῖ τὸ tramp (τὸ defcustom δὲν τὰ ὑπερισχύει).
+
+;; Ἀνάθεση τοῦ connection sharing στὸ ~/.ssh/config (ControlMaster/Persist),
+;; ὄχι στὰ δικά του -o options. Emacs 29+ ὄνομα· στὸν 31 εἶσαι καλυμμένος.
+(setq tramp-use-connection-share nil)
+
+;; Λιγότερα round trips σὲ κάθε save/stat πάνω στὸ ἀργὸ link.
+(setq remote-file-name-inhibit-locks t          ; ὄχι .#lockfiles στὸ remote
+      remote-file-name-inhibit-cache 60         ; ἐμπιστεύσου τὸ cache ἐπὶ 60s
+      tramp-verbose 2                           ; errors+warnings ὅσο στήνεσαι· μετὰ 1
       tramp-auto-save-directory
       (expand-file-name "tramp-autosave" user-emacs-directory))
 
-(setq vc-handled-backends '(Git Hg))
+;; Πλῆρες vc τοπικά (τὸ project σου εἶναι Hg)…
+(setq vc-handled-backends '(Hg Git))
 
-;; Anything referencing tramp's own symbols waits for first remote access.
+;; …ἀλλὰ κανένα vc πάνω ἀπὸ TRAMP — ἐδῶ κρύβονταν τὰ 10s τοῦ save.
+;; default-value γιὰ ἰδεμποτότητα σὲ ἐπανα-ἀποτίμηση τοῦ init.
+(setq vc-ignore-dir-regexp
+      (format "\\(%s\\)\\|\\(%s\\)"
+              (default-value 'vc-ignore-dir-regexp)
+              tramp-file-name-regexp))
+
+;; Ὅ,τι ἀγγίζει σύμβολα τοῦ ἴδιου τοῦ tramp περιμένει τὸ πρῶτο remote access.
 (with-eval-after-load 'tramp
+  ;; Τὸ PATH τοῦ remote χρήστη (~/.profile κ.λπ.) ὁρατὸ στὸ TRAMP.
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  ;; Backups (file~) τῶν remote ἀρχείων ἐκτὸς δικτύου.
   (add-to-list 'backup-directory-alist
-               (cons tramp-file-name-regexp
-                     (expand-file-name "tramp-backups" user-emacs-directory))))
+               (cons tramp-file-name-regexp nil)))
 
 ;; Connection-local profiles:
-;;  1. Direct async processes — lets eglot spawn clangd on the remote
-;;     as a plain ssh subprocess (much faster I/O path). Emacs 29+.
-;;  2. Remote M-x shell uses a bash login shell (picks up SCL toolset).
+;; 1. Direct async — τὸ eglot ἐκτοξεύει τὸν clangd ὡς σκέτο ssh subprocess,
+;;    ἐκτὸς τοῦ καναλιοῦ τοῦ TRAMP (ταχύτερο I/O). Προσοχή: παρακάμπτει τὸ
+;;    tramp-remote-path· ἡ διεργασία παίρνει τὸ PATH τοῦ login shell τοῦ
+;;    server — ὅ,τι θὲς νὰ βλέπει (π.χ. SCL toolset, ἂν ὑπάρχει) πρέπει νὰ
+;;    ἐνεργοποιεῖται στὸ remote ~/.bash_profile.
 (connection-local-set-profile-variables
  'remote-direct-async
  '((tramp-direct-async-process . t)))
 
+;; 2. Τὸ M-x shell στὰ remote ὡς login bash (κληρονομεῖ πλῆρες περιβάλλον).
 (connection-local-set-profile-variables
  'remote-bash-profile
  '((explicit-shell-file-name . "/usr/bin/bash")
    (explicit-bash-args       . ("-l" "-i"))))
 
+;; Ἐφαρμογή. ΠΡΟΣΟΧΗ: τὸ :machine ταιριάζει μὲ ὅ,τι γράφεις στὸ path·
+;; καλύπτουμε καὶ τὸ alias καὶ τὴν IP.
+;; direct-async: jsonrpc handshake timeout σὲ Emacs 31 build τοῦ Ἰουλίου 2026· stdout ἐλέγχθηκε
+;; καθαρό· ξαναδοκίμασε μετὰ ἀπὸ rebuild μὲ τὸ make-process πείραμα.
+;; (connection-local-set-profiles
+;;  '(:application tramp :machine "labbbn10") 'remote-direct-async)
+;; (connection-local-set-profiles
+;;  '(:application tramp :machine "10.80.89.54") 'remote-direct-async)
 (connection-local-set-profiles
- '(:application tramp :machine "labnn10")
- 'remote-direct-async)
-
-(connection-local-set-profiles
- '(:application tramp)
- 'remote-bash-profile)
-
+ '(:application tramp) 'remote-bash-profile)
 
 ;; -------   Org Mode -----------------------------------
 
