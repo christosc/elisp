@@ -19,9 +19,6 @@
 
 ;; early-init.el: ἀναστολὴ GC κατὰ τὴν ἐκκίνησι
 (setq gc-cons-threshold most-positive-fixnum)
-;; στὸ τέλος τοῦ init.el: ἐπαναφορὰ σὲ λογικὴ τιμή
-(add-hook 'emacs-startup-hook
-          (lambda () (setq gc-cons-threshold (* 8 1024 1024))))
 
 ;; στὸ early-init.el ἢ ἀρκετὰ νωρίς:
 (setq package-quickstart t)

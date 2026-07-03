@@ -73,10 +73,10 @@
 
 ;; High threshold during startup, lower it once loaded.
 ;; Consider the `gcmh' package for adaptive handling later.
-;; (setq gc-cons-threshold (* 100 1024 1024))
-;; (add-hook 'emacs-startup-hook
-;;           (lambda ()
-;;             (setq gc-cons-threshold (* 16 1024 1024))))
+(setq gc-cons-threshold (* 100 1024 1024))
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 64 1024 1024))))
 
 ;; ============================================================
 ;; Native Compilation
@@ -259,7 +259,18 @@
 
 ;; A .project.el or .projectile file marks a project root for project.el,
 ;; which means xref-find-references and friends know where to look.
-(setq project-vc-extra-root-markers '(".project.el" ".projectile"))
+(setq project-vc-extra-root-markers '(".hg" ".git" ".project.el" ".projectile"))
+
+;; Remote project detection χωρὶς vc: τὸ vc-ignore-dir-regexp exclusion
+;; (ἀπαραίτητο γιὰ τὸ save) μπλοκάρει καὶ τὸ project-try-vc μαζὶ μὲ τὰ
+;; extra-root-markers του — ὁπότε ἀνιχνεύουμε μόνοι μας.
+(defun my/project-remote-by-marker (dir)
+  (when (file-remote-p dir)
+    (when-let ((root (or (locate-dominating-file dir ".hg")
+                         (locate-dominating-file dir ".git"))))
+      (cons 'transient root))))
+
+(add-hook 'project-find-functions #'my/project-remote-by-marker)
 
 ;; ============================================================
 ;; Xref
@@ -852,7 +863,9 @@ deferring each binding until its FEATURE is loaded."
 
 
 ;;; --- TRAMP --------------------------------------------------------
-;; Γυμνὰ setq: ἀσφαλῆ πρὶν φορτωθεῖ τὸ tramp (τὸ defcustom δὲν τὰ ὑπερισχύει).
+
+(setq tramp-default-method "scp")
+(setq tramp-copy-size-limit (* 1 1024 1024))   ; inline ἕως 1MB
 
 ;; Ἀνάθεση τοῦ connection sharing στὸ ~/.ssh/config (ControlMaster/Persist),
 ;; ὄχι στὰ δικά του -o options. Emacs 29+ ὄνομα· στὸν 31 εἶσαι καλυμμένος.
@@ -909,6 +922,23 @@ deferring each binding until its FEATURE is loaded."
 ;;  '(:application tramp :machine "10.80.89.54") 'remote-direct-async)
 (connection-local-set-profiles
  '(:application tramp) 'remote-bash-profile)
+
+;; => γιὰ κλείσιμο which-func στὸ TRAMP
+;; Ὄχι eager χτίσιμο imenu στὸ find-file γιὰ remote buffers
+;; (μὲ eglot-managed buffer, αὐτὸ = συγχρονισμένο documentSymbol πάνω στὸ RTT)
+;; (with-eval-after-load 'which-func
+;;   (advice-add 'which-func-ff-hook :before-while
+;;               (lambda () (not (file-remote-p default-directory)))))
+
+(defun my/which-func-ff-hook@remote (orig)
+  "Remote buffers: ἐνεργοποίησε τὸ which-func χωρὶς eager imenu index.
+Τὸ modeline θὰ τροφοδοτεῖται ἀπὸ τὸ add-log-current-defun (treesit, τοπικό)."
+  (if (file-remote-p default-directory)
+      (which-func-try-to-enable)
+    (funcall orig)))
+
+(with-eval-after-load 'which-func
+  (advice-add 'which-func-ff-hook :around #'my/which-func-ff-hook@remote))
 
 ;; -------   Org Mode -----------------------------------
 
