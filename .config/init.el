@@ -179,6 +179,10 @@
 
 (add-hook 'eglot-managed-mode-hook #'my/eglot-enable-semantic-tokens)
 
+(setopt eldoc-idle-delay 1.0)
+(setopt eldoc-documentation-strategy #'eldoc-documentation-default)  ; πρώτη ποὺ ἀπαντᾶ, στοπ
+(setopt eldoc-echo-area-use-multiline-p nil)                          ; μία γραμμή, χωρὶς resize
+
 (load-theme 'modus-vivendi t)
 
 ;; ;; on Windows set a dark theme
@@ -317,7 +321,7 @@
 ;; Route all xref/project file searches through ripgrep
 (setq xref-search-program 'ripgrep)
 
-(use-package vertico :ensure t :init (vertico-mode 1))
+;;(use-package vertico :ensure t :init (vertico-mode 1))
 
 (use-package orderless
   :ensure t
@@ -328,17 +332,17 @@
 ;; ;; 4. Consult
 ;; (use-package consult
 ;;   :vc (:url "https://github.com/minad/consult.git"))
-(use-package consult
-  :ensure t
-  :bind (("C-c n s" . my/notes-search)
-         ("M-s l"   . consult-line)
-         ("C-x b"   . consult-buffer)))
+;; (use-package consult
+;;   :ensure t
+;;   :bind (("C-c n s" . my/notes-search)
+;;          ("M-s l"   . consult-line)
+;;          ("C-x b"   . consult-buffer)))
 
 ;; Search across all notes with ripgrep
-(defun my/notes-search ()
-  "Search the notes repository with ripgrep."
-  (interactive)
-  (consult-ripgrep "~/notes"))
+;; (defun my/notes-search ()
+;;   "Search the notes repository with ripgrep."
+;;   (interactive)
+;;   (consult-ripgrep "~/notes"))
 
 ;; Built-in, terminal-friendly, zero packages — different UX (inline ghost preview)
 (add-hook 'prog-mode-hook #'completion-preview-mode)
@@ -852,7 +856,9 @@ deferring each binding until its FEATURE is loaded."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil))
+ '(c-ts-indent-offset 4 nil nil "Customized with use-package c-ts-mode")
+ '(package-selected-packages
+   '(alabaster-themes eat imenu-list kkp marginalia orderless yang-mode)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -862,83 +868,94 @@ deferring each binding until its FEATURE is loaded."
  )
 
 
-;;; --- TRAMP --------------------------------------------------------
+;;;; TRAMP --------------------------------------------------------------------
 
-(setq tramp-default-method "scp")
+(setq tramp-default-method "ssh")
 (setq tramp-copy-size-limit (* 1 1024 1024))   ; inline ἕως 1MB
 
+;; Visit files under their true name: keeps buffer-file-name in sync with the
+;; paths in compile_commands.json, so clangd matches compile flags instead of
+;; falling back, and project.el's upward search runs on the real tree.
+(setq find-file-visit-truename t)
+
 ;; Ἀνάθεση τοῦ connection sharing στὸ ~/.ssh/config (ControlMaster/Persist),
-;; ὄχι στὰ δικά του -o options. Emacs 29+ ὄνομα· στὸν 31 εἶσαι καλυμμένος.
+;; ὄχι στὰ δικά του -o options. Emacs 30+ ὄνομα (πρώην
+;; tramp-use-ssh-controlmaster-options, Tramp 2.7)· στὸν 31 εἶσαι καλυμμένος.
+;; Τρίτη τιμή: 'suppress = ἀγνόησε ἐντελῶς τὸ ~/.ssh/config.
 (setq tramp-use-connection-share nil)
 
 ;; Λιγότερα round trips σὲ κάθε save/stat πάνω στὸ ἀργὸ link.
 (setq remote-file-name-inhibit-locks t          ; ὄχι .#lockfiles στὸ remote
       remote-file-name-inhibit-cache 60         ; ἐμπιστεύσου τὸ cache ἐπὶ 60s
       tramp-verbose 2                           ; errors+warnings ὅσο στήνεσαι· μετὰ 1
-      tramp-auto-save-directory
+      tramp-auto-save-directory                 ; #autosave# τοπικά
       (expand-file-name "tramp-autosave" user-emacs-directory))
+
+;; Backups: ΝΑΙ, ἀλλὰ ἐκτὸς source tree.
+;; Ὁ tramp-handle-find-backup-file-name προτιμᾶ αὐτὸ τὸ alist ἔναντι τοῦ
+;; backup-directory-alist καί, ἐπειδὴ τὸ DIRECTORY εἶναι τοπικὸ ἀπόλυτο ὄνομα,
+;; τοῦ προσθέτει τὸ prefix (method/user/host) τοῦ ἀρχείου. Ἄρα τὸ backup μένει
+;; στὸν ἴδιο server (server-side cp, ὄχι μεταφορὰ πάνω ἀπ' τὸ δίκτυο), σὲ ἕνα
+;; flat directory μὲ mangled ὀνόματα (/ -> !) — ἀόρατο στὸ grep τοῦ project.
+(setq tramp-backup-directory-alist '(("." . "~/.cache/emacs/tramp-backups")))
 
 ;; Πλῆρες vc τοπικά (τὸ project σου εἶναι Hg)…
 (setq vc-handled-backends '(Hg Git))
 
-;; …ἀλλὰ κανένα vc πάνω ἀπὸ TRAMP — ἐδῶ κρύβονταν τὰ 10s τοῦ save.
-;; default-value γιὰ ἰδεμποτότητα σὲ ἐπανα-ἀποτίμηση τοῦ init.
-(setq vc-ignore-dir-regexp
-      (format "\\(%s\\)\\|\\(%s\\)"
-              (default-value 'vc-ignore-dir-regexp)
-              tramp-file-name-regexp))
+(setopt auto-revert-check-vc-info nil)
+
+;; Capture the pristine value once, so repeated config reloads
+;; cannot compound the regexp.
+(defvar cc/vc-ignore-dir-regexp-pristine vc-ignore-dir-regexp
+  "Value of `vc-ignore-dir-regexp' before any local modification.")
 
 ;; Ὅ,τι ἀγγίζει σύμβολα τοῦ ἴδιου τοῦ tramp περιμένει τὸ πρῶτο remote access.
 (with-eval-after-load 'tramp
   ;; Τὸ PATH τοῦ remote χρήστη (~/.profile κ.λπ.) ὁρατὸ στὸ TRAMP.
-  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-  ;; Backups (file~) τῶν remote ἀρχείων ἐκτὸς δικτύου.
-  (add-to-list 'backup-directory-alist
-               (cons tramp-file-name-regexp nil)))
+  ;; Prepend: προηγεῖται τῶν defaults, ὥστε τὸ /data/chryssoc toolchain νὰ νικᾶ.
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
 ;; Connection-local profiles:
 ;; 1. Direct async — τὸ eglot ἐκτοξεύει τὸν clangd ὡς σκέτο ssh subprocess,
 ;;    ἐκτὸς τοῦ καναλιοῦ τοῦ TRAMP (ταχύτερο I/O). Προσοχή: παρακάμπτει τὸ
 ;;    tramp-remote-path· ἡ διεργασία παίρνει τὸ PATH τοῦ login shell τοῦ
-;;    server — ὅ,τι θὲς νὰ βλέπει (π.χ. SCL toolset, ἂν ὑπάρχει) πρέπει νὰ
-;;    ἐνεργοποιεῖται στὸ remote ~/.bash_profile.
+;;    server — ὅ,τι θὲς νὰ βλέπει πρέπει νὰ ἐνεργοποιεῖται στὸ ~/.bash_profile.
+;;    jsonrpc handshake timeout σὲ Emacs 31 build τοῦ Ἰουλίου 2026· stdout
+;;    ἐλέγχθηκε καθαρό. Ἀνέβασε πρῶτα τὸ eglot-connect-timeout στὴν ἑπόμενη
+;;    δοκιμή, πρὶν συμπεράνεις ὅτι φταίει τὸ direct-async. Πρὸς τὸ παρὸν
+;;    ὁρισμένο ἀλλὰ ΜΗ ἐφαρμοσμένο.
 (connection-local-set-profile-variables
  'remote-direct-async
  '((tramp-direct-async-process . t)))
 
 ;; 2. Τὸ M-x shell στὰ remote ὡς login bash (κληρονομεῖ πλῆρες περιβάλλον).
+;;    Τὸ --noediting εἶναι μέρος τῆς default τιμῆς τοῦ shell.el γιὰ bash: τὸ
+;;    comint δίνει pty, ὁπότε χωρὶς αὐτὸ ὁ bash ἀνοίγει readline καὶ γεμίζει τὸ
+;;    buffer μὲ escape sequences καὶ bracketed-paste σκουπίδια.
 (connection-local-set-profile-variables
  'remote-bash-profile
  '((explicit-shell-file-name . "/usr/bin/bash")
-   (explicit-bash-args       . ("-l" "-i"))))
+   (explicit-bash-args       . ("--noediting" "-l" "-i"))))
 
-;; Ἐφαρμογή. ΠΡΟΣΟΧΗ: τὸ :machine ταιριάζει μὲ ὅ,τι γράφεις στὸ path·
-;; καλύπτουμε καὶ τὸ alias καὶ τὴν IP.
-;; direct-async: jsonrpc handshake timeout σὲ Emacs 31 build τοῦ Ἰουλίου 2026· stdout ἐλέγχθηκε
-;; καθαρό· ξαναδοκίμασε μετὰ ἀπὸ rebuild μὲ τὸ make-process πείραμα.
-;; (connection-local-set-profiles
-;;  '(:application tramp :machine "labbbn10") 'remote-direct-async)
-;; (connection-local-set-profiles
-;;  '(:application tramp :machine "10.80.89.54") 'remote-direct-async)
-(connection-local-set-profiles
- '(:application tramp) 'remote-bash-profile)
+;; Ἐφαρμογὴ ἀνὰ μηχάνημα, ὄχι σὲ σκέτο (:application tramp): ἐκεῖνο θὰ ἔπιανε
+;; καὶ sudo:, docker: κ.λπ., ὅπου τὸ /usr/bin/bash μπορεῖ καὶ νὰ μὴν ὑπάρχει.
+;; Τὸ :machine ταιριάζει κυριολεκτικὰ μὲ ὅ,τι γράφεις στὸ path — δὲν γίνεται
+;; alias resolution — ὁπότε πρόσθεσε κάθε γραφὴ ποὺ χρησιμοποιεῖς (alias/FQDN/IP).
+(dolist (host '("labbbn10"))
+  (connection-local-set-profiles
+   `(:application tramp :machine ,host) 'remote-bash-profile))
 
-;; => γιὰ κλείσιμο which-func στὸ TRAMP
-;; Ὄχι eager χτίσιμο imenu στὸ find-file γιὰ remote buffers
-;; (μὲ eglot-managed buffer, αὐτὸ = συγχρονισμένο documentSymbol πάνω στὸ RTT)
-;; (with-eval-after-load 'which-func
-;;   (advice-add 'which-func-ff-hook :before-while
-;;               (lambda () (not (file-remote-p default-directory)))))
-
-(defun my/which-func-ff-hook@remote (orig)
-  "Remote buffers: ἐνεργοποίησε τὸ which-func χωρὶς eager imenu index.
-Τὸ modeline θὰ τροφοδοτεῖται ἀπὸ τὸ add-log-current-defun (treesit, τοπικό)."
-  (if (file-remote-p default-directory)
-      (which-func-try-to-enable)
-    (funcall orig)))
+(defun my/which-func-remote-add-log ()
+  "Name the defun via `add-log-current-defun' in remote buffers.
+`which-func-functions' runs before `which-function' consults Imenu, so this
+keeps Eglot's synchronous textDocument/documentSymbol off the wire.  In
+`c++-ts-mode' this dispatches to `treesit-add-log-current-defun', which parses
+locally.  Returns nil elsewhere, leaving the normal Imenu path intact."
+  (and (file-remote-p default-directory)
+       (add-log-current-defun)))
 
 (with-eval-after-load 'which-func
-  (advice-add 'which-func-ff-hook :around #'my/which-func-ff-hook@remote))
+  (add-hook 'which-func-functions #'my/which-func-remote-add-log))
 
 ;; -------   Org Mode -----------------------------------
 
