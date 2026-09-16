@@ -20,5 +20,17 @@
 ;; early-init.el: ἀναστολὴ GC κατὰ τὴν ἐκκίνησι
 (setq gc-cons-threshold most-positive-fixnum)
 
-;; στὸ early-init.el ἢ ἀρκετὰ νωρίς:
-(setq package-quickstart t)
+;; Archives must be set here: package-initialize runs after early-init
+;; and before init.el.  (setq package-quickstart t) alone in init.el is too late
+;; for MELPA to participate in that first activation.
+(setq package-quickstart t
+      package-archives
+      '(("gnu"    . "https://elpa.gnu.org/packages/")
+        ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+        ("melpa"  . "https://melpa.org/packages/")))
+
+;; Slightly cheaper first frame on GUI.
+(setq frame-inhibit-implied-resize t)
+(push '(menu-bar-lines . 0) default-frame-alist)
+
+;;; early-init.el ends here

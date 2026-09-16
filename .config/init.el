@@ -1,55 +1,12 @@
-;; init.el --- Christos's Emacs configuration  -*- lexical-binding: t; -*-
+;;; init.el --- Christos's Emacs configuration  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Personal Emacs configuration centred on C/C++ development with
 ;; tree-sitter major modes, Eglot + clangd, and clang-format on save.
-
-;; On the remote development machine's .bashrc:
-;; Use emacsclient as the canonical entry point. The -a '' (empty
-;; alternate editor) tells emacsclient to auto-start a daemon on first
-;; use, and reuse it thereafter. No explicit daemon management needed.
-;; alias e='emacsclient -nw -a ""'
-;; alias ec='emacsclient -c -a ""'
-;; export EDITOR='emacsclient -nw -a ""'
-;; export VISUAL="$EDITOR"
-
-;; alias e="emacs"
-;; alias em="emacs"
-;; alias emc="emacsclient -nw"
-;; export EDITOR=emacs
-
-;;; Code:
-;;(setq use-package-compute-statistics t)
-;; =============================================================================
-;; TO BE ENABLED IF YOU ARE USING EMACS IN TERMINAL FROM A TERMINAL EMULATOR
-;; IN WINDOWS (WINDOWS TERMINAL, ALACRITTY ETC.) IN A REAL LINUX SIMULATOR THOSE
-;; HACKS DO NOT SEEM TO BE NEEDED!
-;; =============================================================================
 ;;
-;; Some key definitions that are useful to preserve C-M-% for query-replace-regexp.
-;; The first two are useful for Windows Terminal, which can map the full combo of C-M-% to an escape
-;; sequence.
-;; The third is useful for Alacritty, which cannot remap the full combo of C-M-% to a sequence.
-;; Thst's why we use ESC C-% key combo, and encode only the C-% part.
-;; Also we present two escape sequences for C-M-%, which capture both types of escape sequence
-;; translation in tmux:
-;;
-;;     set -g extended-keys-format csi-u
-;;     set -g extended-keys-format xterm
-;;
-;; In Windows Terminal settings, in segement "actions", I have:
-;; { "command": { "action": "sendInput", "input": "\u001b[37;7u" }, "keys": "ctrl+alt+shift+5" }
-
-;; (define-key input-decode-map "\e[37;7u"    (kbd "C-M-%"))  ; csi-u
-;; (define-key input-decode-map "\e[27;7;37~" (kbd "C-M-%"))  ; csi-tilde
-
-;; In alacritty.toml I have:
-;; [[keyboard.bindings]]
-;; key = "%"
-;; mods = "Control|Shift"
-;; chars = "\u001b[37;5u"
-
-;; (define-key input-decode-map "\e[37;5u"    (kbd "C-%"))  ; csi-u (to be used with ESC prefix)
+;; Daily C++ editing is local Emacs.  Remote trees on labbbn10 (~200 ms
+;; RTT) are visited via TRAMP.  emacsclient on the lab box is only for
+;; an emergency tty session, not the default workflow.
 
 ;; ============================================================
 ;; Core Performance & I/O
@@ -57,12 +14,14 @@
 
 ;; Increase data Emacs reads from processes to 1MB. Crucial so that
 ;; clangd does not bottleneck on LSP traffic.
-;;(setq read-process-output-max (* 1024 1024))
+(setq read-process-output-max (* 1024 1024))
 
 ;; Lighter UI / scrolling, helpful in terminal and over SSH.
-;; jit-lock-defer-time prevents micro-stutters from font-lock.
+;; A short jit-lock defer avoids fontifying on the same command that
+;; changed the buffer (0 used to hitch on a remote tty).
 (setq fast-but-imprecise-scrolling t
-      jit-lock-defer-time          0
+      jit-lock-defer-time          0.05
+      redisplay-skip-fontification-on-input t
       cursor-in-non-selected-windows nil
       recenter-redisplay           nil) ; don't flash on C-l in terminal
 
@@ -91,18 +50,21 @@
 ;; Cache management
 ;; ============================================================
 
+;; LOCALAPPDATA is unset on Ubuntu; fall back to user-emacs-directory.
 (setq org-persist-directory
-      (expand-file-name "emacs/org-persist/"
-                        (getenv "LOCALAPPDATA")))
+      (expand-file-name
+       "org-persist"
+       (or (and (eq system-type 'windows-nt)
+                (getenv "LOCALAPPDATA")
+                (expand-file-name "emacs" (getenv "LOCALAPPDATA")))
+           user-emacs-directory)))
 
 ;; ============================================================
 ;; Package Management
 ;; ============================================================
 
-;; ΟΧΙ (require 'package). Τὰ archives χρειάζονται μόνο σὲ install:
-(with-eval-after-load 'package
-  (add-to-list 'package-archives
-               '("melpa" . "https://melpa.org/packages/") t))
+;; Archives live in early-init.el so the automatic package-initialize
+;; sees MELPA.  Do not call package-initialize here.
 
 ;; Extra load paths — abide to the user-emacs-directory on every platform
 (add-to-list 'load-path (locate-user-emacs-file "elisp"))
@@ -124,14 +86,11 @@
 (setq column-number-mode        t
       completion-ignore-case    t
       vc-follow-symlinks        t
-      ;;confirm-kill-emacs        'yes-or-no-p
       sentence-end-double-space nil
       isearch-lazy-count        t
       set-mark-command-repeat-pop t)
 
 (setq-default fill-column 100)
-
-;; (display-fill-column-indicator-mode 1)
 
 ;; Tag navigation should not be case-folded.
 (set-default 'tags-case-fold-search nil)
@@ -149,30 +108,16 @@
 (setq custom-safe-themes t)
 (which-function-mode 1)
 
-;; (if (not (display-graphic-p))
-;;     ;; In terminal do not use colors
-;;     (global-font-lock-mode -1))
-
-;; (with-eval-after-load 'flymake
-;;   (set-face-attribute 'flymake-error   nil :inherit nil :foreground 'unspecified :underline t)
-;;   (set-face-attribute 'flymake-warning nil :inherit nil :foreground 'unspecified :underline t)
-;;   (set-face-attribute 'flymake-note    nil :inherit nil :foreground 'unspecified :underline t))
-
-;; (with-eval-after-load 'eglot
-;;   (dolist (f '(eglot-diagnostic-tag-unnecessary-face
-;;                eglot-diagnostic-tag-deprecated-face))
-;;     (set-face-attribute f nil
-;;                         :inherit nil :weight 'unspecified :strike-through nil
-;;                         :foreground 'unspecified :underline t)))
-
 (with-eval-after-load 'eglot
   (when (boundp 'eglot-mode-line-format)
     (setq eglot-mode-line-format
           (remove 'eglot-mode-line-pending-requests eglot-mode-line-format))))
 
 (defun my/eglot-enable-semantic-tokens ()
-  "Activate LSP semantic tokens as corrective layer over tree-sitter."
+  "Activate LSP semantic tokens as corrective layer over tree-sitter.
+Skip remote buffers: the extra LSP traffic is not worth 200 ms RTT."
   (when (and (eglot-managed-p)
+             (not (file-remote-p default-directory))
              (fboundp 'eglot-semantic-tokens-mode)
              (eglot-server-capable :semanticTokensProvider))
     (eglot-semantic-tokens-mode 1)))
@@ -184,15 +129,6 @@
 (setopt eldoc-echo-area-use-multiline-p nil)                          ; μία γραμμή, χωρὶς resize
 
 (load-theme 'modus-vivendi t)
-
-;; ;; on Windows set a dark theme
-;; (if (display-graphic-p)
-;;     ;; GUI (usually your Windows instance)
-;;     (load-theme 'modus-vivendi t)
-;;   (progn (load-theme 'modus-vivendi-tinted)
-;;          (set-face-attribute 'region nil :background "blue"))
-;;   )
-
 
 ;; Tame the bell — only ring on genuine errors, not on minibuffer aborts.
 (setq ring-bell-function
@@ -208,8 +144,7 @@
 ;; precomposed characters live (breathings, perispomeni, iota subscript).
 ;; For using a single monospaced font that also includes the Greek "extended"
 ;; characters, see the Iosevka font.
-  ;; Affects the current/initial frame.
-
+;; Affects the current/initial frame.
 (defun my/setup-gui-fonts (&optional frame)
   "Configure fonts; runs only on graphical frames."
   (when (display-graphic-p frame)
@@ -227,6 +162,10 @@
     (add-hook 'after-make-frame-functions #'my/setup-gui-fonts)
   (when (display-graphic-p)
     (my/setup-gui-fonts)))
+
+;; Wrap long lines visually in every buffer.
+(global-visual-line-mode 1)
+
 
 ;; ============================================================
 ;; Encoding & Input Method
@@ -345,7 +284,11 @@
 ;;   (consult-ripgrep "~/notes"))
 
 ;; Built-in, terminal-friendly, zero packages — different UX (inline ghost preview)
-(add-hook 'prog-mode-hook #'completion-preview-mode)
+;; Skip on TRAMP buffers: CAPF/Eglot would add a round trip per pause.
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (unless (file-remote-p default-directory)
+              (completion-preview-mode 1))))
 
 ;; (fido-vertical-mode 1)
 ;; (setq completion-styles '(flex basic)
@@ -443,14 +386,19 @@
                     "--all-scopes-completion"
                     "--limit-references=0"))))
 
-;; Auto-start eglot for the relevant modes.
+;; Auto-start eglot only on local files.  A remote clangd handshake on
+;; a 200 ms link freezes the session; use M-x eglot when you mean it.
+(defun my/eglot-ensure-local ()
+  (unless (file-remote-p default-directory)
+    (eglot-ensure)))
+
 (dolist (hook '(c-mode-hook
                 c++-mode-hook
                 c-ts-mode-hook
                 c++-ts-mode-hook
                 python-mode-hook
                 python-ts-mode-hook))
-  (add-hook hook #'eglot-ensure))
+  (add-hook hook #'my/eglot-ensure-local))
 
 
 ;; ----------------------------------------------------------------
@@ -805,8 +753,10 @@ deferring each binding until its FEATURE is loaded."
     (send-string-to-terminal (concat "\e]52;c;" encoded "\a"))))
 
 (defun osc52-copy-to-clipboard (text)
-  "Copy TEXT to the system clipboard via OSC 52."
-  (osc52-send-string text))
+  "Copy TEXT to the system clipboard via OSC 52.
+Cap the payload: a whole-buffer yank over SSH/tmux stalls the tty."
+  (when (< (length text) 100000)
+    (osc52-send-string text)))
 
 ;; Activate OSC 52 only on TTY frames; GUI frames use the native
 ;; selection mechanism of the OS (e.g., w32 clipboard on Windows).
@@ -847,25 +797,15 @@ deferring each binding until its FEATURE is loaded."
                (display-buffer-reuse-window
                 my/display-next-error-source)))
 
-;; ============================================================
-;; Customize (managed by Emacs — keep at the bottom)
-;; ============================================================
+;; Use vertical splits for side-by-side diffs, mimicking Neovim's behavior
+(setq ediff-split-window-function 'split-window-horizontally)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(c-ts-indent-offset 4 nil nil "Customized with use-package c-ts-mode")
- '(package-selected-packages
-   '(alabaster-themes eat imenu-list kkp marginalia orderless yang-mode)))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; Buffer layout
+(add-to-list 'display-buffer-alist
+             '("\\*\\(grep\\|Buffer List\\)\\*"
+               (display-buffer-reuse-window
+                display-buffer-below-selected)
+               (window-height . 0.3)))
 
 
 ;;;; TRAMP --------------------------------------------------------------------
@@ -873,10 +813,13 @@ deferring each binding until its FEATURE is loaded."
 (setq tramp-default-method "ssh")
 (setq tramp-copy-size-limit (* 1 1024 1024))   ; inline ἕως 1MB
 
-;; Visit files under their true name: keeps buffer-file-name in sync with the
-;; paths in compile_commands.json, so clangd matches compile flags instead of
-;; falling back, and project.el's upward search runs on the real tree.
-(setq find-file-visit-truename t)
+;; Visit files under their true name only on the clangd hosts: keeps
+;; buffer-file-name in sync with compile_commands.json, but a global
+;; t adds remote realpath/stat work on every visit.
+(setq find-file-visit-truename nil)
+(connection-local-set-profile-variables
+ 'remote-clangd-paths
+ '((find-file-visit-truename . t)))
 
 ;; Ἀνάθεση τοῦ connection sharing στὸ ~/.ssh/config (ControlMaster/Persist),
 ;; ὄχι στὰ δικά του -o options. Emacs 30+ ὄνομα (πρώην
@@ -886,7 +829,10 @@ deferring each binding until its FEATURE is loaded."
 
 ;; Λιγότερα round trips σὲ κάθε save/stat πάνω στὸ ἀργὸ link.
 (setq remote-file-name-inhibit-locks t          ; ὄχι .#lockfiles στὸ remote
-      remote-file-name-inhibit-cache 60         ; ἐμπιστεύσου τὸ cache ἐπὶ 60s
+      remote-file-name-inhibit-cache 300        ; ἐμπιστεύσου τὸ cache ἐπὶ 5 min
+      remote-file-name-inhibit-auto-save-visited t
+      auto-revert-remote-files nil              ; default; keep it explicit
+      enable-remote-dir-locals nil
       tramp-verbose 2                           ; errors+warnings ὅσο στήνεσαι· μετὰ 1
       tramp-auto-save-directory                 ; #autosave# τοπικά
       (expand-file-name "tramp-autosave" user-emacs-directory))
@@ -913,25 +859,18 @@ deferring each binding until its FEATURE is loaded."
 (with-eval-after-load 'tramp
   ;; Τὸ PATH τοῦ remote χρήστη (~/.profile κ.λπ.) ὁρατὸ στὸ TRAMP.
   ;; Prepend: προηγεῖται τῶν defaults, ὥστε τὸ /data/chryssoc toolchain νὰ νικᾶ.
-  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  ;; VC walks parents with many stats — disable on TRAMP names.
+  ;; project.el still works via my/project-remote-by-marker.
+  (setq vc-ignore-dir-regexp
+        (format "\\(%s\\)\\|\\(%s\\)"
+                cc/vc-ignore-dir-regexp-pristine
+                tramp-file-name-regexp)))
 
-;; Connection-local profiles:
-;; 1. Direct async — τὸ eglot ἐκτοξεύει τὸν clangd ὡς σκέτο ssh subprocess,
-;;    ἐκτὸς τοῦ καναλιοῦ τοῦ TRAMP (ταχύτερο I/O). Προσοχή: παρακάμπτει τὸ
-;;    tramp-remote-path· ἡ διεργασία παίρνει τὸ PATH τοῦ login shell τοῦ
-;;    server — ὅ,τι θὲς νὰ βλέπει πρέπει νὰ ἐνεργοποιεῖται στὸ ~/.bash_profile.
-;;    jsonrpc handshake timeout σὲ Emacs 31 build τοῦ Ἰουλίου 2026· stdout
-;;    ἐλέγχθηκε καθαρό. Ἀνέβασε πρῶτα τὸ eglot-connect-timeout στὴν ἑπόμενη
-;;    δοκιμή, πρὶν συμπεράνεις ὅτι φταίει τὸ direct-async. Πρὸς τὸ παρὸν
-;;    ὁρισμένο ἀλλὰ ΜΗ ἐφαρμοσμένο.
-(connection-local-set-profile-variables
- 'remote-direct-async
- '((tramp-direct-async-process . t)))
-
-;; 2. Τὸ M-x shell στὰ remote ὡς login bash (κληρονομεῖ πλῆρες περιβάλλον).
-;;    Τὸ --noediting εἶναι μέρος τῆς default τιμῆς τοῦ shell.el γιὰ bash: τὸ
-;;    comint δίνει pty, ὁπότε χωρὶς αὐτὸ ὁ bash ἀνοίγει readline καὶ γεμίζει τὸ
-;;    buffer μὲ escape sequences καὶ bracketed-paste σκουπίδια.
+;; Τὸ M-x shell στὰ remote ὡς login bash (κληρονομεῖ πλῆρες περιβάλλον).
+;; Τὸ --noediting εἶναι μέρος τῆς default τιμῆς τοῦ shell.el γιὰ bash: τὸ
+;; comint δίνει pty, ὁπότε χωρὶς αὐτὸ ὁ bash ἀνοίγει readline καὶ γεμίζει τὸ
+;; buffer μὲ escape sequences καὶ bracketed-paste σκουπίδια.
 (connection-local-set-profile-variables
  'remote-bash-profile
  '((explicit-shell-file-name . "/usr/bin/bash")
@@ -941,9 +880,12 @@ deferring each binding until its FEATURE is loaded."
 ;; καὶ sudo:, docker: κ.λπ., ὅπου τὸ /usr/bin/bash μπορεῖ καὶ νὰ μὴν ὑπάρχει.
 ;; Τὸ :machine ταιριάζει κυριολεκτικὰ μὲ ὅ,τι γράφεις στὸ path — δὲν γίνεται
 ;; alias resolution — ὁπότε πρόσθεσε κάθε γραφὴ ποὺ χρησιμοποιεῖς (alias/FQDN/IP).
-(dolist (host '("labbbn10"))
+;; Ἕνα call ἀνὰ host: δεύτερο call ἀντικαθιστᾶ τὴ λίστα προφίλ, δὲν τὴν προσαρτᾶ.
+(dolist (host '("labbbn10" "10.80.89.54"))
   (connection-local-set-profiles
-   `(:application tramp :machine ,host) 'remote-bash-profile))
+   `(:application tramp :machine ,host)
+   'remote-clangd-paths
+   'remote-bash-profile))
 
 (defun my/which-func-remote-add-log ()
   "Name the defun via `add-log-current-defun' in remote buffers.
@@ -956,6 +898,12 @@ locally.  Returns nil elsewhere, leaving the normal Imenu path intact."
 
 (with-eval-after-load 'which-func
   (add-hook 'which-func-functions #'my/which-func-remote-add-log))
+
+;; One remote call instead of tens for project/dir-locals roots.
+(use-package tramp-hlo
+  :ensure t
+  :config (tramp-hlo-setup))
+
 
 ;; -------   Org Mode -----------------------------------
 
@@ -974,16 +922,25 @@ locally.  Returns nil elsewhere, leaving the normal Imenu path intact."
 (add-hook 'org-mode-hook
           (lambda () (electric-indent-local-mode -1)))
 
+;; ============================================================
+;; Customize (managed by Emacs — keep at the bottom)
+;; ============================================================
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(c-ts-indent-offset 4 nil nil "Customized with use-package c-ts-mode")
+ '(package-selected-packages
+   '(eat imenu-list kkp marginalia orderless tramp-hlo yang-mode)))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
 (provide 'init)
 ;;; init.el ends here
-
-;; Use vertical splits for side-by-side diffs, mimicking Neovim's behavior
-(setq ediff-split-window-function 'split-window-horizontally)
-
-;; Buffer layout
-
-(add-to-list 'display-buffer-alist
-             '("\\*\\(grep\\|Buffer List\\)\\*"
-               (display-buffer-reuse-window
-                display-buffer-below-selected)
-               (window-height . 0.3)))
