@@ -932,8 +932,7 @@ locally.  Returns nil elsewhere, leaving the normal Imenu path intact."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(c-ts-indent-offset 4 nil nil "Customized with use-package c-ts-mode")
- '(package-selected-packages
-   '(eat imenu-list kkp marginalia orderless tramp-hlo yang-mode)))
+ '(package-selected-packages nil))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
